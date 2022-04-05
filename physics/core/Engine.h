@@ -3,7 +3,7 @@
 
 #include <bits/stdc++.h>
 #include "Point.h"
-
+#include "Dynamics.h"
 
 namespace Physics{
     namespace Internal{
@@ -33,8 +33,7 @@ namespace Physics{
                 int ticked = 0;
 
             public:
-                Clock(){
-
+                Clock() {
                 }
 
                 const double GetDelta(){
@@ -42,6 +41,7 @@ namespace Physics{
                     double delta = ticked * std::chrono::duration_cast<std::chrono::milliseconds>(end_time - last_cycle_time).count() / 1000.0f;
                     last_cycle_time = end_time;
                     ticked = 1;
+
                     return delta;
                 }
 
@@ -54,22 +54,29 @@ namespace Physics{
 
     class Engine{
         private:
+            float time_resolution;
+            double cumulative_time = 0.0f;
 
         public:
             Internal::EntityManager* entity_manager;
             Internal::Clock* clock;
 
-            Engine(){
+            Engine(const float time_resolution = 1.0/60.0){
+                this->time_resolution = time_resolution;
                 entity_manager = new Internal::EntityManager();
                 clock = new Internal::Clock();
             }
 
             void Run(){
                 double delta = clock->GetDelta();
+
                 for (Point* entity : *entity_manager->GetEntitites()){
                     // Perform updates to entity objects here.
+                    ApplyForce(entity, PMath::Vector(100.0f), delta);
                     entity->Update(delta);
                 }
+
+                this->cumulative_time += delta;
             }
 
     };

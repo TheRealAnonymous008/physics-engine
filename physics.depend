@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1649139737 source:c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\main.cpp
+1649148124 source:c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\main.cpp
 	<SFML/Graphics.hpp>
 	"physics/core/Body.h"
 	"physics/core/Point.h"
@@ -430,10 +430,20 @@
 1649129046 c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\physics\core\entity.h
 	"../math/Vector.h"
 
-1649139693 c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\physics\core\point.h
+1649149924 c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\physics\core\point.h
 	"../math/Vector.h"
+	"../math/Integration.h"
 
-1649139700 c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\physics\core\engine.h
+1649149465 c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\physics\core\engine.h
 	<bits/stdc++.h>
 	"Point.h"
+	"Dynamics.h"
+
+1649149890 c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\physics\core\dynamics.h
+	"Point.h"
+	"../math/Vector.h"
+	"../math/Integration.h"
+
+1649149900 c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\physics\math\integration.h
+	"Vector.h"
 
