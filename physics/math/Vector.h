@@ -28,14 +28,11 @@ namespace PMath{
             }
 
             void set(int index, double value) {
-                if (index >= 0 && index < 4)
-                    vec[index] = value;
+                vec[index] = value;
             }
 
             double get(int index){
-                if (index >= 0 && index < 4)
-                    return vec[index];
-                return 0;
+                return vec[index];
             }
 
             void normalize(){
