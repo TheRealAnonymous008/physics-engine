@@ -32,6 +32,12 @@ namespace PMath{
                     vec[index] = value;
             }
 
+            double get_coeff(int index){
+                if (index >= 0 && index < 4)
+                    return vec[index];
+                return 0;
+            }
+
             void normalize(){
                 double norm = this->norm();
                 for(int i = 0; i < 4; i++){

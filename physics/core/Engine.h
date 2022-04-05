@@ -19,6 +19,11 @@ namespace Physics{
                 void add_entity(Point* p){
                     this->entities.push_back(p);
                 }
+
+                const std::vector<Point*>* get_entities() const{
+                    return &this->entities;
+                }
+
         };
 
         class Clock{
@@ -57,6 +62,11 @@ namespace Physics{
                 clock = new Internal::Clock();
             }
 
+            void run(){
+                for (Point* entity : *entity_manager->get_entities()){
+                    entity->update(PMath::Vector(0.1));
+                }
+            }
 
     };
 

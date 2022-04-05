@@ -8,6 +8,19 @@ namespace Physics{
         PMath::Vector position;
         PMath::Vector rotation;
         double mass = 1;
+
+        virtual ~Point(){
+
+        }
+
+        void update(PMath::Vector delta_position){
+            this->position += delta_position;
+            on_update();
+        }
+
+        virtual void on_update(){
+
+        }
     };
 
 
