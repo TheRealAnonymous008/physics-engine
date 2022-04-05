@@ -33,3 +33,5 @@
 
 # Codeblocks Project File
 *.cbp
+*.depend
+*.layour
