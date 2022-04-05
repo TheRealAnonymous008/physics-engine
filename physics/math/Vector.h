@@ -1,7 +1,6 @@
 #ifndef VECTOR_H_INCLUDED
 #define VECTOR_H_INCLUDED
 
-#include "Eigen/Core"
 #include "bits/stdc++.h"
 
 #define EQUALITY_THRESHOLD 1e-10
@@ -9,22 +8,43 @@
 namespace PMath{
     class Vector{
         private:
-            Eigen::Vector4d vec;
+            double vec[4];
+
         public:
             Vector(double x, double y, double z = 0.0, double w = 0.0){
-                this->vec = Eigen::Vector4d(x, y, z, w);
+                vec[0] = x;
+                vec[1] = y;
+                vec[2] = z;
+                vec[3] = w;
             }
 
             const double norm() const{
-                return this->vec.norm();
+                double sum = 0;
+                for(int i = 0 ; i < 4; i++){
+                    sum += vec[i] * vec[i];
+                }
+
+                return sqrt(sum);
+            }
+
+            void set_coeff(int index, double value) {
+                if (index >= 0 && index < 4)
+                    vec[index] = value;
             }
 
             void normalize(){
-                this->vec.normalize();
+                double norm = this->norm();
+                for(int i = 0; i < 4; i++){
+                    vec[i] /= norm;
+                }
             }
 
             const double dot(const Vector& v) const{
-                return this->vec.dot(v.vec);
+                double result = 0;
+                for(int i = 0; i < 4; i++){
+                    result += v.vec[i] * this->vec[i];
+                }
+                return result;
             }
 
             friend const Vector operator -(const Vector& v);
@@ -45,56 +65,66 @@ namespace PMath{
 
     inline const Vector operator -(const Vector& v){
         Vector res(0, 0, 0, 0);
-        res.vec = -v.vec;
+        for(int i = 0; i < 4; i++){
+            res.set_coeff(i, -v.vec[i]);
+        }
         return res;
     }
 
     inline const Vector operator +(const Vector& v1, const Vector& v2){
         Vector v(0, 0, 0, 0);
-        v.vec = v1.vec + v2.vec;
+        for(int i = 0; i < 4; i++){
+            v.set_coeff(i, v1.vec[i] + v2.vec[i]);
+        }
         return v;
     }
 
     inline const Vector operator -(const Vector& v1, const Vector& v2){
         Vector v(0, 0, 0, 0);
-        v.vec = v1.vec - v2.vec;
+        for(int i = 0; i < 4; i++){
+            v.set_coeff(i, v1.vec[i] - v2.vec[i]);
+        }
         return v;
     }
 
     inline const Vector operator *(double c, const Vector& v){
         Vector res(0, 0, 0, 0);
-        res.vec = c * v.vec;
+        for(int i = 0; i < 4; i++){
+            res.set_coeff(i, v.vec[i] * c);
+        }
         return res;
     }
 
     inline const Vector operator /(const Vector& v, double c){
         Vector res(0, 0, 0, 0);
-        res.vec = v.vec/c;
+        for(int i = 0; i < 4; i++){
+            res.set_coeff(i, v.vec[i] / c);
+        }
         return res;
     }
 
     inline void operator +=(Vector& v1, const Vector& v2){
-        v1.vec += v2.vec;
+        v1 = v1 + v2;
     }
 
     inline void operator -=(Vector& v1, const Vector& v2){
-        v1.vec -= v2.vec;
+        v1 = v1 - v2;
     }
 
     inline void operator *=(Vector& v, double c){
-        v.vec *= c;
+        v = c * v;
     }
 
     inline void operator /=(Vector& v, double c){
-        v.vec /= c;
+        v = v / c;
     }
 
     inline const bool operator ==(const Vector& v1, const Vector& v2){
-        return (v1.vec - v2.vec).norm() <= EQUALITY_THRESHOLD;
+        return (v1 - v2).norm() <= EQUALITY_THRESHOLD;
     }
 
     inline std::ostream& operator <<(std::ostream& os, const Vector& v){
-        return os << v.vec;
+        return os << "["<<v.vec[0]<<",\t"<<v.vec[1]<<",\t"<<v.vec[2]<<",\t"<<v.vec[3]<<"]";
     }
 
 }
