@@ -27,12 +27,12 @@ namespace PMath{
                 return sqrt(sum);
             }
 
-            void set_coeff(int index, double value) {
+            void set(int index, double value) {
                 if (index >= 0 && index < 4)
                     vec[index] = value;
             }
 
-            double get_coeff(int index){
+            double get(int index){
                 if (index >= 0 && index < 4)
                     return vec[index];
                 return 0;
@@ -72,7 +72,7 @@ namespace PMath{
     inline const Vector operator -(const Vector& v){
         Vector res(0, 0, 0, 0);
         for(int i = 0; i < 4; i++){
-            res.set_coeff(i, -v.vec[i]);
+            res.set(i, -v.vec[i]);
         }
         return res;
     }
@@ -80,7 +80,7 @@ namespace PMath{
     inline const Vector operator +(const Vector& v1, const Vector& v2){
         Vector v(0, 0, 0, 0);
         for(int i = 0; i < 4; i++){
-            v.set_coeff(i, v1.vec[i] + v2.vec[i]);
+            v.set(i, v1.vec[i] + v2.vec[i]);
         }
         return v;
     }
@@ -88,7 +88,7 @@ namespace PMath{
     inline const Vector operator -(const Vector& v1, const Vector& v2){
         Vector v(0, 0, 0, 0);
         for(int i = 0; i < 4; i++){
-            v.set_coeff(i, v1.vec[i] - v2.vec[i]);
+            v.set(i, v1.vec[i] - v2.vec[i]);
         }
         return v;
     }
@@ -96,7 +96,7 @@ namespace PMath{
     inline const Vector operator *(double c, const Vector& v){
         Vector res(0, 0, 0, 0);
         for(int i = 0; i < 4; i++){
-            res.set_coeff(i, v.vec[i] * c);
+            res.set(i, v.vec[i] * c);
         }
         return res;
     }
@@ -104,7 +104,7 @@ namespace PMath{
     inline const Vector operator /(const Vector& v, double c){
         Vector res(0, 0, 0, 0);
         for(int i = 0; i < 4; i++){
-            res.set_coeff(i, v.vec[i] / c);
+            res.set(i, v.vec[i] / c);
         }
         return res;
     }

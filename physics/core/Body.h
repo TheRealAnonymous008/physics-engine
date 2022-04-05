@@ -20,11 +20,11 @@ namespace Physics{
                     delete e;
             }
 
-            void add_vertex(Point* vertex){
+            void AddVertex(Point* vertex){
                 vertices.push_back(vertex);
             }
 
-            void add_vertex(const PMath::Vector position){
+            void AddVertex(const PMath::Vector position){
                 Point* vertex = new Point();
                 vertex->position = position;
 

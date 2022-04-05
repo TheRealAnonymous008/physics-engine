@@ -11,8 +11,8 @@ struct Ball :public Physics::Point {
         shape.setPosition(x, y);
     }
 
-    void on_update() override{
-        move(this->position.get_coeff(0), this->position.get_coeff(1));
+    void OnUpdate() override{
+        move(this->position.get(0), this->position.get(1));
     }
 };
 
@@ -20,7 +20,7 @@ int main()
 {
     Ball *b = new Ball();
     Physics::Engine* engine = new Physics::Engine();
-    engine->entity_manager->add_entity(b);
+    engine->entity_manager->AddEntity(b);
 
     b->move(500, 500);
 
@@ -34,7 +34,7 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
         }
-        engine->run();
+        engine->Run();
         window.clear();
         window.draw(b->shape);
         window.display();

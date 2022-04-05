@@ -15,12 +15,12 @@ namespace Physics{
 
         }
 
-        void update(double delta){
+        void Update(double delta){
             this->position += delta * velocity;
-            on_update();
+            OnUpdate();
         }
 
-        virtual void on_update(){
+        virtual void OnUpdate(){
 
         }
     };

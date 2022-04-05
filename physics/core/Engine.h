@@ -16,11 +16,11 @@ namespace Physics{
                     entities = std::vector<Point*>();
                 }
 
-                void add_entity(Point* p){
+                void AddEntity(Point* p){
                     this->entities.push_back(p);
                 }
 
-                const std::vector<Point*>* get_entities() const{
+                const std::vector<Point*>* GetEntitites() const{
                     return &this->entities;
                 }
 
@@ -37,7 +37,7 @@ namespace Physics{
 
                 }
 
-                const double get_delta(){
+                const double GetDelta(){
                     auto end_time = std::chrono::_V2::steady_clock::now();
                     double delta = ticked * std::chrono::duration_cast<std::chrono::milliseconds>(end_time - last_cycle_time).count() / 1000.0f;
                     last_cycle_time = end_time;
@@ -45,7 +45,7 @@ namespace Physics{
                     return delta;
                 }
 
-                void start_clock(){
+                void Start(){
                     start_time = std::chrono::_V2::steady_clock::now();
                     ticked = 0;
                 }
@@ -64,11 +64,11 @@ namespace Physics{
                 clock = new Internal::Clock();
             }
 
-            void run(){
-                double delta = clock->get_delta();
-                for (Point* entity : *entity_manager->get_entities()){
+            void Run(){
+                double delta = clock->GetDelta();
+                for (Point* entity : *entity_manager->GetEntitites()){
                     // Perform updates to entity objects here.
-                    entity->update(delta);
+                    entity->Update(delta);
                 }
             }
 
