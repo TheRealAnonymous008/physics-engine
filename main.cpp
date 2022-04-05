@@ -5,6 +5,8 @@
 
 int main()
 {
+    Physics::Engine* engine = new Physics::Engine();
+
     sf::RenderWindow window(sf::VideoMode(1000, 1000), "Physics Engine");
 
     while (window.isOpen())
