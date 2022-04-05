@@ -30,6 +30,7 @@ namespace Physics{
             private:
                 std::chrono::_V2::steady_clock::time_point start_time;
                 std::chrono::_V2::steady_clock::time_point last_cycle_time;
+                int ticked = 0;
 
             public:
                 Clock(){
@@ -38,14 +39,15 @@ namespace Physics{
 
                 const double get_delta(){
                     auto end_time = std::chrono::_V2::steady_clock::now();
-                    double delta = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - last_cycle_time).count() / 1000.0f;
+                    double delta = ticked * std::chrono::duration_cast<std::chrono::milliseconds>(end_time - last_cycle_time).count() / 1000.0f;
                     last_cycle_time = end_time;
+                    ticked = 1;
                     return delta;
                 }
 
                 void start_clock(){
                     start_time = std::chrono::_V2::steady_clock::now();
-                    last_cycle_time = start_time;
+                    ticked = 0;
                 }
         };
     }
@@ -63,8 +65,10 @@ namespace Physics{
             }
 
             void run(){
+                double delta = clock->get_delta();
                 for (Point* entity : *entity_manager->get_entities()){
-                    entity->update(PMath::Vector(0.1));
+                    // Perform updates to entity objects here.
+                    entity->update(delta);
                 }
             }
 
