@@ -1,6 +1,6 @@
 #include <SFML/Graphics.hpp>
 
-int main()
+int foo()
 {
     sf::RenderWindow window(sf::VideoMode(1000, 1000), "Physics Engine");
 
