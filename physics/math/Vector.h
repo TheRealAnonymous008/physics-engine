@@ -11,7 +11,7 @@ namespace PMath{
             double vec[4];
 
         public:
-            Vector(double x, double y, double z = 0.0, double w = 0.0){
+            Vector(double x = 0.0, double y = 0.0, double z = 0.0, double w = 0.0){
                 vec[0] = x;
                 vec[1] = y;
                 vec[2] = z;
