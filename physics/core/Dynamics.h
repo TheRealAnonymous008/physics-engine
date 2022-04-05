@@ -6,10 +6,9 @@
 #include "../math/Integration.h"
 
 namespace Physics{
-    inline void ApplyForce(Point* object, const PMath::Vector& force, const float delta){
+    inline void ApplyForce(Point* object, const PMath::Vector& force, const double delta){
         // Use F = ma to update the object.
-        PMath::Vector acceleration = force / object->mass;
-        object->velocity = PMath::Integrate(object->velocity, delta, acceleration);
+        object->net_force += force;
     }
 }
 

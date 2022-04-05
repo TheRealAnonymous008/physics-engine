@@ -5,25 +5,64 @@
 #include "../math/Integration.h"
 
 namespace Physics{
-    struct Point {
-        PMath::Vector position;
-        PMath::Vector velocity;    // Keep track of velocity for Inertial Frame of Reference.
 
-        PMath::Vector rotation;
-        double mass = 1;
+    enum BodyType{
+        STATIC,
+        KINEMATIC,
+        DYNAMIC
+    };
 
-        virtual ~Point(){
+    class Point {
+        private:
+            BodyType type;
 
-        }
+            PMath::Vector old_position;
+            PMath::Vector old_velocity;
+            PMath::Vector old_acceleration;
 
-        void Update(double delta){
-            this->position = PMath::Integrate(position, delta, velocity);
-            OnUpdate();
-        }
+        public:
 
-        virtual void OnUpdate(){
+            PMath::Vector position;
+            PMath::Vector velocity;
+            PMath::Vector acceleration;
 
-        }
+            PMath::Vector rotation;
+
+
+            PMath::Vector net_force;
+            double mass = 1;
+
+            Point(BodyType type = BodyType::KINEMATIC){
+                this->type = type;
+            }
+
+            virtual ~Point(){
+
+            }
+
+            void Update(double delta){
+
+                old_position = position;
+                old_velocity = velocity;
+                old_acceleration = acceleration;
+
+                std::vector<PMath::Vector> result = PMath::Verlet(position, velocity, acceleration, net_force / mass, delta);
+
+                if (type == BodyType::DYNAMIC){
+                    acceleration = result[2];
+                    velocity = result[1];
+                }
+                if (type != BodyType::STATIC){
+                    position = result[0];
+                }
+
+                OnUpdate();
+                net_force = PMath::Vector();
+            }
+
+            virtual void OnUpdate(){
+
+            }
     };
 
 

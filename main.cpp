@@ -3,12 +3,15 @@
 #include "physics/core/Point.h"
 #include "physics/core/Engine.h"
 
+#include <bits/stdc++.h>
+
 #define FRAMERATE_LIMIT 60
+
 
 struct Ball :public Physics::Point {
     sf::CircleShape shape = sf::CircleShape(5);
 
-    void move(float x, float y){
+    void move(double x, double y){
         this->position = PMath::Vector(x, y);
         shape.setPosition(x, y);
     }
@@ -23,13 +26,26 @@ int main()
     sf::RenderWindow window(sf::VideoMode(1000, 1000), "Physics Engine");
     window.setFramerateLimit(FRAMERATE_LIMIT);
 
-    Ball *b = new Ball();
-    Physics::Engine* engine = new Physics::Engine(1.0f / FRAMERATE_LIMIT);
-    engine->entity_manager->AddEntity(b);
+    sf::View view = sf::View(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(500.0f, 500.0f));
+    window.setView(view);
 
-    b->move(500, 500);
+    Physics::Engine* engine = new Physics::Engine(1.0f / (4 * FRAMERATE_LIMIT));
 
+    std::vector<Ball*> balls = std::vector<Ball*>();
 
+    for (int i = -50; i < 50; i++){
+        for (int j = -50; j < 50; j++){
+            Ball *b = new Ball();
+            engine->entity_manager->AddEntity(b);
+            b->move(i * 10, j * 10);
+            b->move(i * 10, j * 10);
+            balls.push_back(b);
+        }
+    }
+
+    std::promise<void> exit_signal;
+
+    std::thread physics_thread(Physics::Engine::ThreadedRun, engine, std::move(exit_signal.get_future()));
 
     while (window.isOpen())
     {
@@ -39,11 +55,17 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
         }
-        engine->Run();
+
         window.clear();
-        window.draw(b->shape);
+
+        for (Ball* b : balls)
+            window.draw(b->shape);
         window.display();
+
     }
+
+    exit_signal.set_value();
+    physics_thread.join();
 
     return 0;
 }

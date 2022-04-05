@@ -28,8 +28,8 @@ namespace Physics{
 
         class Clock{
             private:
-                std::chrono::_V2::steady_clock::time_point start_time;
-                std::chrono::_V2::steady_clock::time_point last_cycle_time;
+                std::chrono::_V2::high_resolution_clock::time_point start_time;
+                std::chrono::_V2::high_resolution_clock::time_point last_cycle_time;
                 int ticked = 0;
 
             public:
@@ -37,8 +37,8 @@ namespace Physics{
                 }
 
                 const double GetDelta(){
-                    auto end_time = std::chrono::_V2::steady_clock::now();
-                    double delta = ticked * std::chrono::duration_cast<std::chrono::milliseconds>(end_time - last_cycle_time).count() / 1000.0f;
+                    auto end_time = std::chrono::_V2::high_resolution_clock::now();
+                    double delta = ticked * std::chrono::duration_cast<std::chrono::nanoseconds>(end_time - last_cycle_time).count() / 1000000000.0f;
                     last_cycle_time = end_time;
                     ticked = 1;
 
@@ -46,7 +46,7 @@ namespace Physics{
                 }
 
                 void Start(){
-                    start_time = std::chrono::_V2::steady_clock::now();
+                    start_time = std::chrono::_V2::high_resolution_clock::now();
                     ticked = 0;
                 }
         };
@@ -54,29 +54,38 @@ namespace Physics{
 
     class Engine{
         private:
-            float time_resolution;
+            double time_resolution;
             double cumulative_time = 0.0f;
 
         public:
             Internal::EntityManager* entity_manager;
             Internal::Clock* clock;
 
-            Engine(const float time_resolution = 1.0/60.0){
+            Engine(const double time_resolution = 1.0/60.0){
                 this->time_resolution = time_resolution;
                 entity_manager = new Internal::EntityManager();
                 clock = new Internal::Clock();
             }
 
             void Run(){
-                double delta = clock->GetDelta();
+                double delta = std::min(time_resolution, clock->GetDelta());
 
                 for (Point* entity : *entity_manager->GetEntitites()){
                     // Perform updates to entity objects here.
-                    ApplyForce(entity, PMath::Vector(100.0f), delta);
+
+                    PMath::Vector f = PMath::Vector(-entity->position.get(1), entity->position.get(0));
+                    entity->velocity = f;
+;
                     entity->Update(delta);
                 }
 
                 this->cumulative_time += delta;
+            }
+
+            void ThreadedRun(std::future<void> exit_signal){
+                while(exit_signal.wait_for(std::chrono::milliseconds(1)) == std::future_status::timeout){
+                    Run();
+                }
             }
 
     };
