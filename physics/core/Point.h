@@ -2,6 +2,7 @@
 #define POINT_H_INCLUDED
 
 #include "../math/Vector.h"
+#include "../math/Integration.h"
 
 namespace Physics{
     struct Point {
@@ -16,7 +17,7 @@ namespace Physics{
         }
 
         void Update(double delta){
-            this->position += delta * velocity;
+            this->position = PMath::Integrate(position, delta, velocity);
             OnUpdate();
         }
 

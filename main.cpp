@@ -3,6 +3,8 @@
 #include "physics/core/Point.h"
 #include "physics/core/Engine.h"
 
+#define FRAMERATE_LIMIT 60
+
 struct Ball :public Physics::Point {
     sf::CircleShape shape = sf::CircleShape(5);
 
@@ -18,13 +20,16 @@ struct Ball :public Physics::Point {
 
 int main()
 {
+    sf::RenderWindow window(sf::VideoMode(1000, 1000), "Physics Engine");
+    window.setFramerateLimit(FRAMERATE_LIMIT);
+
     Ball *b = new Ball();
-    Physics::Engine* engine = new Physics::Engine();
+    Physics::Engine* engine = new Physics::Engine(1.0f / FRAMERATE_LIMIT);
     engine->entity_manager->AddEntity(b);
 
     b->move(500, 500);
 
-    sf::RenderWindow window(sf::VideoMode(1000, 1000), "Physics Engine");
+
 
     while (window.isOpen())
     {
