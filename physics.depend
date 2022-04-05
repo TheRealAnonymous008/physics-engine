@@ -1,6 +1,9 @@
 # depslib dependency file v1.0
-1649116737 source:c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\main.cpp
+1649132952 source:c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\main.cpp
 	<SFML/Graphics.hpp>
+	"physics/core/Body.h"
+	"physics/core/Point.h"
+	"physics/core/Engine.h"
 
 1525812018 c:\program files\codeblocks\sfml-2.5.1\include\sfml\graphics.hpp
 	<SFML/Window.hpp>
@@ -414,8 +417,23 @@
 1649127410 c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\physics\math\vector.h
 	"bits/stdc++.h"
 
-1649127235 source:c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\test\vector_optest.cpp
+1649129660 source:c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\test\vector_optest.cpp
 	"../physics/math/Vector.h"
 	<bits/stdc++.h>
 	<assert.h>
+
+1649132630 c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\physics\core\body.h
+	<bits/stdc++.h>
+	"Point.h"
+	"../math/Vector.h"
+
+1649129046 c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\physics\core\entity.h
+	"../math/Vector.h"
+
+1649132602 c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\physics\core\point.h
+	"../math/Vector.h"
+
+1649133062 c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\physics\core\engine.h
+	<bits/stdc++.h>
+	"Point.h"
 

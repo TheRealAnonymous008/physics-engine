@@ -1,6 +1,9 @@
 #include <SFML/Graphics.hpp>
+#include "physics/core/Body.h"
+#include "physics/core/Point.h"
+#include "physics/core/Engine.h"
 
-int foo()
+int main()
 {
     sf::RenderWindow window(sf::VideoMode(1000, 1000), "Physics Engine");
 

@@ -4,7 +4,7 @@
 
 #define TOLERANCE 1e-17
 
-int main(){
+int foo(){
     PMath::Vector v1(1, 2, 3, 4);
     PMath::Vector v2(2, -1, 0.1);
 
