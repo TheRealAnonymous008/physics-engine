@@ -60,6 +60,13 @@ namespace Physics{
                 net_force = PMath::Vector();
             }
 
+            void Interpolate(double alpha){
+                position = alpha*position + (1.0-alpha)*old_position;
+                velocity = alpha*velocity + (1.0-alpha)*old_velocity;
+                acceleration = alpha*acceleration + (1.0-alpha)*old_acceleration;
+                OnUpdate();
+            }
+
             virtual void OnUpdate(){
 
             }

@@ -55,34 +55,46 @@ namespace Physics{
     class Engine{
         private:
             double time_resolution;
-            double cumulative_time = 0.0f;
+            double accumulator = 0;
+            double display_rate;
 
         public:
             Internal::EntityManager* entity_manager;
             Internal::Clock* clock;
 
-            Engine(const double time_resolution = 1.0/60.0){
+            Engine(const double time_resolution = 1.0/120.0, const double display_rate = 1.0/60.0){
                 this->time_resolution = time_resolution;
+                this->display_rate = display_rate;
                 entity_manager = new Internal::EntityManager();
                 clock = new Internal::Clock();
             }
 
             void Run(){
-                double delta = std::min(time_resolution, clock->GetDelta());
+                double delta = clock->GetDelta();
+                double frame_rate = std::min(delta, display_rate);
 
-                for (Point* entity : *entity_manager->GetEntitites()){
-                    // Perform updates to entity objects here.
+                accumulator += frame_rate;
+                if (delta == 0)
+                    return;
 
-                    PMath::Vector f = PMath::Vector(-entity->position.get(1), entity->position.get(0));
-                    entity->velocity = f;
-;
-                    entity->Update(delta);
+                while(accumulator >= time_resolution){
+                    for (Point* entity : *entity_manager->GetEntitites()){
+                        // Perform updates to entity objects here.
+
+                        PMath::Vector f = PMath::Vector(-entity->position.get(1), entity->position.get(0));
+                        entity->velocity = f;
+                        entity->Update(time_resolution);
+                    }
+                    accumulator -= time_resolution;
                 }
 
-                this->cumulative_time += delta;
+                for (Point* entity : *entity_manager->GetEntitites()) {
+                    entity->Interpolate(accumulator / time_resolution);
+                }
+
             }
 
-            void ThreadedRun(std::future<void> exit_signal){
+            void ThreadedRun(std::future<void> exit_signal, int wait_microseconds = 0){
                 while(exit_signal.wait_for(std::chrono::milliseconds(1)) == std::future_status::timeout){
                     Run();
                 }

@@ -5,7 +5,7 @@
 
 #include <bits/stdc++.h>
 
-#define FRAMERATE_LIMIT 60
+#define FRAMERATE_LIMIT 120
 
 
 struct Ball :public Physics::Point {
@@ -24,31 +24,31 @@ struct Ball :public Physics::Point {
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(1000, 1000), "Physics Engine");
-    window.setFramerateLimit(FRAMERATE_LIMIT);
-
     sf::View view = sf::View(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(500.0f, 500.0f));
     window.setView(view);
 
-    Physics::Engine* engine = new Physics::Engine(1.0f / (4 * FRAMERATE_LIMIT));
+    Physics::Engine* engine = new Physics::Engine(1.0f / (2 * FRAMERATE_LIMIT), 1.0f / FRAMERATE_LIMIT);
 
     std::vector<Ball*> balls = std::vector<Ball*>();
 
-    for (int i = -50; i < 50; i++){
-        for (int j = -50; j < 50; j++){
-            Ball *b = new Ball();
-            engine->entity_manager->AddEntity(b);
-            b->move(i * 10, j * 10);
-            b->move(i * 10, j * 10);
-            balls.push_back(b);
-        }
-    }
+//    for (int i = -10; i <= 10; i++){
+//        for (int j = -10; j <= 10; j++){
+//            Ball *b = new Ball();
+//            engine->entity_manager->AddEntity(b);
+//            b->move(i * 10, j * 10);
+//            balls.push_back(b);
+//        }
+//    }
 
-    std::promise<void> exit_signal;
-
-    std::thread physics_thread(Physics::Engine::ThreadedRun, engine, std::move(exit_signal.get_future()));
+    Ball *b = new Ball();
+    engine->entity_manager->AddEntity(b);
+    b->move(0, 100);
+    balls.push_back(b);
 
     while (window.isOpen())
     {
+        window.setFramerateLimit(FRAMERATE_LIMIT);
+
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -56,16 +56,16 @@ int main()
                 window.close();
         }
 
-        window.clear();
+        engine->Run();
 
-        for (Ball* b : balls)
-            window.draw(b->shape);
+        window.clear();
+        window.draw(b->shape);
+//        for (Ball* b : balls){
+//            window.draw(b->shape);
+//        }
         window.display();
 
     }
-
-    exit_signal.set_value();
-    physics_thread.join();
 
     return 0;
 }
