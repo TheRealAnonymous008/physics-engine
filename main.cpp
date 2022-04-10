@@ -12,7 +12,7 @@ struct Ball :public Physics::Point {
     sf::CircleShape shape = sf::CircleShape(5);
 
     void move(double x, double y){
-        this->position = PMath::Vector(x, y);
+        this->setPosition(PMath::Vector(x, y));
         shape.setPosition(x, y);
     }
 
@@ -31,19 +31,19 @@ int main()
 
     std::vector<Ball*> balls = std::vector<Ball*>();
 
-//    for (int i = -10; i <= 10; i++){
-//        for (int j = -10; j <= 10; j++){
-//            Ball *b = new Ball();
-//            engine->entity_manager->AddEntity(b);
-//            b->move(i * 10, j * 10);
-//            balls.push_back(b);
-//        }
-//    }
+    for (int i = -10; i <= 10; i++){
+        for (int j = -10; j <= 10; j++){
+            Ball *b = new Ball();
+            engine->entity_manager->AddEntity(b);
+            b->move(i * 10, j * 10);
+            balls.push_back(b);
+        }
+    }
 
-    Ball *b = new Ball();
-    engine->entity_manager->AddEntity(b);
-    b->move(0, 100);
-    balls.push_back(b);
+//    Ball *b = new Ball();
+//    engine->entity_manager->AddEntity(b);
+//    b->move(0, 100);
+//    balls.push_back(b);
 
     while (window.isOpen())
     {
@@ -59,10 +59,10 @@ int main()
         engine->Run();
 
         window.clear();
-        window.draw(b->shape);
-//        for (Ball* b : balls){
-//            window.draw(b->shape);
-//        }
+//        window.draw(b->shape);
+        for (Ball* b : balls){
+            window.draw(b->shape);
+        }
         window.display();
 
     }

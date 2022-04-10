@@ -26,7 +26,7 @@ namespace Physics{
 
             void AddVertex(const PMath::Vector position){
                 Point* vertex = new Point();
-                vertex->position = position;
+                vertex->setPosition(position);
 
                 vertices.push_back(vertex);
             }

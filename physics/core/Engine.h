@@ -59,14 +59,12 @@ namespace Physics{
             double display_rate;
 
         public:
-            Internal::EntityManager* entity_manager;
-            Internal::Clock* clock;
+            Internal::EntityManager* entity_manager = new Internal::EntityManager();
+            Internal::Clock* clock = new Internal::Clock();
 
             Engine(const double time_resolution = 1.0/120.0, const double display_rate = 1.0/60.0){
                 this->time_resolution = time_resolution;
                 this->display_rate = display_rate;
-                entity_manager = new Internal::EntityManager();
-                clock = new Internal::Clock();
             }
 
             void Run(){
@@ -81,8 +79,8 @@ namespace Physics{
                     for (Point* entity : *entity_manager->GetEntitites()){
                         // Perform updates to entity objects here.
 
-                        PMath::Vector f = PMath::Vector(-entity->position.get(1), entity->position.get(0));
-                        entity->velocity = f;
+                        PMath::Vector f = PMath::Vector(-entity->getPosition().get(1), entity->getPosition().get(0));
+                        entity->applyForce(-f);
                         entity->Update(time_resolution);
                     }
                     accumulator -= time_resolution;

@@ -4,6 +4,8 @@
 #include "../math/Vector.h"
 #include "../math/Integration.h"
 
+#define DEFAULT_DAMPING_COEFFICIENT 0.995
+
 namespace Physics{
 
     enum BodyType{
@@ -13,27 +15,27 @@ namespace Physics{
     };
 
     class Point {
-        private:
+        protected:
             BodyType type;
 
             PMath::Vector old_position;
             PMath::Vector old_velocity;
             PMath::Vector old_acceleration;
 
-        public:
-
             PMath::Vector position;
             PMath::Vector velocity;
             PMath::Vector acceleration;
 
             PMath::Vector rotation;
-
-
-            PMath::Vector net_force;
             double mass = 1;
 
-            Point(BodyType type = BodyType::KINEMATIC){
+            double damping_coefficient = DEFAULT_DAMPING_COEFFICIENT;
+
+        public:
+
+            Point(BodyType type = BodyType::KINEMATIC, double damping_coefficient = DEFAULT_DAMPING_COEFFICIENT){
                 this->type = type;
+                this->damping_coefficient = damping_coefficient;
             }
 
             virtual ~Point(){
@@ -46,7 +48,7 @@ namespace Physics{
                 old_velocity = velocity;
                 old_acceleration = acceleration;
 
-                std::vector<PMath::Vector> result = PMath::Verlet(position, velocity, acceleration, net_force / mass, delta);
+                std::vector<PMath::Vector> result = PMath::Verlet(position, velocity, old_acceleration, acceleration, delta);
 
                 if (type == BodyType::DYNAMIC){
                     acceleration = result[2];
@@ -56,8 +58,10 @@ namespace Physics{
                     position = result[0];
                 }
 
+                // Apply damping effect to compensate for numerical errors
+                velocity *= damping_coefficient;
+
                 OnUpdate();
-                net_force = PMath::Vector();
             }
 
             void Interpolate(double alpha){
@@ -70,6 +74,54 @@ namespace Physics{
             virtual void OnUpdate(){
 
             }
+
+            /* Other Methods */
+            void applyForce(const PMath::Vector force){
+                this->acceleration += force / mass;
+            }
+
+            /* Getters and Setters */
+            PMath::Vector getPosition() const{
+                return position;
+            }
+
+            void setPosition(const PMath::Vector position){
+                this->position = position;
+            }
+
+            PMath::Vector getVelocity() const{
+                return velocity;
+            }
+
+            void setVelocity(const PMath::Vector velocity){
+                this->velocity = velocity;
+            }
+
+            PMath::Vector getAcceleration() const{
+                return acceleration;
+            }
+
+            void setAcceleration(const PMath::Vector acceleration){
+                this->acceleration = acceleration;
+            }
+
+            double getMass() const{
+                return mass;
+            }
+
+            void setMass(const double mass){
+                if (mass != 0)
+                    this->mass = mass;
+            }
+
+            void setInverseMass(const double mass){
+                if (mass == 0)
+                    this->mass = INT_MAX;
+                else
+                    this->mass = mass;
+            }
+
+
     };
 
 
