@@ -32,11 +32,14 @@ namespace Physics{
 
             double damping_coefficient = DEFAULT_DAMPING_COEFFICIENT;
 
+            virtual void OnUpdate(){
+
+            }
+
         public:
 
-            Point(BodyType type = BodyType::KINEMATIC, double damping_coefficient = DEFAULT_DAMPING_COEFFICIENT){
-                this->type = type;
-                this->damping_coefficient = damping_coefficient;
+            Point(BodyType type = BodyType::KINEMATIC){
+                this->type = type;;
             }
 
             virtual ~Point(){
@@ -70,11 +73,6 @@ namespace Physics{
                 velocity = alpha*velocity + (1.0-alpha)*old_velocity;
                 acceleration = alpha*acceleration + (1.0-alpha)*old_acceleration;
                 OnUpdate();
-            }
-
-
-            virtual void OnUpdate(){
-
             }
 
             /* Other Methods */
@@ -126,6 +124,11 @@ namespace Physics{
                     this->mass = INT_MAX;
                 else
                     this->mass = (1.0 / mass) * KG;
+            }
+
+
+            void SetType(BodyType type){
+                this->type = type;
             }
     };
 

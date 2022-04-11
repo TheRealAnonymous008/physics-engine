@@ -1,7 +1,8 @@
 # depslib dependency file v1.0
-1649640551 source:c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\main.cpp
+1649653199 source:c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\main.cpp
 	<SFML/Graphics.hpp>
 	"physics/core/points/Point.h"
+	"physics/core/points/Emitter.h"
 	"physics/core/Engine.h"
 	<bits/stdc++.h>
 
@@ -435,9 +436,10 @@
 	"../math/Integration.h"
 	"Constants.h"
 
-1649640544 c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\physics\core\engine.h
+1649646567 c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\physics\core\engine.h
 	<bits/stdc++.h>
 	"points/Point.h"
+	"points/Emitter.h"
 	"Dynamics.h"
 	"Internal.h"
 	"Clock.h"
@@ -449,14 +451,20 @@
 	"Vector.h"
 	<bits/stdc++.h>
 
-1649640460 c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\physics\core\constants.h
+1649645424 c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\physics\core\constants.h
+	"../math/Vector.h"
 
 1649640438 c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\physics\core\internal.h
 
 1649640236 c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\physics\core\clock.h
 
-1649641581 c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\physics\core\points\point.h
+1649648671 c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\physics\core\points\point.h
 	"../../math/Vector.h"
 	"../../math/Integration.h"
 	"../Constants.h"
+
+1649648661 c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\physics\core\points\emitter.h
+	<bits/stdc++.h>
+	"../../math/Vector.h"
+	"Point.h"
 

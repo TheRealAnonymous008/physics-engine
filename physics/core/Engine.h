@@ -2,18 +2,22 @@
 #define ENGINE_H_INCLUDED
 
 #include <bits/stdc++.h>
+
 #include "points/Point.h"
+#include "points/Emitter.h"
 #include "Dynamics.h"
 #include "Internal.h"
 #include "Clock.h"
 
 #include "Constants.h"
 
+
 namespace Physics{
     namespace Internal{
         class EntityManager{
             private:
                 std::vector<Point*> entities;
+                std::vector<Emitter*> emitters;
 
             public:
                 EntityManager(){
