@@ -1,15 +1,14 @@
 #ifndef POINT_H_INCLUDED
 #define POINT_H_INCLUDED
 
-#include "../math/Vector.h"
-#include "../math/Integration.h"
+#include "../../math/Vector.h"
+#include "../../math/Integration.h"
 
-#include "Constants.h"
-#include "Internal.h"
+#include "../Constants.h"
 
 namespace Physics{
 
-    using namespace Internal::Constants;
+    using namespace Physics::Units;
     enum BodyType{
         STATIC,
         KINEMATIC,
@@ -126,7 +125,7 @@ namespace Physics{
                 if (mass == 0)
                     this->mass = INT_MAX;
                 else
-                    this->mass = (1.0 / mass) * KG;
+                    this->mass = (1.0 / mass) * S;
             }
     };
 

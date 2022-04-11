@@ -1,6 +1,5 @@
 #include <SFML/Graphics.hpp>
-#include "physics/core/Body.h"
-#include "physics/core/Point.h"
+#include "physics/core/points/Point.h"
 #include "physics/core/Engine.h"
 
 #include <bits/stdc++.h>

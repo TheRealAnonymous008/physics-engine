@@ -2,9 +2,10 @@
 #define ENGINE_H_INCLUDED
 
 #include <bits/stdc++.h>
-#include "Point.h"
+#include "points/Point.h"
 #include "Dynamics.h"
 #include "Internal.h"
+#include "Clock.h"
 
 #include "Constants.h"
 
@@ -46,7 +47,7 @@ namespace Physics{
             }
 
             void Run(){
-                using namespace Internal::Constants;
+                using namespace Physics::Units;
                 double delta = clock->GetDelta();
                 double frame_rate = std::min(delta, display_rate) * S;
 
