@@ -16,12 +16,12 @@ namespace Physics{
 //        static double K = 1;
 //        static double CD = 1;
 
-        static PMath::Vector UP = PMath::Vector(0, 1, 0);
-        static PMath::Vector DOWN = PMath::Vector(0, -1, 0);
-        static PMath::Vector RIGHT = PMath::Vector(1, 0, 0);
-        static PMath::Vector LEFT = PMath::Vector(-1, 0, 0);
-        static PMath::Vector FRONT = PMath::Vector(0, 0, 1);
-        static PMath::Vector BACK = PMath::Vector(0, 0, -1);
+        static PMath::Vector UP = PMath::init(0, 1, 0);
+        static PMath::Vector DOWN = PMath::init(0, -1, 0);
+        static PMath::Vector RIGHT = PMath::init(1, 0, 0);
+        static PMath::Vector LEFT = PMath::init(-1, 0, 0);
+        static PMath::Vector FRONT = PMath::init(0, 0, 1);
+        static PMath::Vector BACK = PMath::init(0, 0, -1);
     }
 }
 #endif // CONSTANTS_H_INCLUDED

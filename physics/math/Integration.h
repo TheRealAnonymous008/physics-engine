@@ -7,13 +7,13 @@
 namespace PMath {
     // Euler Integration
     const Vector Integrate(const Vector current, double delta, const Vector derivative){
-        return current + delta * derivative;
+        return current + derivative * delta;
     }
 
     // Verlet Integration
     std::vector<Vector> Verlet(Vector position, Vector velocity, Vector acceleration, Vector new_acc, double delta){
-        PMath::Vector new_pos = position + delta*velocity + (delta*delta*0.5)*acceleration;
-        PMath::Vector new_vel = velocity + (delta*0.5)*(acceleration+new_acc);
+        PMath::Vector new_pos = position + velocity*delta + acceleration * (delta*delta*0.5);
+        PMath::Vector new_vel = velocity + (acceleration+new_acc) * (delta*0.5);
 
         std::vector<Vector> result;
         result.push_back(new_pos);
@@ -33,8 +33,8 @@ namespace PMath {
         double t_consts[4] = {delta, 1.5*delta, 1.5*delta, 2.0*delta};
 
         for(int i = 0; i < 4; i++){
-            new_pos += t_consts[i]*new_vel;
-            new_vel += t_consts[i]*new_acc;
+            new_pos += new_vel*t_consts[i];
+            new_vel += new_acc*t_consts[i];
             k_pos[i] = new_vel;
             k_vel[i] = new_acc;
         }

@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1649653199 source:c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\main.cpp
+1649660194 source:c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\main.cpp
 	<SFML/Graphics.hpp>
 	"physics/core/points/Point.h"
 	"physics/core/points/Emitter.h"
@@ -415,10 +415,11 @@
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/Window/GlResource.hpp>
 
-1649637499 c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\physics\math\vector.h
+1649661449 c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\physics\math\vector.h
 	"bits/stdc++.h"
+	"nmmintrin.h"
 
-1649129660 source:c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\test\vector_optest.cpp
+1649661108 source:c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\test\vector_optest.cpp
 	"../physics/math/Vector.h"
 	<bits/stdc++.h>
 	<assert.h>
@@ -436,7 +437,7 @@
 	"../math/Integration.h"
 	"Constants.h"
 
-1649646567 c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\physics\core\engine.h
+1649659902 c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\physics\core\engine.h
 	<bits/stdc++.h>
 	"points/Point.h"
 	"points/Emitter.h"
@@ -447,11 +448,11 @@
 
 1649640603 c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\physics\core\dynamics.h
 
-1649213635 c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\physics\math\integration.h
+1649661273 c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\physics\math\integration.h
 	"Vector.h"
 	<bits/stdc++.h>
 
-1649645424 c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\physics\core\constants.h
+1649659471 c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\physics\core\constants.h
 	"../math/Vector.h"
 
 1649640438 c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\physics\core\internal.h
@@ -463,8 +464,11 @@
 	"../../math/Integration.h"
 	"../Constants.h"
 
-1649648661 c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\physics\core\points\emitter.h
+1649659838 c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\physics\core\points\emitter.h
 	<bits/stdc++.h>
 	"../../math/Vector.h"
 	"Point.h"
+
+1649661097 source:c:\users\joaquin dela rosa\onedrive\desktop\playground\physics engine\physics-engine\physics\math\vector.cpp
+	"Vector.h"
 

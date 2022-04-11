@@ -65,7 +65,7 @@ namespace Physics{
                     for (Point* entity : entities){
                         // Perform updates to entity objects here.
 
-                        PMath::Vector f = PMath::Vector(-entity->GetPosition().get(1), entity->GetPosition().get(0));
+                        PMath::Vector f = PMath::init(-entity->GetPosition().vec[1], entity->GetPosition().vec[0]);
                         entity->SetVelocity(f);
                         entity->Update(time_resolution);
                     }

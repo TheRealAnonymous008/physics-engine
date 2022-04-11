@@ -16,7 +16,7 @@ namespace Physics{
             }
 
         public:
-            Emitter(PMath::Vector force = PMath::Vector(1,0), BodyType type = BodyType::DYNAMIC){
+            Emitter(PMath::Vector force = PMath::init(1,0), BodyType type = BodyType::DYNAMIC){
                 this->force = force;
                 this->type = type;
             }
