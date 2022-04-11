@@ -8,12 +8,18 @@
 #define FRAMERATE_LIMIT 120
 
 
-struct Ball :public Physics::Point {
+struct Ball : public Physics::Point {
     sf::CircleShape shape = sf::CircleShape(5);
 
+    Ball(){
+
+    }
+
     void move(double x, double y){
-        this->setPosition(PMath::Vector(x, y));
-        shape.setPosition(x, y);
+        this->position = (PMath::Vector(x, y));
+        double r_x = GetScaledPosition().get(0);
+        double r_y = GetScaledPosition().get(1);
+        shape.setPosition(r_x, r_y);
     }
 
     void OnUpdate() override{
@@ -58,7 +64,7 @@ int main()
 
         engine->Run();
 
-//        window.clear();
+        window.clear();
 //        window.draw(b->shape);
         for (Ball* b : balls){
             window.draw(b->shape);

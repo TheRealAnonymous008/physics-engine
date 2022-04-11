@@ -4,6 +4,7 @@
 #include <bits/stdc++.h>
 #include "Point.h"
 #include "Dynamics.h"
+#include "Internal.h"
 
 #include "Constants.h"
 
@@ -27,41 +28,6 @@ namespace Physics{
                 }
 
         };
-
-        class Clock{
-            private:
-                std::chrono::_V2::high_resolution_clock::time_point start_time;
-                std::chrono::_V2::high_resolution_clock::time_point last_cycle_time;
-                int ticked = 0;
-
-            public:
-                Clock() {
-                }
-
-                const double GetDelta(){
-                    auto end_time = std::chrono::_V2::high_resolution_clock::now();
-                    double delta = ticked * std::chrono::duration_cast<std::chrono::nanoseconds>(end_time - last_cycle_time).count() / 1000000000.0f;
-                    last_cycle_time = end_time;
-                    ticked = 1;
-
-                    return delta;
-                }
-
-                void Start(){
-                    start_time = std::chrono::_V2::high_resolution_clock::now();
-                    ticked = 0;
-                }
-        };
-
-        struct Scaler{
-            double meter = 1;
-            double kilogram = 1;
-            double second = 1;
-            double mol = 1;
-            double ampere = 1;
-            double kelvin = 1;
-            double candela = 1;
-        };
     }
 
     class Engine{
@@ -73,7 +39,6 @@ namespace Physics{
         public:
             Internal::EntityManager* entity_manager = new Internal::EntityManager();
             Internal::Clock* clock = new Internal::Clock();
-            Internal::Scaler* scaler = new Internal::Scaler();
 
             Engine(const double time_resolution = 1.0/120.0, const double display_rate = 1.0/60.0){
                 this->time_resolution = time_resolution;
@@ -81,25 +46,28 @@ namespace Physics{
             }
 
             void Run(){
+                using namespace Internal::Constants;
                 double delta = clock->GetDelta();
-                double frame_rate = std::min(delta, display_rate);
+                double frame_rate = std::min(delta, display_rate) * S;
+
+                std::vector<Point*> entities = *entity_manager->GetEntitites();
 
                 accumulator += frame_rate;
                 if (delta == 0)
                     return;
 
                 while(accumulator >= time_resolution){
-                    for (Point* entity : *entity_manager->GetEntitites()){
+                    for (Point* entity : entities){
                         // Perform updates to entity objects here.
 
-                        PMath::Vector f = PMath::Vector(-entity->getPosition().get(1), entity->getPosition().get(0));
-                        entity->setVelocity(f);
+                        PMath::Vector f = PMath::Vector(-entity->GetPosition().get(1), entity->GetPosition().get(0));
+                        entity->SetVelocity(f);
                         entity->Update(time_resolution);
                     }
                     accumulator -= time_resolution;
                 }
 
-                for (Point* entity : *entity_manager->GetEntitites()) {
+                for (Point* entity : entities) {
                     entity->Interpolate(accumulator / time_resolution);
                 }
 

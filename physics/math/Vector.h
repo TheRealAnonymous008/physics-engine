@@ -63,6 +63,7 @@ namespace PMath{
             friend const Vector operator +(const Vector& v1, const Vector& v2);
             friend const Vector operator -(const Vector& v1, const Vector& v2);
             friend const Vector operator *(double c, const Vector& v);
+            friend const Vector operator *(const Vector& v, double c);
             friend const Vector operator /(const Vector& v, double c);
 
             friend void operator +=(Vector& v1, const Vector& v2);
@@ -99,6 +100,14 @@ namespace PMath{
     }
 
     inline const Vector operator *(double c, const Vector& v){
+        Vector res(0, 0, 0, 0);
+        for(int i = 0; i < 4; i++){
+            res.set(i, v.vec[i] * c);
+        }
+        return res;
+    }
+
+    inline const Vector operator *(const Vector& v, double c){
         Vector res(0, 0, 0, 0);
         for(int i = 0; i < 4; i++){
             res.set(i, v.vec[i] * c);

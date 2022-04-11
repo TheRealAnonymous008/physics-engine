@@ -5,9 +5,11 @@
 #include "../math/Integration.h"
 
 #include "Constants.h"
+#include "Internal.h"
 
 namespace Physics{
 
+    using namespace Internal::Constants;
     enum BodyType{
         STATIC,
         KINEMATIC,
@@ -71,18 +73,24 @@ namespace Physics{
                 OnUpdate();
             }
 
+
             virtual void OnUpdate(){
 
             }
 
             /* Other Methods */
-            void ApplyForce(const PMath::Vector force){
+            void ApplyForce(PMath::Vector force){
                 this->acceleration += force / mass;
             }
 
             /* Getters and Setters */
             PMath::Vector GetPosition() const{
                 return position;
+            }
+
+            PMath::Vector GetScaledPosition() const{
+                // Specifically for rendering, so as to scale positions correctly.
+                return position * M;
             }
 
             void SetPosition(const PMath::Vector position){
@@ -93,7 +101,7 @@ namespace Physics{
                 return velocity;
             }
 
-            void SetVelocity(const PMath::Vector velocity){
+            void SetVelocity(PMath::Vector velocity){
                 this->velocity = velocity;
             }
 
@@ -101,7 +109,7 @@ namespace Physics{
                 return acceleration;
             }
 
-            void SetAcceleration(const PMath::Vector acceleration){
+            void SetAcceleration(PMath::Vector acceleration){
                 this->acceleration = acceleration;
             }
 
@@ -109,19 +117,17 @@ namespace Physics{
                 return mass;
             }
 
-            void SetMass(const double mass){
+            void SetMass(double mass){
                 if (mass != 0)
-                    this->mass = mass;
+                    this->mass = mass * KG;
             }
 
-            void SetInverseMass(const double mass){
+            void SetInverseMass(double mass){
                 if (mass == 0)
                     this->mass = INT_MAX;
                 else
-                    this->mass = mass;
+                    this->mass = (1.0 / mass) * KG;
             }
-
-
     };
 
 
