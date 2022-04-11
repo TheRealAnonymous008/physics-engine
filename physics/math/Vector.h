@@ -50,6 +50,14 @@ namespace PMath{
                 return result;
             }
 
+            const Vector pow(double power) const{
+                Vector result = Vector();
+                for(int i = 0; i < 4; i++){
+                    result.set(i, std::pow(vec[i], power));
+                }
+                return result;
+            }
+
             friend const Vector operator -(const Vector& v);
 
             friend const Vector operator +(const Vector& v1, const Vector& v2);

@@ -5,6 +5,8 @@
 #include "Point.h"
 #include "Dynamics.h"
 
+#include "Constants.h"
+
 namespace Physics{
     namespace Internal{
         class EntityManager{
@@ -50,6 +52,16 @@ namespace Physics{
                     ticked = 0;
                 }
         };
+
+        struct Scaler{
+            double meter = 1;
+            double kilogram = 1;
+            double second = 1;
+            double mol = 1;
+            double ampere = 1;
+            double kelvin = 1;
+            double candela = 1;
+        };
     }
 
     class Engine{
@@ -61,6 +73,7 @@ namespace Physics{
         public:
             Internal::EntityManager* entity_manager = new Internal::EntityManager();
             Internal::Clock* clock = new Internal::Clock();
+            Internal::Scaler* scaler = new Internal::Scaler();
 
             Engine(const double time_resolution = 1.0/120.0, const double display_rate = 1.0/60.0){
                 this->time_resolution = time_resolution;
@@ -80,7 +93,7 @@ namespace Physics{
                         // Perform updates to entity objects here.
 
                         PMath::Vector f = PMath::Vector(-entity->getPosition().get(1), entity->getPosition().get(0));
-                        entity->applyForce(-f);
+                        entity->setVelocity(f);
                         entity->Update(time_resolution);
                     }
                     accumulator -= time_resolution;

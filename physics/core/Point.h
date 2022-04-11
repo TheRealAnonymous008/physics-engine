@@ -4,7 +4,7 @@
 #include "../math/Vector.h"
 #include "../math/Integration.h"
 
-#define DEFAULT_DAMPING_COEFFICIENT 0.995
+#include "Constants.h"
 
 namespace Physics{
 
@@ -59,7 +59,7 @@ namespace Physics{
                 }
 
                 // Apply damping effect to compensate for numerical errors
-                velocity *= damping_coefficient;
+                velocity *= std::pow(damping_coefficient, delta);
 
                 OnUpdate();
             }
@@ -76,45 +76,45 @@ namespace Physics{
             }
 
             /* Other Methods */
-            void applyForce(const PMath::Vector force){
+            void ApplyForce(const PMath::Vector force){
                 this->acceleration += force / mass;
             }
 
             /* Getters and Setters */
-            PMath::Vector getPosition() const{
+            PMath::Vector GetPosition() const{
                 return position;
             }
 
-            void setPosition(const PMath::Vector position){
+            void SetPosition(const PMath::Vector position){
                 this->position = position;
             }
 
-            PMath::Vector getVelocity() const{
+            PMath::Vector GetVelocity() const{
                 return velocity;
             }
 
-            void setVelocity(const PMath::Vector velocity){
+            void SetVelocity(const PMath::Vector velocity){
                 this->velocity = velocity;
             }
 
-            PMath::Vector getAcceleration() const{
+            PMath::Vector GetAcceleration() const{
                 return acceleration;
             }
 
-            void setAcceleration(const PMath::Vector acceleration){
+            void SetAcceleration(const PMath::Vector acceleration){
                 this->acceleration = acceleration;
             }
 
-            double getMass() const{
+            double GetMass() const{
                 return mass;
             }
 
-            void setMass(const double mass){
+            void SetMass(const double mass){
                 if (mass != 0)
                     this->mass = mass;
             }
 
-            void setInverseMass(const double mass){
+            void SetInverseMass(const double mass){
                 if (mass == 0)
                     this->mass = INT_MAX;
                 else

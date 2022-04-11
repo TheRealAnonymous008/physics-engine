@@ -58,7 +58,7 @@ int main()
 
         engine->Run();
 
-        window.clear();
+//        window.clear();
 //        window.draw(b->shape);
         for (Ball* b : balls){
             window.draw(b->shape);
