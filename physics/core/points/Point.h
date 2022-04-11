@@ -28,7 +28,7 @@ namespace Physics{
             PMath::Vector acceleration;
 
             PMath::Vector rotation;
-            double mass = 1;
+            double mass = KG;
 
             double damping_coefficient = DEFAULT_DAMPING_COEFFICIENT;
 
@@ -92,7 +92,7 @@ namespace Physics{
                 return position * M;
             }
 
-            void SetPosition(const PMath::Vector position){
+            void SetPosition(const PMath::Vector& position){
                 this->position = position;
             }
 
@@ -100,7 +100,7 @@ namespace Physics{
                 return velocity;
             }
 
-            void SetVelocity(PMath::Vector velocity){
+            void SetVelocity(PMath::Vector& velocity){
                 this->velocity = velocity;
             }
 
@@ -108,7 +108,7 @@ namespace Physics{
                 return acceleration;
             }
 
-            void SetAcceleration(PMath::Vector acceleration){
+            void SetAcceleration(PMath::Vector& acceleration){
                 this->acceleration = acceleration;
             }
 
@@ -125,7 +125,7 @@ namespace Physics{
                 if (mass == 0)
                     this->mass = INT_MAX;
                 else
-                    this->mass = (1.0 / mass) * S;
+                    this->mass = (1.0 / mass) * KG;
             }
     };
 
