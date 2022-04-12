@@ -6,18 +6,18 @@
 #include "../Object.h"
 
 namespace Physics{
-    class Emitter : public Object{
+    class Emitter : public Point{
     protected:
         PMath::Vector force;
         std::vector<Object*> points = std::vector<Object*>();
 
     public:
-        Emitter(PMath::Vector force = PMath::init(1,0), BodyType type = BodyType::DYNAMIC){
+        Emitter(PMath::Vector force = PMath::init(), BodyType type = BodyType::DYNAMIC){
             this->force = force;
             this->type = type;
         }
 
-        void ApplyForce(){
+        virtual void ApplyForce(){
             for(Object* p : points){
                 p->ApplyForce(force);
             }
@@ -27,7 +27,7 @@ namespace Physics{
             this->force = force;
         }
 
-        void AddPoint(Physics::Object* point){
+        void AddObject(Physics::Object* point){
             if(point != this)
                 this->points.push_back(point);
         }
@@ -36,7 +36,7 @@ namespace Physics{
             return this->force;
         }        
 		
-		void OnFrameStart(){
+		void OnFrameStart(float delta) override{
 			ApplyForce();
 		}
     };

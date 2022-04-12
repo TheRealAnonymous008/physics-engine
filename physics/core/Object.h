@@ -27,6 +27,10 @@ namespace Physics {
 	public: 
 		Transform transform;
 
+		Object() {
+			// Default constructor
+		}
+
 		virtual void Update(float delta) {
 			// Called per update 
 		}

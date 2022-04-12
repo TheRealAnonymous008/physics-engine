@@ -56,6 +56,9 @@
     <ClInclude Include="physics\core\points\RadialEmitter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="physics\render\RenderObjects.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="sfml-audio-2.dll" />

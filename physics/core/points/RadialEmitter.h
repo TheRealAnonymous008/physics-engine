@@ -4,26 +4,35 @@
 #include "Emitter.h"
 #include "../../math/Vector.h"
 
+#include <iostream>
+
 namespace Physics {
 	class RadialEmitter : public Emitter{
 	private:
 		float radius;
 		float degree;
+		float force;
 
 	public:
-		RadialEmitter(PMath::Vector force, float radius, float degree = 2.0f, BodyType type = BodyType::DYNAMIC) {
+		RadialEmitter(float force = 0.0f, float radius = 1.0f, float degree = 2.0f, BodyType type = BodyType::DYNAMIC) {
 			this->force = force;
 			this->type = type;
 			this->radius = radius;
 			this->degree = degree;
 		}
 
-		void ApplyForce(){
+		void ApplyForce() override{
 			for (Object* p : points) {
-				float radius = PMath::norm(p->transform.position - this->transform.position);
-				PMath::Vector applied = force / pow(radius, degree);
-				p->ApplyForce(force);
+				PMath::Vector vec = p->transform.position - this->transform.position;
+				float r = PMath::norm(vec);
+				PMath::Vector applied = force * (vec / pow(r, degree));
+				p->ApplyForce(applied);
 			}
+		}
+
+		void SetForce(PMath::Vector force) = delete;
+		void SetForce(float force) {
+			this->force = force;
 		}
 	};
 }

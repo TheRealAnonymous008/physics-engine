@@ -1,31 +1,15 @@
 #include <SFML/Graphics.hpp>
 #include "physics/core/points/Point.h"
+#include "physics//core/points/RadialEmitter.h"
 #include "physics/core/points/Emitter.h"
 #include "physics/core/Engine.h"
 
+#include "physics/render/RenderObjects.h"
 #include <iostream>
 
 
 #define FRAMERATE_LIMIT 60
-
-
-class Ball : public Physics::Point {
-    private:
-        void OnUpdate() override{
-            //Physics::Emitter::OnUpdate();
-            move(this->transform.position.vec[0], this->transform.position.vec[1]);
-        }
-		
-    public:
-        sf::CircleShape shape = sf::CircleShape(5);
-
-        void move(float x, float y){
-            this->transform.position = (PMath::init(x, y));
-            float r_x = GetScaledPosition().vec[0];
-            float r_y = GetScaledPosition().vec[1];
-            shape.setPosition(r_x, r_y);
-        }
-};
+using namespace Render;
 
 int main()
 {
@@ -33,26 +17,26 @@ int main()
     sf::View view = sf::View(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(500.0f, 500.0f));
     window.setView(view);
 
-    Physics::Engine* engine = new Physics::Engine(1.0f / (2 * FRAMERATE_LIMIT), 1.0f / FRAMERATE_LIMIT);
-	engine->world->ApplyGravity();
+    Physics::Engine* engine = new Physics::Engine(1.0f / (3 * FRAMERATE_LIMIT), 1.0f / FRAMERATE_LIMIT);
+	//engine->world->ApplyGravity();
 
-    std::vector<Ball*> balls = std::vector<Ball*>();
-
-   // for (int i = -15; i <= 15; i++){
-   //     for (int j = -10; j <= 10; j++){
-			//Ball* b = new Ball();
-			//engine->world ->AddEntity(b);
-   //         b->move(i * 10.0f , j * 10.0f);
-   //         balls.push_back(b);
-   //     }
-   // }
-
-	Ball* sample = new Ball();
-
+	RadialEmitter* sample = new RadialEmitter();
 	sample->move(-240, 0);
-	sample->ApplyForce(PMath::init(0, -500.0f));
+	sample->SetForce(100);
 	engine->world->AddEntity(sample);
 
+    std::vector<Point*> balls = std::vector<Point*>();
+
+    for (int i = -10; i <= 10; i++){
+        for (int j = -10; j <= 10; j++){
+			Point* b = new Point();
+			engine->world->AddEntity(b);
+            b->move(i * 10.0f , j * 10.0f);
+            balls.push_back(b);
+			sample->AddObject(b);
+        }
+    }
+	
     /*for(Ball* b : balls){
         for(Ball* c : balls){
             b->AddPoint(c);
@@ -79,9 +63,9 @@ int main()
 
         window.clear();
 		window.draw(sample->shape);
-        //for (Ball* b : balls){
-        //    window.draw(b->shape);
-        //}
+        for (Point* b : balls){
+            window.draw(b->shape);
+        }
 
         window.display();
 
