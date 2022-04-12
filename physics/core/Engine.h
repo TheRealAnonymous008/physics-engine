@@ -61,6 +61,7 @@ namespace Physics{
 
             for (Object* entity : entities) {
                 entity->OnFrameEnd(accumulator / time_resolution);
+				entity->Cleanup();
             }
         }
 

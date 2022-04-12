@@ -7,6 +7,8 @@
 #include <iostream>
 
 namespace Physics {
+
+	using namespace Physics::Units;
 	class RadialEmitter : public Emitter{
 	private:
 		float radius;
@@ -25,8 +27,10 @@ namespace Physics {
 			for (Object* p : points) {
 				PMath::Vector vec = p->transform.position - this->transform.position;
 				float r = PMath::norm(vec);
-				PMath::Vector applied = force * (vec / pow(r, degree));
-				p->ApplyForce(applied);
+				if (r >= radius * M) {
+					PMath::Vector applied = force * (vec / pow(r, degree));
+					p->ApplyForce(applied);
+				}
 			}
 		}
 
