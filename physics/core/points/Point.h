@@ -7,6 +7,8 @@
 #include "../Constants.h"
 #include <cmath>
 
+#include "../Object.h"
+
 namespace Physics{
 
     using namespace Physics::Units;
@@ -16,17 +18,11 @@ namespace Physics{
         DYNAMIC
     };
 
-    class Point {
+    class Point : public Object{
     protected:
         BodyType type;
 
-        PMath::Vector old_position;
-        PMath::Vector old_velocity;
-        PMath::Vector old_acceleration;
-
-        PMath::Vector position;
-        PMath::Vector velocity;
-        PMath::Vector acceleration;
+		Transform old_transform;
 
         PMath::Vector rotation;
         float mass = KG;
@@ -47,68 +43,68 @@ namespace Physics{
 
         }
 
-        void Update(float delta){
+        void Update(float delta) override{
 
-            old_position = position;
-            old_velocity = velocity;
-            old_acceleration = acceleration;
+            old_transform.position = transform.position;
+            old_transform.velocity = transform.velocity;
+            old_transform.acceleration = transform.acceleration;
 
-            auto result = PMath::Verlet(position, velocity, old_acceleration, acceleration, delta);
+            auto result = PMath::Verlet(transform.position, transform.velocity, old_transform.acceleration, transform.acceleration, delta);
 
             if (type == BodyType::DYNAMIC){
-                acceleration = result[2];
-                velocity = result[1];
+                transform.acceleration = result[2];
+                transform.velocity = result[1];
             }
             if (type != BodyType::STATIC){
-                position = result[0];
+                transform.position = result[0];
             }
 
             // Apply damping effect to compensate for numerical errors
-            velocity *= (float) pow(damping_coefficient, delta);
+            transform.velocity *= (float) pow(damping_coefficient, delta);
 
             OnUpdate();
         }
 
-        void Interpolate(float alpha){
-            position = alpha*position + (1.0f-alpha)*old_position;
-            velocity = alpha*velocity + (1.0f-alpha)*old_velocity;
-            acceleration = alpha*acceleration + (1.0f-alpha)*old_acceleration;
+        void OnFrameEnd(float alpha){
+            transform.position = alpha* transform.position + (1.0f-alpha)*old_transform.position;
+			transform.velocity = alpha* transform.velocity + (1.0f-alpha)*old_transform.velocity;
+			transform.acceleration = alpha* transform.acceleration + (1.0f-alpha)*old_transform.acceleration;
             OnUpdate();
         }
 
         /* Other Methods */
         void ApplyForce(PMath::Vector force){
-            this->acceleration += force / mass;
+            transform.acceleration += force / mass;
         }
 
         /* Getters and Setters */
         PMath::Vector GetPosition() const{
-            return position;
+            return transform.position;
         }
 
         PMath::Vector GetScaledPosition() const{
             // Specifically for rendering, so as to scale positions correctly.
-            return position * M;
+            return transform.position * M;
         }
 
         void SetPosition(const PMath::Vector& position){
-            this->position = position;
+            this->transform.position  = position;
         }
 
         PMath::Vector GetVelocity() const{
-            return velocity;
+            return transform.velocity;
         }
 
         void SetVelocity(PMath::Vector& velocity){
-            this->velocity = velocity;
+            this->transform.velocity = velocity;
         }
 
         PMath::Vector GetAcceleration() const{
-            return acceleration;
+            return transform.acceleration;
         }
 
         void SetAcceleration(PMath::Vector& acceleration){
-            this->acceleration = acceleration;
+            this->transform.acceleration = acceleration;
         }
 
         double GetMass() const{

@@ -4,16 +4,13 @@
 #include <vector>
 #include "../../math/Vector.h"
 #include "Point.h"
+#include "../Object.h"
 
 namespace Physics{
     class Emitter : public Point{
     protected:
         PMath::Vector force;
         std::vector<Point*> points = std::vector<Point*>();
-
-        void OnUpdate() override{
-            ApplyForce();
-        }
 
     public:
         Emitter(PMath::Vector force = PMath::init(1,0), BodyType type = BodyType::DYNAMIC){
@@ -38,7 +35,11 @@ namespace Physics{
 
         const PMath::Vector GetForce(){
             return this->force;
-        }
+        }        
+		
+		void OnFrameStart() {
+			ApplyForce();
+		}
     };
 }
 

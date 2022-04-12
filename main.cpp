@@ -13,14 +13,14 @@ class Ball : public Physics::Point {
     private:
         void OnUpdate() override{
             //Physics::Emitter::OnUpdate();
-            move(this->position.vec[0], this->position.vec[1]);
+            move(this->transform.position.vec[0], this->transform.position.vec[1]);
         }
 		
     public:
         sf::CircleShape shape = sf::CircleShape(5);
 
         void move(float x, float y){
-            this->position = (PMath::init(x, y));
+            this->transform.position = (PMath::init(x, y));
             float r_x = GetScaledPosition().vec[0];
             float r_y = GetScaledPosition().vec[1];
             shape.setPosition(r_x, r_y);

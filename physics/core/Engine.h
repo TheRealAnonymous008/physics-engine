@@ -4,8 +4,7 @@
 #include <vector>
 #include <future>
 
-#include "points/Point.h"
-#include "points/Emitter.h"
+#include "Object.h"
 #include "Dynamics.h"
 #include "Internal.h"
 #include "Clock.h"
@@ -18,19 +17,18 @@ namespace Physics{
     namespace Internal{
         class EntityManager{
         private:
-            std::vector<Point*> entities;
-            std::vector<Emitter*> emitters;
+            std::vector<Object*> entities;
 
         public:
             EntityManager(){
-                entities = std::vector<Point*>();
+                entities = std::vector<Object*>();
             }
 
-            void AddEntity(Point* p){
+            void AddEntity(Object* p){
                 this->entities.push_back(p);
             }
 
-            const std::vector<Point*>* GetEntitites() const{
+            const std::vector<Object*>* GetEntitites() const{
                 return &this->entities;
             }
 
@@ -58,7 +56,7 @@ namespace Physics{
             float delta = clock->GetDelta();
             float frame_rate = fmin(delta, display_rate) * S;
 				
-            std::vector<Point*> entities = *entity_manager->GetEntitites();
+            std::vector<Object*> entities = *entity_manager->GetEntitites();
 
             accumulator += frame_rate;
             cumulative += frame_rate;
@@ -66,19 +64,23 @@ namespace Physics{
             if (delta == 0)
                 return;
 
+			for (Object* entity : entities) {
+				entity->OnFrameStart(accumulator / time_resolution);
+			}
+
             while(accumulator >= time_resolution){
-                for (Point* entity : entities){
+                for (Object* entity : entities){
                     // Perform updates to entity objects here.
 
-                    PMath::Vector f = PMath::init(-entity->GetPosition().vec[1], entity->GetPosition().vec[0]);
-                    entity->SetVelocity(f);
+                    PMath::Vector f = PMath::init(-entity->transform.position.vec[1], entity->transform.position.vec[0]);
+                    entity->transform.velocity = f;
                     entity->Update(time_resolution);
                 }
                 accumulator -= time_resolution;
             }
 
-            for (Point* entity : entities) {
-                entity->Interpolate(accumulator / time_resolution);
+            for (Object* entity : entities) {
+                entity->OnFrameEnd(accumulator / time_resolution);
             }
 
         }

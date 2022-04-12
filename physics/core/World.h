@@ -3,9 +3,9 @@
 
 namespace Physics {
 	class World {
-	public:
-		
 	private:
+
+	public:
 
 	};
 }
