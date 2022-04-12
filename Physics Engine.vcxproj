@@ -106,9 +106,8 @@
   <ItemGroup>
     <ClInclude Include="physics\core\Clock.h" />
     <ClInclude Include="physics\core\Constants.h" />
-    <ClInclude Include="physics\core\Dynamics.h" />
     <ClInclude Include="physics\core\Engine.h" />
-    <ClInclude Include="physics\core\Internal.h" />
+    <ClInclude Include="physics\core\Object.h" />
     <ClInclude Include="physics\core\points\Emitter.h" />
     <ClInclude Include="physics\core\points\Point.h" />
     <ClInclude Include="physics\core\World.h" />

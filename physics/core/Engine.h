@@ -5,8 +5,6 @@
 #include <future>
 
 #include "Object.h"
-#include "Dynamics.h"
-#include "Internal.h"
 #include "Clock.h"
 
 #include "Constants.h"

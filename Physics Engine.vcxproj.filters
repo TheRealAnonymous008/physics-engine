@@ -32,13 +32,7 @@
     <ClInclude Include="physics\core\Constants.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="physics\core\Dynamics.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="physics\core\Engine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="physics\core\Internal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="physics\core\points\Emitter.h">
@@ -54,6 +48,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="physics\core\World.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="physics\core\Object.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
