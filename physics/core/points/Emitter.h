@@ -12,15 +12,15 @@ namespace Physics{
         std::vector<Object*> points = std::vector<Object*>();
 
     public:
-        Emitter(PMath::Vector force = PMath::init(), BodyType type = BodyType::DYNAMIC){
+        Emitter(PMath::Vector force = PMath::init(), BodyType type = BodyType::STATIC){
             this->force = force;
             this->type = type;
         }
 
         virtual void ApplyForce(){
-            for(Object* p : points){
-                p->ApplyForce(force);
-            }
+			for (Object* p : points) {
+				p->ApplyForce(force);
+			}
         }
 
         void SetForce(PMath::Vector force){

@@ -27,7 +27,6 @@ int main()
 	engine->world->AddEntity(sample);
 
     std::vector<Point*> balls = std::vector<Point*>();
-
     for (int i = -10; i <= 10; i++){
         for (int j = -10; j <= 10; j++){
 			Point* b = new Point();

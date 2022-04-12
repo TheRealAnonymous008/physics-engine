@@ -50,10 +50,7 @@ namespace Physics{
 
             while(accumulator >= time_resolution){
                 for (Object* entity : entities){
-                    // Perform updates to entity objects here.
-
-     //               PMath::Vector f = PMath::init(1, 0);
-					//entity->transform.velocity += f;
+                    // Perform updates to entity objects here
                     entity->Update(time_resolution);
                 }
                 accumulator -= time_resolution;

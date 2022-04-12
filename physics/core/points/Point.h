@@ -15,9 +15,7 @@ namespace Physics{
     using namespace Physics::Units;
 
     class Point : public Object{
-    protected:
-        BodyType type;
-
+	protected:
 		Transform old_transform;
 
         PMath::Vector rotation;

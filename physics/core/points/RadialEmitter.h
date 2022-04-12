@@ -16,7 +16,7 @@ namespace Physics {
 		float force;
 
 	public:
-		RadialEmitter(float force = 0.0f, float radius = 1.0f, float degree = 2.0f, BodyType type = BodyType::DYNAMIC) {
+		RadialEmitter(float force = 0.0f, float radius = 1.0f, float degree = 2.0f, BodyType type = BodyType::STATIC) {
 			this->force = force;
 			this->type = type;
 			this->radius = radius;
