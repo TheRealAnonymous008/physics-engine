@@ -6,33 +6,13 @@
 
 #include "Object.h"
 #include "Clock.h"
+#include "World.h"
 
 #include "Constants.h"
 #include <cmath>
 
 
 namespace Physics{
-    namespace Internal{
-        class EntityManager{
-        private:
-            std::vector<Object*> entities;
-
-        public:
-            EntityManager(){
-                entities = std::vector<Object*>();
-            }
-
-            void AddEntity(Object* p){
-                this->entities.push_back(p);
-            }
-
-            const std::vector<Object*>* GetEntitites() const{
-                return &this->entities;
-            }
-
-        };
-    }
-
     class Engine{
     private:
         float time_resolution;
@@ -41,7 +21,7 @@ namespace Physics{
 		float cumulative = 0;
 
     public:
-        Internal::EntityManager* entity_manager = new Internal::EntityManager();
+        World* world = new World();
         Internal::Clock* clock = new Internal::Clock();
 
         Engine(const float time_resolution = 1.0/120.0, const float display_rate = 1.0/60.0){
@@ -54,7 +34,7 @@ namespace Physics{
             float delta = clock->GetDelta();
             float frame_rate = fmin(delta, display_rate) * S;
 				
-            std::vector<Object*> entities = *entity_manager->GetEntitites();
+            std::vector<Object*> entities = world->GetEntitites();
 
             accumulator += frame_rate;
             cumulative += frame_rate;

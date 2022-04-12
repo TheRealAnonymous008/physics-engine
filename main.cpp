@@ -40,7 +40,7 @@ int main()
     for (int i = -15; i <= 15; i++){
         for (int j = -10; j <= 10; j++){
 			Ball* b = new Ball();
-            engine->entity_manager->AddEntity(b);
+			engine->world ->AddEntity(b);
             b->move(i * 10.0f, j * 10.0f);
             balls.push_back(b);
         }
