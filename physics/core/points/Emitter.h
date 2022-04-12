@@ -1,7 +1,7 @@
 #ifndef EMITTER_H_INCLUDED
 #define EMITTER_H_INCLUDED
 
-#include <bits/stdc++.h>
+#include <vector>
 #include "../../math/Vector.h"
 #include "Point.h"
 

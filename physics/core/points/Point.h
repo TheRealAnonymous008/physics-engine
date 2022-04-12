@@ -5,6 +5,7 @@
 #include "../../math/Integration.h"
 
 #include "../Constants.h"
+#include <cmath>
 
 namespace Physics{
 
@@ -28,9 +29,9 @@ namespace Physics{
             PMath::Vector acceleration;
 
             PMath::Vector rotation;
-            double mass = KG;
+            float mass = KG;
 
-            double damping_coefficient = DEFAULT_DAMPING_COEFFICIENT;
+            float damping_coefficient = DEFAULT_DAMPING_COEFFICIENT;
 
             virtual void OnUpdate(){
 
@@ -46,7 +47,7 @@ namespace Physics{
 
             }
 
-            void Update(double delta){
+            void Update(float delta){
 
                 old_position = position;
                 old_velocity = velocity;
@@ -63,15 +64,15 @@ namespace Physics{
                 }
 
                 // Apply damping effect to compensate for numerical errors
-                velocity *= std::pow(damping_coefficient, delta);
+                velocity *= (float) pow(damping_coefficient, delta);
 
                 OnUpdate();
             }
 
-            void Interpolate(double alpha){
-                position = alpha*position + (1.0-alpha)*old_position;
-                velocity = alpha*velocity + (1.0-alpha)*old_velocity;
-                acceleration = alpha*acceleration + (1.0-alpha)*old_acceleration;
+            void Interpolate(float alpha){
+                position = alpha*position + (1.0f-alpha)*old_position;
+                velocity = alpha*velocity + (1.0f-alpha)*old_velocity;
+                acceleration = alpha*acceleration + (1.0f-alpha)*old_acceleration;
                 OnUpdate();
             }
 
@@ -114,16 +115,16 @@ namespace Physics{
                 return mass;
             }
 
-            void SetMass(double mass){
+            void SetMass(float mass){
                 if (mass != 0)
                     this->mass = mass * KG;
             }
 
-            void SetInverseMass(double mass){
+            void SetInverseMass(float mass){
                 if (mass == 0)
-                    this->mass = INT_MAX;
+                    this->mass = INT_MAX * 1.0f;
                 else
-                    this->mass = (1.0 / mass) * KG;
+                    this->mass = (1.0f / mass) * KG;
             }
 
 

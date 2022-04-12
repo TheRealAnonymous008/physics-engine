@@ -3,25 +3,26 @@
 #include "physics/core/points/Emitter.h"
 #include "physics/core/Engine.h"
 
-#include <bits/stdc++.h>
-
-#define FRAMERATE_LIMIT 120
+#include <iostream>
 
 
-class Ball : public Physics::Emitter {
+#define FRAMERATE_LIMIT 60
+
+
+class Ball : public Physics::Point {
     private:
         void OnUpdate() override{
-            Physics::Emitter::OnUpdate();
+            //Physics::Emitter::OnUpdate();
             move(this->position.vec[0], this->position.vec[1]);
         }
-
+		
     public:
         sf::CircleShape shape = sf::CircleShape(5);
 
-        void move(double x, double y){
+        void move(float x, float y){
             this->position = (PMath::init(x, y));
-            double r_x = GetScaledPosition().vec[0];
-            double r_y = GetScaledPosition().vec[1];
+            float r_x = GetScaledPosition().vec[0];
+            float r_y = GetScaledPosition().vec[1];
             shape.setPosition(r_x, r_y);
         }
 };
@@ -36,21 +37,21 @@ int main()
 
     std::vector<Ball*> balls = std::vector<Ball*>();
 
-    for (int i = -50; i <= 50; i++){
+    for (int i = -15; i <= 15; i++){
         for (int j = -10; j <= 10; j++){
-            Ball *b = new Ball();
+			Ball* b = new Ball();
             engine->entity_manager->AddEntity(b);
-            b->move(i * 10, j * 10);
+            b->move(i * 10.0f, j * 10.0f);
             balls.push_back(b);
         }
     }
 
-    for(Ball* b : balls){
+    /*for(Ball* b : balls){
         for(Ball* c : balls){
             b->AddPoint(c);
         }
     }
-
+*/
 //    Ball *b = new Ball();
 //    engine->entity_manager->AddEntity(b);
 //    b->move(0, 100);
@@ -70,10 +71,10 @@ int main()
         engine->Run();
 
         window.clear();
-//        window.draw(b->shape);
         for (Ball* b : balls){
             window.draw(b->shape);
         }
+
         window.display();
 
     }

@@ -1,7 +1,8 @@
 #ifndef ENGINE_H_INCLUDED
 #define ENGINE_H_INCLUDED
 
-#include <bits/stdc++.h>
+#include <vector>
+#include <future>
 
 #include "points/Point.h"
 #include "points/Emitter.h"
@@ -10,6 +11,7 @@
 #include "Clock.h"
 
 #include "Constants.h"
+#include <cmath>
 
 
 namespace Physics{
@@ -37,27 +39,30 @@ namespace Physics{
 
     class Engine{
         private:
-            double time_resolution;
-            double accumulator = 0;
-            double display_rate;
+            float time_resolution;
+			float accumulator = 0;
+			float display_rate;
+			float cumulative = 0;
 
         public:
             Internal::EntityManager* entity_manager = new Internal::EntityManager();
             Internal::Clock* clock = new Internal::Clock();
 
-            Engine(const double time_resolution = 1.0/120.0, const double display_rate = 1.0/60.0){
+            Engine(const float time_resolution = 1.0/120.0, const float display_rate = 1.0/60.0){
                 this->time_resolution = time_resolution;
                 this->display_rate = display_rate;
             }
 
             void Run(){
                 using namespace Physics::Units;
-                double delta = clock->GetDelta();
-                double frame_rate = std::min(delta, display_rate) * S;
-
+                float delta = clock->GetDelta();
+                float frame_rate = fmin(delta, display_rate) * S;
+				
                 std::vector<Point*> entities = *entity_manager->GetEntitites();
 
                 accumulator += frame_rate;
+                cumulative += frame_rate;
+
                 if (delta == 0)
                     return;
 
@@ -82,6 +87,10 @@ namespace Physics{
                 while(exit_signal.wait_for(std::chrono::milliseconds(1)) == std::future_status::timeout){
                     Run();
                 }
+            }
+
+            double GetCumulative(){
+                return cumulative;
             }
 
     };

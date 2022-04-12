@@ -1,8 +1,8 @@
 #ifndef VECTOR_H_INCLUDED
 #define VECTOR_H_INCLUDED
 
-#include "bits/stdc++.h"
 #include "nmmintrin.h"
+#include <ostream>
 
 #define EQUALITY_THRESHOLD 1e-10
 

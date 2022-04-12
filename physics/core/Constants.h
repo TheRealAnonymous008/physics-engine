@@ -1,20 +1,20 @@
 #ifndef CONSTANTS_H_INCLUDED
 #define CONSTANTS_H_INCLUDED
 
-#define DEFAULT_DAMPING_COEFFICIENT 0.9995
-#define GRAVITATIONAL_CONSTANT 6.674098e-10
+constexpr auto DEFAULT_DAMPING_COEFFICIENT = 0.9995f;
+constexpr auto GRAVITATIONAL_CONSTANT = 6.674098e-10f;
 
 #include "../math/Vector.h"
 
 namespace Physics{
     namespace Units{
-        static double M = 2;
-        static double KG = 1;
-        static double S = 1;
-//        static double MOL = 1;
-//        static double AMP = 1;
-//        static double K = 1;
-//        static double CD = 1;
+        static float M = 1;
+        static float KG = 1;
+        static float S = 1;
+//        static float MOL = 1;
+//        static float AMP = 1;
+//        static float K = 1;
+//        static float CD = 1;
 
         static PMath::Vector UP = PMath::init(0, 1, 0);
         static PMath::Vector DOWN = PMath::init(0, -1, 0);
