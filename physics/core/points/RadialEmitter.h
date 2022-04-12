@@ -19,7 +19,7 @@ namespace Physics {
 		}
 
 		void ApplyForce(){
-			for (Point* p : points) {
+			for (Object* p : points) {
 				float radius = PMath::norm(p->transform.position - this->transform.position);
 				PMath::Vector applied = force / pow(radius, degree);
 				p->ApplyForce(force);

@@ -3,14 +3,13 @@
 
 #include <vector>
 #include "../../math/Vector.h"
-#include "Point.h"
 #include "../Object.h"
 
 namespace Physics{
-    class Emitter : public Point{
+    class Emitter : public Object{
     protected:
         PMath::Vector force;
-        std::vector<Point*> points = std::vector<Point*>();
+        std::vector<Object*> points = std::vector<Object*>();
 
     public:
         Emitter(PMath::Vector force = PMath::init(1,0), BodyType type = BodyType::DYNAMIC){
@@ -19,7 +18,7 @@ namespace Physics{
         }
 
         void ApplyForce(){
-            for(Point* p : points){
+            for(Object* p : points){
                 p->ApplyForce(force);
             }
         }
@@ -28,7 +27,7 @@ namespace Physics{
             this->force = force;
         }
 
-        void AddPoint(Physics::Point* point){
+        void AddPoint(Physics::Object* point){
             if(point != this)
                 this->points.push_back(point);
         }

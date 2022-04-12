@@ -13,9 +13,17 @@ namespace Physics {
 		float mass = Units::KG;
 	};
 
+	enum BodyType {
+		STATIC,
+		KINEMATIC,
+		DYNAMIC
+	};
 
 	using namespace Units;
 	class Object{ 
+	protected:
+		BodyType type;
+
 	public: 
 		Transform transform;
 
@@ -56,6 +64,9 @@ namespace Physics {
 			transform.acceleration = { 0, 0, 0, 0 };
 		}
 
+		void SetType(BodyType type) {
+			this->type = type;
+		}
 	};
 }
 

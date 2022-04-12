@@ -13,11 +13,6 @@
 namespace Physics{
 
     using namespace Physics::Units;
-    enum BodyType{
-        STATIC,
-        KINEMATIC,
-        DYNAMIC
-    };
 
     class Point : public Object{
     protected:
@@ -104,10 +99,6 @@ namespace Physics{
 
         double GetMass() const{
             return transform.mass;
-        }
-
-        void SetType(BodyType type){
-            this->type = type;
         }
     };
 
