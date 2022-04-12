@@ -2,12 +2,17 @@
 #define WORLD_H_INCLUDED
 
 #include <vector>
+#include <iostream>
 #include "Object.h"
+#include "../math/Vector.h"
 
 namespace Physics {
+	using namespace Units;
 	class World {
 	private:
 		std::vector<Object*> entities;
+		PMath::Vector force;
+		bool has_gravity = false;
 
 	public:
 		World() {
@@ -22,6 +27,31 @@ namespace Physics {
 			return this->entities;
 		}
 
+		const void ApplyForce() {
+			for (Object* obj : entities) {
+				obj->ApplyForce(force);
+			}
+		}
+
+		const PMath::Vector GetForce() const{
+			return force;
+		}
+
+		void AddForce(const PMath::Vector& force) {
+			this->force += force;
+		}
+
+		void ApplyGravity() {
+			this->force += 9.82f * M / (S * S) * KG * DOWN;
+			has_gravity = true;
+		}
+
+		void RemoveGraivty() {
+			if (has_gravity){
+				this->force -= 9.82f * M / (S * S) * KG * DOWN;
+				has_gravity = false;
+			}
+		}
 	};
 }
 

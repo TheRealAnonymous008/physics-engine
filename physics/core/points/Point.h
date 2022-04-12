@@ -6,6 +6,7 @@
 
 #include "../Constants.h"
 #include <cmath>
+#include <iostream>
 
 #include "../Object.h"
 
@@ -25,8 +26,7 @@ namespace Physics{
 		Transform old_transform;
 
         PMath::Vector rotation;
-        float mass = KG;
-
+		
         float damping_coefficient = DEFAULT_DAMPING_COEFFICIENT;
 
         virtual void OnUpdate(){
@@ -35,7 +35,7 @@ namespace Physics{
 
     public:
 
-        Point(BodyType type = BodyType::KINEMATIC){
+        Point(BodyType type = BodyType::DYNAMIC){
             this->type = type;;
         }
 
@@ -49,8 +49,8 @@ namespace Physics{
             old_transform.velocity = transform.velocity;
             old_transform.acceleration = transform.acceleration;
 
+			
             auto result = PMath::Verlet(transform.position, transform.velocity, old_transform.acceleration, transform.acceleration, delta);
-
             if (type == BodyType::DYNAMIC){
                 transform.acceleration = result[2];
                 transform.velocity = result[1];
@@ -70,11 +70,6 @@ namespace Physics{
 			transform.velocity = alpha* transform.velocity + (1.0f-alpha)*old_transform.velocity;
 			transform.acceleration = alpha* transform.acceleration + (1.0f-alpha)*old_transform.acceleration;
             OnUpdate();
-        }
-
-        /* Other Methods */
-        void ApplyForce(PMath::Vector force){
-            transform.acceleration += force / mass;
         }
 
         /* Getters and Setters */
@@ -108,19 +103,7 @@ namespace Physics{
         }
 
         double GetMass() const{
-            return mass;
-        }
-
-        void SetMass(float mass){
-            if (mass != 0)
-                this->mass = mass * KG;
-        }
-
-        void SetInverseMass(float mass){
-            if (mass == 0)
-                this->mass = INT_MAX * 1.0f;
-            else
-                this->mass = (1.0f / mass) * KG;
+            return transform.mass;
         }
 
         void SetType(BodyType type){

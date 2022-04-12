@@ -42,6 +42,8 @@ namespace Physics{
             if (delta == 0)
                 return;
 
+			world->ApplyForce();
+
 			for (Object* entity : entities) {
 				entity->OnFrameStart(accumulator / time_resolution);
 			}
@@ -50,8 +52,8 @@ namespace Physics{
                 for (Object* entity : entities){
                     // Perform updates to entity objects here.
 
-                    PMath::Vector f = PMath::init(-entity->transform.position.vec[1], entity->transform.position.vec[0]);
-                    entity->transform.velocity = f;
+     //               PMath::Vector f = PMath::init(1, 0);
+					//entity->transform.velocity += f;
                     entity->Update(time_resolution);
                 }
                 accumulator -= time_resolution;
@@ -60,7 +62,6 @@ namespace Physics{
             for (Object* entity : entities) {
                 entity->OnFrameEnd(accumulator / time_resolution);
             }
-
         }
 
         void ThreadedRun(std::future<void> exit_signal, int wait_microseconds = 0){

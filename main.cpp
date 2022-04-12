@@ -34,17 +34,24 @@ int main()
     window.setView(view);
 
     Physics::Engine* engine = new Physics::Engine(1.0f / (2 * FRAMERATE_LIMIT), 1.0f / FRAMERATE_LIMIT);
+	engine->world->ApplyGravity();
 
     std::vector<Ball*> balls = std::vector<Ball*>();
 
-    for (int i = -15; i <= 15; i++){
-        for (int j = -10; j <= 10; j++){
-			Ball* b = new Ball();
-			engine->world ->AddEntity(b);
-            b->move(i * 10.0f, j * 10.0f);
-            balls.push_back(b);
-        }
-    }
+   // for (int i = -15; i <= 15; i++){
+   //     for (int j = -10; j <= 10; j++){
+			//Ball* b = new Ball();
+			//engine->world ->AddEntity(b);
+   //         b->move(i * 10.0f , j * 10.0f);
+   //         balls.push_back(b);
+   //     }
+   // }
+
+	Ball* sample = new Ball();
+
+	sample->move(-240, 0);
+	sample->ApplyForce(PMath::init(0, -500.0f));
+	engine->world->AddEntity(sample);
 
     /*for(Ball* b : balls){
         for(Ball* c : balls){
@@ -71,9 +78,10 @@ int main()
         engine->Run();
 
         window.clear();
-        for (Ball* b : balls){
-            window.draw(b->shape);
-        }
+		window.draw(sample->shape);
+        //for (Ball* b : balls){
+        //    window.draw(b->shape);
+        //}
 
         window.display();
 

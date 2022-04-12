@@ -16,8 +16,8 @@ namespace Physics{
 //        static float K = 1;
 //        static float CD = 1;
 
-        static PMath::Vector UP = PMath::init(0, 1, 0);
-        static PMath::Vector DOWN = PMath::init(0, -1, 0);
+        static PMath::Vector UP = PMath::init(0, -1, 0);
+        static PMath::Vector DOWN = PMath::init(0, 1, 0);
         static PMath::Vector RIGHT = PMath::init(1, 0, 0);
         static PMath::Vector LEFT = PMath::init(-1, 0, 0);
         static PMath::Vector FRONT = PMath::init(0, 0, 1);
