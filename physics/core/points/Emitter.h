@@ -7,39 +7,38 @@
 
 namespace Physics{
     class Emitter : public Point{
-        protected:
-            PMath::Vector force;
-            std::vector<Point*> points = std::vector<Point*>();
+    protected:
+        PMath::Vector force;
+        std::vector<Point*> points = std::vector<Point*>();
 
-            void OnUpdate() override{
-                ApplyForce();
+        void OnUpdate() override{
+            ApplyForce();
+        }
+
+    public:
+        Emitter(PMath::Vector force = PMath::init(1,0), BodyType type = BodyType::DYNAMIC){
+            this->force = force;
+            this->type = type;
+        }
+
+        void ApplyForce(){
+            for(Point* p : points){
+                p->ApplyForce(force);
             }
+        }
 
-        public:
-            Emitter(PMath::Vector force = PMath::init(1,0), BodyType type = BodyType::DYNAMIC){
-                this->force = force;
-                this->type = type;
-            }
+        void SetForce(PMath::Vector force){
+            this->force = force;
+        }
 
-            void ApplyForce(){
-                for(Point* p : points){
-                    p->ApplyForce(force);
-                }
-            }
+        void AddPoint(Physics::Point* point){
+            if(point != this)
+                this->points.push_back(point);
+        }
 
-            void SetForce(PMath::Vector force){
-                this->force = force;
-            }
-
-            void AddPoint(Physics::Point* point){
-                if(point != this)
-                    this->points.push_back(point);
-            }
-
-            const PMath::Vector GetForce(){
-                return this->force;
-            }
-
+        const PMath::Vector GetForce(){
+            return this->force;
+        }
     };
 }
 

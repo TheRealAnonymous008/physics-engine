@@ -17,120 +17,119 @@ namespace Physics{
     };
 
     class Point {
-        protected:
-            BodyType type;
+    protected:
+        BodyType type;
 
-            PMath::Vector old_position;
-            PMath::Vector old_velocity;
-            PMath::Vector old_acceleration;
+        PMath::Vector old_position;
+        PMath::Vector old_velocity;
+        PMath::Vector old_acceleration;
 
-            PMath::Vector position;
-            PMath::Vector velocity;
-            PMath::Vector acceleration;
+        PMath::Vector position;
+        PMath::Vector velocity;
+        PMath::Vector acceleration;
 
-            PMath::Vector rotation;
-            float mass = KG;
+        PMath::Vector rotation;
+        float mass = KG;
 
-            float damping_coefficient = DEFAULT_DAMPING_COEFFICIENT;
+        float damping_coefficient = DEFAULT_DAMPING_COEFFICIENT;
 
-            virtual void OnUpdate(){
+        virtual void OnUpdate(){
 
+        }
+
+    public:
+
+        Point(BodyType type = BodyType::KINEMATIC){
+            this->type = type;;
+        }
+
+        virtual ~Point(){
+
+        }
+
+        void Update(float delta){
+
+            old_position = position;
+            old_velocity = velocity;
+            old_acceleration = acceleration;
+
+            auto result = PMath::Verlet(position, velocity, old_acceleration, acceleration, delta);
+
+            if (type == BodyType::DYNAMIC){
+                acceleration = result[2];
+                velocity = result[1];
+            }
+            if (type != BodyType::STATIC){
+                position = result[0];
             }
 
-        public:
+            // Apply damping effect to compensate for numerical errors
+            velocity *= (float) pow(damping_coefficient, delta);
 
-            Point(BodyType type = BodyType::KINEMATIC){
-                this->type = type;;
-            }
+            OnUpdate();
+        }
 
-            virtual ~Point(){
+        void Interpolate(float alpha){
+            position = alpha*position + (1.0f-alpha)*old_position;
+            velocity = alpha*velocity + (1.0f-alpha)*old_velocity;
+            acceleration = alpha*acceleration + (1.0f-alpha)*old_acceleration;
+            OnUpdate();
+        }
 
-            }
+        /* Other Methods */
+        void ApplyForce(PMath::Vector force){
+            this->acceleration += force / mass;
+        }
 
-            void Update(float delta){
+        /* Getters and Setters */
+        PMath::Vector GetPosition() const{
+            return position;
+        }
 
-                old_position = position;
-                old_velocity = velocity;
-                old_acceleration = acceleration;
+        PMath::Vector GetScaledPosition() const{
+            // Specifically for rendering, so as to scale positions correctly.
+            return position * M;
+        }
 
-                std::vector<PMath::Vector> result = PMath::Verlet(position, velocity, old_acceleration, acceleration, delta);
+        void SetPosition(const PMath::Vector& position){
+            this->position = position;
+        }
 
-                if (type == BodyType::DYNAMIC){
-                    acceleration = result[2];
-                    velocity = result[1];
-                }
-                if (type != BodyType::STATIC){
-                    position = result[0];
-                }
+        PMath::Vector GetVelocity() const{
+            return velocity;
+        }
 
-                // Apply damping effect to compensate for numerical errors
-                velocity *= (float) pow(damping_coefficient, delta);
+        void SetVelocity(PMath::Vector& velocity){
+            this->velocity = velocity;
+        }
 
-                OnUpdate();
-            }
+        PMath::Vector GetAcceleration() const{
+            return acceleration;
+        }
 
-            void Interpolate(float alpha){
-                position = alpha*position + (1.0f-alpha)*old_position;
-                velocity = alpha*velocity + (1.0f-alpha)*old_velocity;
-                acceleration = alpha*acceleration + (1.0f-alpha)*old_acceleration;
-                OnUpdate();
-            }
+        void SetAcceleration(PMath::Vector& acceleration){
+            this->acceleration = acceleration;
+        }
 
-            /* Other Methods */
-            void ApplyForce(PMath::Vector force){
-                this->acceleration += force / mass;
-            }
+        double GetMass() const{
+            return mass;
+        }
 
-            /* Getters and Setters */
-            PMath::Vector GetPosition() const{
-                return position;
-            }
+        void SetMass(float mass){
+            if (mass != 0)
+                this->mass = mass * KG;
+        }
 
-            PMath::Vector GetScaledPosition() const{
-                // Specifically for rendering, so as to scale positions correctly.
-                return position * M;
-            }
+        void SetInverseMass(float mass){
+            if (mass == 0)
+                this->mass = INT_MAX * 1.0f;
+            else
+                this->mass = (1.0f / mass) * KG;
+        }
 
-            void SetPosition(const PMath::Vector& position){
-                this->position = position;
-            }
-
-            PMath::Vector GetVelocity() const{
-                return velocity;
-            }
-
-            void SetVelocity(PMath::Vector& velocity){
-                this->velocity = velocity;
-            }
-
-            PMath::Vector GetAcceleration() const{
-                return acceleration;
-            }
-
-            void SetAcceleration(PMath::Vector& acceleration){
-                this->acceleration = acceleration;
-            }
-
-            double GetMass() const{
-                return mass;
-            }
-
-            void SetMass(float mass){
-                if (mass != 0)
-                    this->mass = mass * KG;
-            }
-
-            void SetInverseMass(float mass){
-                if (mass == 0)
-                    this->mass = INT_MAX * 1.0f;
-                else
-                    this->mass = (1.0f / mass) * KG;
-            }
-
-
-            void SetType(BodyType type){
-                this->type = type;
-            }
+        void SetType(BodyType type){
+            this->type = type;
+        }
     };
 
 
