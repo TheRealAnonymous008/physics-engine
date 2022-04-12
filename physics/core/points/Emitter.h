@@ -37,7 +37,7 @@ namespace Physics{
             return this->force;
         }        
 		
-		void OnFrameStart() {
+		void OnFrameStart(){
 			ApplyForce();
 		}
     };

@@ -6,6 +6,9 @@
 #include "Object.h"
 #include "../math/Vector.h"
 
+// TODO: Emitter type objects should be connected to the objects they can handle by way of a bipartite graph for efficiency.
+
+
 namespace Physics {
 	using namespace Units;
 	class World {
