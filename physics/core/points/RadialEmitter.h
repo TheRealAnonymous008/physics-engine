@@ -4,6 +4,7 @@
 #include "Emitter.h"
 #include "../../math/Vector.h"
 
+
 #include <iostream>
 
 namespace Physics {
@@ -26,11 +27,9 @@ namespace Physics {
 		void ApplyForce() override{
 			for (Object* p : points) {
 				PMath::Vector vec = p->transform.position - this->transform.position;
-				float r = PMath::norm(vec);
-				if (r >= radius * M) {
-					PMath::Vector applied = force * (vec / pow(r, degree));
-					p->ApplyForce(applied);
-				}
+				float r = PMath::norm(vec) + DEFAULT_SMOOTHING_COEFFICIENT * M;
+				PMath::Vector applied = force * (vec / pow(r, degree));
+				p->ApplyForce(applied);
 			}
 		}
 

@@ -1,12 +1,19 @@
 #ifndef CONSTANTS_H_INCLUDED
 #define CONSTANTS_H_INCLUDED
 
-constexpr auto DEFAULT_DAMPING_COEFFICIENT = 0.9995f;
-constexpr auto GRAVITATIONAL_CONSTANT = 6.674098e-10f;
-
 #include "../math/Vector.h"
 
 namespace Physics{
+	// Damping coefficient to compensate for numerical errors in evaluating velocity
+	constexpr auto DEFAULT_DAMPING_COEFFICIENT = 0.9995f;
+	// Smoothing coefficient to prevent particles from flying too fast when they get too close to an emitter.
+	constexpr auto DEFAULT_SMOOTHING_COEFFICIENT = 1.0f / 32.0f;
+
+
+
+	constexpr auto GRAVITATIONAL_CONSTANT = 6.674098e-10f;
+
+	// Scale factors based on the SI units
     namespace Units{
         static float M = 1;
         static float KG = 1;

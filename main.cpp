@@ -18,12 +18,12 @@ int main()
     window.setView(view);
 
     Physics::Engine* engine = new Physics::Engine(1.0f / (3 * FRAMERATE_LIMIT), 1.0f / FRAMERATE_LIMIT);
-	engine->world->ApplyGravity();
+	//engine->world->ApplyGravity();
 
 	RadialEmitter* sample = new RadialEmitter();
 	sample->SetType(Physics::BodyType::STATIC);
 	sample->move(0, 0);
-	sample->SetForce(-100);
+	sample->SetForce(-1000);
 	engine->world->AddEntity(sample);
 
     std::vector<Point*> balls = std::vector<Point*>();
