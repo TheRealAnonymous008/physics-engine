@@ -4,6 +4,7 @@
 #include <vector>
 #include <iostream>
 #include "Object.h"
+#include "Constraint.h"
 #include "../math/Vector.h"
 
 // TODO: Emitter type objects should be connected to the objects they can handle by way of a bipartite graph for efficiency.
@@ -14,12 +15,14 @@ namespace Physics {
 	class World {
 	private:
 		std::vector<Object*> entities;
+		std::vector<Constraint*> constraints;
 		PMath::Vector force;
 		bool has_gravity = false;
 
 	public:
 		World() {
 			entities = std::vector<Object*>();
+			constraints = std::vector<Constraint*>();
 		}
 
 		void AddEntity(Object* p) {
@@ -30,9 +33,23 @@ namespace Physics {
 			return this->entities;
 		}
 
+		void AddConstraint(Constraint* c) {
+			this->constraints.push_back(c);
+		}
+
+		const std::vector<Constraint*> GetConstraints() const {
+			return this->constraints;
+		}
+
 		const void ApplyForce() {
 			for (Object* obj : entities) {
 				obj->ApplyForce(force);
+			}
+		}
+
+		const void ApplyConstraints(float delta) {
+			for (Constraint* c : constraints) {
+				c->ApplyConstraint(delta);
 			}
 		}
 

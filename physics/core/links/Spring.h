@@ -2,13 +2,12 @@
 #define SPRING_H_INCLUDED
 
 #include "../Object.h"
+#include "JointConstraint.h"
 #include "../../math/Vector.h"
 #include <iostream>
 namespace Physics {
-	class Spring : public Object{
+	class Spring : public JointConstraint{
 	protected:
-		Object* first; 
-		Object* second;
 		float k;
 		float rest_length;
 
@@ -24,7 +23,7 @@ namespace Physics {
 
 		// Apply the constraint based on Hooke's Law
 		// Measure displacement from the middle of the endpoints in case they are DYNAMIC Objects.
-		void OnFrameStart(float delta) override {
+		void ApplyConstraint(float delta) override {
 			const PMath::Vector direction = PMath::normalize(second->transform.position - first->transform.position);
 			const float displacement = PMath::norm(second->transform.position - first->transform.position) - rest_length;
 
@@ -42,6 +41,14 @@ namespace Physics {
 
 		float GetSpringConstant() {
 			return this->k / (NEWTON / M);
+		}
+
+		float GetLength() {
+			return rest_length;
+		}
+
+		void SetLength(float length) {
+			this->rest_length = length;
 		}
 		
 	};

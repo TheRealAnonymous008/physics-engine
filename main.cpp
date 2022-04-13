@@ -34,7 +34,7 @@ int main()
 	engine->world->AddEntity(p2);
 
 	Spring* spring = new Spring(p2, p1, 1, 150);
-	engine->world->AddEntity(spring);
+	engine->world->AddConstraint(spring);
 
     while (window.isOpen())
     {

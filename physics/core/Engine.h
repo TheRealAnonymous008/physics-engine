@@ -54,12 +54,19 @@ namespace Physics{
                     entity->Update(time_resolution);
                 }
                 accumulator -= time_resolution;
+				world->ApplyConstraints(accumulator);
             }
 
+			float rem = accumulator / time_resolution;
             for (Object* entity : entities) {
-                entity->OnFrameEnd(accumulator / time_resolution);
-				entity->Cleanup();
+                entity->OnFrameEnd(rem);
             }
+
+			world->ApplyConstraints(rem);
+			for (Object* entity : entities) {
+				entity->Cleanup();
+			}
+
         }
 
         void ThreadedRun(std::future<void> exit_signal, int wait_microseconds = 0){
