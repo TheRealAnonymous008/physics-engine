@@ -109,7 +109,7 @@
     <ClInclude Include="physics\core\Constants.h" />
     <ClInclude Include="physics\core\Constraint.h" />
     <ClInclude Include="physics\core\Engine.h" />
-    <ClInclude Include="physics\core\links\FixedJoint.h" />
+    <ClInclude Include="physics\core\links\HingeJoint.h" />
     <ClInclude Include="physics\core\links\JointConstraint.h" />
     <ClInclude Include="physics\core\links\Spring.h" />
     <ClInclude Include="physics\core\Object.h" />

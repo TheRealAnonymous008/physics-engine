@@ -65,13 +65,13 @@
     <ClInclude Include="physics\core\links\Spring.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="physics\core\links\FixedJoint.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="physics\core\links\JointConstraint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="physics\core\Constraint.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="physics\core\links\HingeJoint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
