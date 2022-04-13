@@ -27,9 +27,13 @@ int main()
 
 	Point* p2 = new Point();
 	p2->move(100, 0);
+
+
+	Point* p3 = new Point();
+	p3->move(150, 0);
 	engine->world->AddEntity(p2);
 
-	Spring* spring = new Spring(p2, p1, 1, 200);
+	Spring* spring = new Spring(p2, p1, 1, 150);
 	engine->world->AddEntity(spring);
 
     while (window.isOpen())
@@ -49,6 +53,7 @@ int main()
 		
 		window.draw(p1->shape);
 		window.draw(p2->shape);
+		window.draw(p3->shape);
 		window.draw(spring->getShape(), 2, sf::Lines);
 
         window.display();

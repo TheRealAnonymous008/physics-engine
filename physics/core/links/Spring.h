@@ -3,7 +3,7 @@
 
 #include "../Object.h"
 #include "../../math/Vector.h"
-
+#include <iostream>
 namespace Physics {
 	class Spring : public Object{
 	protected:
