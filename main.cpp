@@ -7,6 +7,7 @@
 #include "physics/render/RenderObjects.h"
 #include <iostream>
 
+#include "physics/math/Matrix.h"
 
 #define FRAMERATE_LIMIT 60
 using namespace Render;
@@ -18,10 +19,9 @@ int main()
     window.setView(view);
 
     Physics::Engine* engine = new Physics::Engine(1.0f / (3 * FRAMERATE_LIMIT), 1.0f / FRAMERATE_LIMIT);
-	//engine->world->ApplyGravity();
+	// engine->world->ApplyGravity();
 
 	Point* p1 = new Point();
-	p1->SetType(Physics::BodyType::STATIC);
 	p1->move(0, 0);
 	engine->world->AddEntity(p1);
 
@@ -30,11 +30,18 @@ int main()
 
 
 	Point* p3 = new Point();
-	p3->move(150, 0);
+	p3->move(150, 150);
 	engine->world->AddEntity(p2);
+	engine->world->AddEntity(p3);
 
-	Spring* spring = new Spring(p2, p1, 1, 150);
-	engine->world->AddConstraint(spring);
+	Spring* s1 = new Spring(p2, p1, 1, 150);
+	engine->world->AddConstraint(s1);
+
+	Spring* s2 = new Spring(p2, p3, 2, 100);
+	engine->world->AddConstraint(s2);
+
+	Spring* s3 = new Spring(p1, p3, 2, 75);
+	engine->world->AddConstraint(s2);
 
     while (window.isOpen())
     {
@@ -54,7 +61,9 @@ int main()
 		window.draw(p1->shape);
 		window.draw(p2->shape);
 		window.draw(p3->shape);
-		window.draw(spring->getShape(), 2, sf::Lines);
+		window.draw(s1->getShape(), 2, sf::Lines);
+		window.draw(s2->getShape(), 2, sf::Lines);
+		window.draw(s3->getShape(), 2, sf::Lines);
 
         window.display();
 

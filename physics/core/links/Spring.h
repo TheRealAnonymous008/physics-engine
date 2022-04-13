@@ -14,7 +14,7 @@ namespace Physics {
 	public:
 		// k is the spring constant.
 		// l0 is the resting length
-		Spring(Object* first, Object* second, float k = 1.0f, float rest_length = 1.0f) {
+		Spring(Object* first, Object* second, float k = 1.0f, float rest_length = 0.0f) {
 			this->first = first;
 			this->second = second;
 			this->k =k * NEWTON / M;

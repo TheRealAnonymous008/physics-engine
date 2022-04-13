@@ -1,8 +1,8 @@
 #include "Vector.h"
 
 namespace PMath{
-    const Vector init(float w, float x, float y, float z){
-        return Vector{w, x, y, z};
+    const Vector init(float x, float y, float z, float w){
+        return Vector{x, y, z, w};
     }
 
     const Vector operator -(const Vector& v){

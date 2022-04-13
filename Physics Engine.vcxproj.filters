@@ -74,6 +74,9 @@
     <ClInclude Include="physics\core\links\HingeJoint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="physics\math\Matrix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="sfml-audio-2.dll" />
