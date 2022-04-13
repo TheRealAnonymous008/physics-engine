@@ -28,6 +28,7 @@ namespace PMath{
     const float dot(const Vector& v1, const Vector& v2);
     const float norm(const Vector& v);
     const Vector normalize(const Vector& v);
+	const Vector cross(const Vector& v1, const Vector& v2);
 
 	const Vector midpoint(const Vector& v1, const Vector& v2);
 

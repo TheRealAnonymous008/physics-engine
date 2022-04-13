@@ -81,6 +81,22 @@ namespace PMath{
         return Vector{v.vec[0] / n, v.vec[1] / n, v.vec[2] / n, v.vec[3]/n};
     }
 
+	const Vector cross(const Vector& v1, const Vector& v2) {
+		float a1 = v1.vec[0];
+		float a2 = v1.vec[1];
+		float a3 = v1.vec[2];
+
+		float b1 = v2.vec[0];
+		float b2 = v2.vec[1];
+		float b3 = v2.vec[2];
+
+		float x = a2 * b3 - a3 * b2;
+		float y = a3 * b1 - a1 * b3; 
+		float z = a1 * b2 - a2 * b1;
+
+		return PMath::init(x, y, z);
+	}
+
 	const Vector midpoint(const Vector& v1, const Vector& v2) {
 		return (v1 + v2) / 2.0f;
 	}

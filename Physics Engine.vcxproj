@@ -119,6 +119,7 @@
     <ClInclude Include="physics\core\World.h" />
     <ClInclude Include="physics\math\Integration.h" />
     <ClInclude Include="physics\math\Matrix.h" />
+    <ClInclude Include="physics\math\MatrixOperations.h" />
     <ClInclude Include="physics\math\Vector.h" />
     <ClInclude Include="physics\render\RenderObjects.h" />
   </ItemGroup>
