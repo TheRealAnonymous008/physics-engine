@@ -24,6 +24,9 @@
     <ClCompile Include="test\vector_optest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="test\gravity_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="physics\core\Clock.h">
@@ -57,6 +60,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="physics\render\RenderObjects.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="physics\core\links\Spring.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

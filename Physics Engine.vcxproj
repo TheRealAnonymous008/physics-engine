@@ -101,12 +101,14 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="physics\math\Vector.cpp" />
+    <ClCompile Include="test\gravity_test.cpp" />
     <ClCompile Include="test\vector_optest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="physics\core\Clock.h" />
     <ClInclude Include="physics\core\Constants.h" />
     <ClInclude Include="physics\core\Engine.h" />
+    <ClInclude Include="physics\core\links\Spring.h" />
     <ClInclude Include="physics\core\Object.h" />
     <ClInclude Include="physics\core\points\Emitter.h" />
     <ClInclude Include="physics\core\points\RadialEmitter.h" />
