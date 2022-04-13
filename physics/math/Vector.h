@@ -29,6 +29,8 @@ namespace PMath{
     const float norm(const Vector& v);
     const Vector normalize(const Vector& v);
 
+	const Vector midpoint(const Vector& v1, const Vector& v2);
+
     const bool operator ==(const Vector& v1, const Vector& v2);
     std::ostream& operator <<(std::ostream& os, const Vector& v);
 }

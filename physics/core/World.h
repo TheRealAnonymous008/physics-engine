@@ -45,13 +45,13 @@ namespace Physics {
 		}
 
 		void ApplyGravity() {
-			this->force += 9.82f * M / (S * S) * KG * DOWN;
+			this->force += 9.82f * NEWTON * DOWN;
 			has_gravity = true;
 		}
 
 		void RemoveGraivty() {
 			if (has_gravity){
-				this->force -= 9.82f * M / (S * S) * KG * DOWN;
+				this->force -= 9.82f * NEWTON * DOWN;
 				has_gravity = false;
 			}
 		}

@@ -3,6 +3,7 @@
 #include "../core/points/Point.h"
 #include "../core/points/Emitter.h"
 #include "../core/points/RadialEmitter.h"
+#include "../core/links/Spring.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -21,7 +22,7 @@ namespace Render {
 			this->transform.position = (PMath::init(x, y));
 			float r_x = GetScaledPosition().vec[0];
 			float r_y = GetScaledPosition().vec[1];
-			shape.setPosition(r_x, r_y);
+			shape.setPosition(r_x - 5, r_y - 5);
 		}
 	};
 
@@ -40,7 +41,7 @@ namespace Render {
 			this->transform.position = (PMath::init(x, y));
 			float r_x = GetScaledPosition().vec[0];
 			float r_y = GetScaledPosition().vec[1];
-			shape.setPosition(r_x, r_y);
+			shape.setPosition(r_x - 5, r_y - 5);
 			shape.setFillColor(sf::Color::Red);
 		}
 	};
@@ -59,8 +60,25 @@ namespace Render {
 			this->transform.position = (PMath::init(x, y));
 			float r_x = GetScaledPosition().vec[0];
 			float r_y = GetScaledPosition().vec[1];
-			shape.setPosition(r_x, r_y);
+			shape.setPosition(r_x - 5, r_y - 5);
 			shape.setFillColor(sf::Color::Yellow);
+		}
+	};
+
+	class Spring : public Physics::Spring {
+		using Physics::Spring::Spring;
+
+	private:
+
+	public:
+		sf::Vertex* getShape() {
+			float fx = first->transform.position.vec[0];
+			float fy = first->transform.position.vec[1];
+			float sx = second->transform.position.vec[0];
+			float sy = second->transform.position.vec[1];
+
+			sf::Vertex line[] = { sf::Vertex(sf::Vector2f(fx, fy)), sf::Vertex(sf::Vector2f(sx, sy))};
+			return line;
 		}
 	};
 }

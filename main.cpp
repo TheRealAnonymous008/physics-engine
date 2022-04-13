@@ -20,33 +20,17 @@ int main()
     Physics::Engine* engine = new Physics::Engine(1.0f / (3 * FRAMERATE_LIMIT), 1.0f / FRAMERATE_LIMIT);
 	//engine->world->ApplyGravity();
 
-	RadialEmitter* sample = new RadialEmitter();
-	sample->SetType(Physics::BodyType::STATIC);
-	sample->move(0, 0);
-	sample->SetForce(-1000);
-	engine->world->AddEntity(sample);
+	Point* p1 = new Point();
+	p1->SetType(Physics::BodyType::STATIC);
+	p1->move(0, 0);
+	engine->world->AddEntity(p1);
 
-    std::vector<Point*> balls = std::vector<Point*>();
-    for (int i = -10; i <= 10; i++){
-        for (int j = -10; j <= 10; j++){
-			Point* b = new Point();
-			engine->world->AddEntity(b);
-            b->move(i * 10.0f , j * 10.0f);
-            balls.push_back(b);
-			sample->AddObject(b);
-        }
-    }
-	
-    /*for(Ball* b : balls){
-        for(Ball* c : balls){
-            b->AddPoint(c);
-        }
-    }
-*/
-//    Ball *b = new Ball();
-//    engine->entity_manager->AddEntity(b);
-//    b->move(0, 100);
-//    balls.push_back(b);
+	Point* p2 = new Point();
+	p2->move(100, 0);
+	engine->world->AddEntity(p2);
+
+	Spring* spring = new Spring(p2, p1, 1, 200);
+	engine->world->AddEntity(spring);
 
     while (window.isOpen())
     {
@@ -62,10 +46,10 @@ int main()
         engine->Run();
 
         window.clear();
-		window.draw(sample->shape);
-        for (Point* b : balls){
-            window.draw(b->shape);
-        }
+		
+		window.draw(p1->shape);
+		window.draw(p2->shape);
+		window.draw(spring->getShape(), 2, sf::Lines);
 
         window.display();
 

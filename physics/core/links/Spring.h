@@ -2,19 +2,47 @@
 #define SPRING_H_INCLUDED
 
 #include "../Object.h"
+#include "../../math/Vector.h"
 
 namespace Physics {
 	class Spring : public Object{
 	protected:
 		Object* first; 
 		Object* second;
+		float k;
+		float rest_length;
 
 	public:
-		Spring(Object* first, Object* second) {
+		// k is the spring constant.
+		// l0 is the resting length
+		Spring(Object* first, Object* second, float k = 1.0f, float rest_length = 1.0f) {
 			this->first = first;
 			this->second = second;
+			this->k =k * NEWTON / M;
+			this->rest_length = rest_length * M;
 		}
 
+		// Apply the constraint based on Hooke's Law
+		// Measure displacement from the middle of the endpoints in case they are DYNAMIC Objects.
+		void OnFrameStart(float delta) override {
+			const PMath::Vector direction = PMath::normalize(second->transform.position - first->transform.position);
+			const float displacement = PMath::norm(second->transform.position - first->transform.position) - rest_length;
+
+			second->ApplyForce(-k * displacement * direction);
+			first->ApplyForce(k * displacement * direction);
+		}
+
+		void SetSpringConstant(float k) {
+			this->k = k * NEWTON / M;
+		}
+
+		float GetScaledSpringConstant() {
+			return this->k;
+		}
+
+		float GetSpringConstant() {
+			return this->k / (NEWTON / M);
+		}
 		
 	};
 }

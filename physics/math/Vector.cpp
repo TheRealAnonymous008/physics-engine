@@ -81,6 +81,10 @@ namespace PMath{
         return Vector{v.vec[0] / n, v.vec[1] / n, v.vec[2] / n, v.vec[3]/n};
     }
 
+	const Vector midpoint(const Vector& v1, const Vector& v2) {
+		return (v1 + v2) / 2.0f;
+	}
+
     const bool operator ==(const Vector& v1, const Vector& v2){
         return PMath::norm(PMath::operator-(v1, v2)) <= EQUALITY_THRESHOLD;
     }

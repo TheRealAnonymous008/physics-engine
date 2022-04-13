@@ -29,6 +29,9 @@ namespace Physics{
         static PMath::Vector LEFT = PMath::init(-1, 0, 0);
         static PMath::Vector FRONT = PMath::init(0, 0, 1);
         static PMath::Vector BACK = PMath::init(0, 0, -1);
+
+		// Derived units
+		static float NEWTON = KG * M / (S * S);
     }
 }
 #endif // CONSTANTS_H_INCLUDED
