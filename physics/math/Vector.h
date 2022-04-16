@@ -17,6 +17,7 @@ namespace PMath{
     const Vector operator -(const Vector& v1, const Vector& v2);
     const Vector operator *(const Vector& v, float c);
     const Vector operator *(float c, const Vector&v);
+    const Vector operator *(const Vector&v, const Vector&w);
     const Vector operator /(const Vector& v, float c);
 
     void operator +=(Vector& v1, const Vector& v2);
@@ -24,7 +25,7 @@ namespace PMath{
     void operator *=(Vector& v, float c);
     void operator /=(Vector& v, float c);
 
-    const float hsum(__m128 v);
+    const float hsum(const Vector& v);
     const float dot(const Vector& v1, const Vector& v2);
     const float norm(const Vector& v);
     const Vector normalize(const Vector& v);

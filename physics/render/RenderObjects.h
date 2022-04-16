@@ -4,6 +4,7 @@
 #include "../core/points/Emitter.h"
 #include "../core/points/RadialEmitter.h"
 #include "../core/links/Spring.h"
+#include "../core/links//HingeJoint.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -78,6 +79,24 @@ namespace Render {
 			float sy = second->transform.position.vec[1];
 
 			sf::Vertex line[] = { sf::Vertex(sf::Vector2f(fx, fy)), sf::Vertex(sf::Vector2f(sx, sy))};
+			return line;
+		}
+	};
+
+	class HingeJoint : public Physics::HingeJoint {
+		using Physics::HingeJoint::HingeJoint;
+
+	private:
+
+	public:
+		sf::Vertex* getShape() {
+			float fx = first->transform.position.vec[0];
+			float fy = first->transform.position.vec[1];
+			float sx = second->transform.position.vec[0];
+			float sy = second->transform.position.vec[1];
+
+			sf::Vertex line[] = { sf::Vertex(sf::Vector2f(fx, fy), sf::Color::Red), sf::Vertex(sf::Vector2f(sx, sy), sf::Color::Red) };
+
 			return line;
 		}
 	};

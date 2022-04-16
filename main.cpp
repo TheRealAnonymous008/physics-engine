@@ -19,29 +19,26 @@ int main()
     window.setView(view);
 
     Physics::Engine* engine = new Physics::Engine(1.0f / (3 * FRAMERATE_LIMIT), 1.0f / FRAMERATE_LIMIT);
-	// engine->world->ApplyGravity();
+	engine->world->ApplyGravity();
 
-	Point* p1 = new Point();
-	p1->move(0, 0);
-	engine->world->AddEntity(p1);
+	std::vector<Point*> points;
+	std::vector<HingeJoint*> joints;
+	
+	for (int i = 0; i < 10; i++) {
+		Point* p = new Point;
+		p->move(i * 10, 0);
+		engine->world->AddEntity(p);
+		points.push_back(p);
+	}
 
-	Point* p2 = new Point();
-	p2->move(100, 0);
+	points[0]->SetType(Physics::BodyType::STATIC);
+	points[9]->SetMass(100);
 
-
-	Point* p3 = new Point();
-	p3->move(150, 150);
-	engine->world->AddEntity(p2);
-	engine->world->AddEntity(p3);
-
-	Spring* s1 = new Spring(p2, p1, 1, 150);
-	engine->world->AddConstraint(s1);
-
-	Spring* s2 = new Spring(p2, p3, 2, 100);
-	engine->world->AddConstraint(s2);
-
-	Spring* s3 = new Spring(p1, p3, 2, 75);
-	engine->world->AddConstraint(s2);
+	for (int i = 0; i < 9; i++) {
+		HingeJoint* h = new HingeJoint(points[i], points[i + 1]);
+		engine->world->AddConstraint(h);
+		joints.push_back(h);
+	}
 
     while (window.isOpen())
     {
@@ -58,12 +55,13 @@ int main()
 
         window.clear();
 		
-		window.draw(p1->shape);
-		window.draw(p2->shape);
-		window.draw(p3->shape);
-		window.draw(s1->getShape(), 2, sf::Lines);
-		window.draw(s2->getShape(), 2, sf::Lines);
-		window.draw(s3->getShape(), 2, sf::Lines);
+		for (Point* p : points) {
+			window.draw(p->shape);
+		}
+
+		for (HingeJoint* h : joints) {
+			window.draw(h->getShape(), 2, sf::Lines);
+		}
 
         window.display();
 

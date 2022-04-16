@@ -35,6 +35,12 @@ namespace PMath{
         return result;
     }
 
+	const Vector operator *(const Vector& v, const Vector& w) {
+		Vector result;
+		_mm_store_ps(result.vec, _mm_mul_ps(v.vec4, w.vec4));
+		return result;
+	}
+
     const Vector operator /(const Vector& v, float c){
         Vector result;
         Vector scalar = Vector{c, c, c, c};
@@ -58,18 +64,19 @@ namespace PMath{
         v = PMath::operator/(v, c);
     }
 
-    const float hsum(__m128 v) {
+    const float hsum(const Vector& v) {
         // Horizontal sum based on https://stackoverflow.com/questions/6996764/fastest-way-to-do-horizontal-sse-vector-sum-or-other-reduction
-        __m128 shuf = _mm_movehdup_ps(v);        // broadcast elements 3,1 to 2,0
-        __m128 sums = _mm_add_ps(v, shuf);
+        __m128 shuf = _mm_movehdup_ps(v.vec4);        // broadcast elements 3,1 to 2,0
+        __m128 sums = _mm_add_ps(v.vec4, shuf);
         shuf        = _mm_movehl_ps(shuf, sums); // high half -> low half
         sums        = _mm_add_ss(sums, shuf);
         return        _mm_cvtss_f32(sums);
     }
 
     const float dot(const Vector& v1, const Vector& v2){
-        __m128 mult = _mm_mul_ps(v1.vec4, v2.vec4);
-        return PMath::hsum(mult);
+		Vector result;
+		result.vec4= _mm_mul_ps(v1.vec4, v2.vec4);
+        return PMath::hsum(result);
     }
 
     const float norm(const Vector& v){

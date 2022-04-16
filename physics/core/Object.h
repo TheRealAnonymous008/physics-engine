@@ -26,6 +26,7 @@ namespace Physics {
 
 	public: 
 		Transform transform;
+		Transform old_transform;
 
 		Object() {
 			// Default constructor
@@ -70,6 +71,10 @@ namespace Physics {
 
 		void SetType(BodyType type) {
 			this->type = type;
+		}
+
+		BodyType GetType() {
+			return this->type;
 		}
 	};
 }

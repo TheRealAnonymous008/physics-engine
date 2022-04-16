@@ -16,8 +16,6 @@ namespace Physics{
 
     class Point : public Object{
 	protected:
-		Transform old_transform;
-
         PMath::Vector rotation;
 		
         float damping_coefficient = DEFAULT_DAMPING_COEFFICIENT;

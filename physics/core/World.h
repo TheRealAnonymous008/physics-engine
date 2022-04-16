@@ -26,7 +26,7 @@ namespace Physics {
 		}
 
 		void AddEntity(Object* p) {
-			this->entities.push_back(p);
+			this->entities.emplace_back(p);
 		}
 
 		const std::vector<Object*> GetEntitites() const {
@@ -43,14 +43,15 @@ namespace Physics {
 
 		const void ApplyForce() {
 			for (Object* obj : entities) {
-				obj->ApplyForce(force);
+				obj->ApplyForce(force * obj->transform.mass);
 			}
 		}
 
 		const void ApplyConstraints(float delta) {
-			for (Constraint* c : constraints) {
-				c->ApplyConstraint(delta);
-			}
+			for(int i = 0; i < 10; i++)
+				for (Constraint* c : constraints) {
+					c->ApplyConstraint(delta);
+				}
 		}
 
 		const PMath::Vector GetForce() const{
