@@ -71,13 +71,13 @@
     <ClInclude Include="physics\core\Constraint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="physics\core\links\HingeJoint.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="physics\math\Matrix.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="physics\math\MatrixOperations.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="physics\core\links\DistanceJoint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

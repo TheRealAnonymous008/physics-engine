@@ -22,23 +22,56 @@ int main()
 	engine->world->ApplyGravity();
 
 	std::vector<Point*> points;
-	std::vector<HingeJoint*> joints;
+	std::vector<DistanceJoint*> joints;
 	
 	for (int i = 0; i < 10; i++) {
-		Point* p = new Point;
-		p->move(i * 10, 0);
+		Point* p = new Point();
+		p->move(i * 20, 0);
 		engine->world->AddEntity(p);
 		points.push_back(p);
 	}
 
 	points[0]->SetType(Physics::BodyType::STATIC);
-	points[9]->SetMass(100);
+
+	Point* p1 = new Point();
+	p1->move(200, 20);
+	engine->world->AddEntity(p1);
+
+	Point* p2 = new Point();
+	p2->move(200, -20);
+	engine->world->AddEntity(p2);
+
+	Point* p3 = new Point();
+	p3->move(220, 0);
+	engine->world->AddEntity(p3);
+
+	points.push_back(p1);
+	points.push_back(p2);
+	points.push_back(p3);
 
 	for (int i = 0; i < 9; i++) {
-		HingeJoint* h = new HingeJoint(points[i], points[i + 1]);
+		DistanceJoint* h = new DistanceJoint(points[i], points[i + 1]);
 		engine->world->AddConstraint(h);
 		joints.push_back(h);
 	}
+
+	DistanceJoint* h1 = new DistanceJoint(points[9], p1);
+	DistanceJoint* h2 = new DistanceJoint(points[9], p2);
+	DistanceJoint* h3 = new DistanceJoint(p1, p3);
+	DistanceJoint* h4 = new DistanceJoint(p2, p3);
+	DistanceJoint* h5 = new DistanceJoint(p1, p2);
+
+	engine->world->AddConstraint(h1);
+	engine->world->AddConstraint(h2);
+	engine->world->AddConstraint(h3);
+	engine->world->AddConstraint(h4);
+	engine->world->AddConstraint(h5);
+
+	joints.push_back(h1);
+	joints.push_back(h2);
+	joints.push_back(h3);
+	joints.push_back(h4);
+	joints.push_back(h5);
 
     while (window.isOpen())
     {
@@ -59,7 +92,7 @@ int main()
 			window.draw(p->shape);
 		}
 
-		for (HingeJoint* h : joints) {
+		for (DistanceJoint* h : joints) {
 			window.draw(h->getShape(), 2, sf::Lines);
 		}
 

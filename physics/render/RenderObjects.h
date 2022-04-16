@@ -4,7 +4,7 @@
 #include "../core/points/Emitter.h"
 #include "../core/points/RadialEmitter.h"
 #include "../core/links/Spring.h"
-#include "../core/links//HingeJoint.h"
+#include "../core/links//DistanceJoint.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -83,8 +83,8 @@ namespace Render {
 		}
 	};
 
-	class HingeJoint : public Physics::HingeJoint {
-		using Physics::HingeJoint::HingeJoint;
+	class DistanceJoint : public Physics::DistanceJoint {
+		using Physics::DistanceJoint::DistanceJoint;
 
 	private:
 

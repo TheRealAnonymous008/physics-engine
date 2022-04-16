@@ -1,17 +1,17 @@
-#ifndef HINGEJOINT_H_INCLUDED
-#define HINGEJOINT_H_INCLUDED
+#ifndef DISTANCEJOINT_H_INCLUDED
+#define DISTANCEJOINT_H_INCLUDED
 
 #include "JointConstraint.h"
 #include "../../math/Vector.h"
 #include <iostream>
 
 namespace Physics {
-	class HingeJoint : public JointConstraint {
+	class DistanceJoint : public JointConstraint {
 	protected:
 		float half_norm;
 
 	public:
-		HingeJoint(Object* first, Object* second) {
+		DistanceJoint(Object* first, Object* second) {
 			this->first = first;
 			this->second = second;
 			this->half_norm = PMath::norm(first->transform.position - second->transform.position) / 2.0f;
