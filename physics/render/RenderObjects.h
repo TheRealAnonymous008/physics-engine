@@ -8,6 +8,7 @@
 
 #include <SFML/Graphics.hpp>
 
+using namespace Physics::Units;
 namespace Render {
 	class Point : public Physics::Point {
 	private:
@@ -73,10 +74,10 @@ namespace Render {
 
 	public:
 		sf::Vertex* getShape() {
-			float fx = first->transform.position.vec[0];
-			float fy = first->transform.position.vec[1];
-			float sx = second->transform.position.vec[0];
-			float sy = second->transform.position.vec[1];
+			float fx = first->transform.position.vec[0] / M;
+			float fy = first->transform.position.vec[1] / M;
+			float sx = second->transform.position.vec[0] / M;
+			float sy = second->transform.position.vec[1] / M;
 
 			sf::Vertex line[] = { sf::Vertex(sf::Vector2f(fx, fy)), sf::Vertex(sf::Vector2f(sx, sy))};
 			return line;
@@ -90,10 +91,10 @@ namespace Render {
 
 	public:
 		sf::Vertex* getShape() {
-			float fx = first->transform.position.vec[0];
-			float fy = first->transform.position.vec[1];
-			float sx = second->transform.position.vec[0];
-			float sy = second->transform.position.vec[1];
+			float fx = first->transform.position.vec[0] / M;
+			float fy = first->transform.position.vec[1] / M;
+			float sx = second->transform.position.vec[0] / M;
+			float sy = second->transform.position.vec[1] / M;
 
 			sf::Vertex line[] = { sf::Vertex(sf::Vector2f(fx, fy), sf::Color::Red), sf::Vertex(sf::Vector2f(sx, sy), sf::Color::Red) };
 

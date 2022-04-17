@@ -17,8 +17,8 @@ namespace Physics {
 		Spring(Object* first, Object* second, float k = 1.0f, float rest_length = 0.0f) {
 			this->first = first;
 			this->second = second;
-			this->k =k * NEWTON / M;
-			this->rest_length = rest_length * M;
+			this->k = k;
+			this->rest_length = rest_length;
 		}
 
 		// Apply the constraint based on Hooke's Law
@@ -27,20 +27,20 @@ namespace Physics {
 			const PMath::Vector direction = PMath::normalize(second->transform.position - first->transform.position);
 			const float displacement = PMath::norm(second->transform.position - first->transform.position) - rest_length;
 
-			second->ApplyForce(-k * displacement * direction);
-			first->ApplyForce(k * displacement * direction);
+			second->ApplyForce(-k * displacement * direction * delta );
+			first->ApplyForce(k * displacement * direction * delta);
 		}
 
 		void SetSpringConstant(float k) {
-			this->k = k * NEWTON / M;
+			this->k = k;
 		}
 
 		float GetScaledSpringConstant() {
-			return this->k;
+			return this->k / (NEWTON / M);
 		}
 
 		float GetSpringConstant() {
-			return this->k / (NEWTON / M);
+			return this->k;
 		}
 
 		float GetLength() {

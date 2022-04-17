@@ -25,6 +25,14 @@ namespace Physics {
 			constraints = std::vector<Constraint*>();
 		}
 
+		void ApplyConstraintRandomization() {
+			std::random_shuffle(constraints.begin(), constraints.end());
+		}
+
+		void ApplyEntityRandomization() {
+			std::random_shuffle(entities.begin(), entities.end());
+		}
+
 		void AddEntity(Object* p) {
 			this->entities.emplace_back(p);
 		}

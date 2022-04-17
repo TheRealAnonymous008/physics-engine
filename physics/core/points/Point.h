@@ -70,7 +70,7 @@ namespace Physics{
 
         PMath::Vector GetScaledPosition() const{
             // Specifically for rendering, so as to scale positions correctly.
-            return transform.position * M;
+            return transform.position / M;
         }
 
         void SetPosition(const PMath::Vector& position){

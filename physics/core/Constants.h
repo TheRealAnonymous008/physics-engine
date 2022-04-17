@@ -13,9 +13,9 @@ namespace Physics{
 
 	constexpr auto GRAVITATIONAL_CONSTANT = 6.674098e-10f;
 
-	// Scale factors based on the SI units
+	// Scale factors based on the SI units. If, say 0.1 is in M, then the rendered meter is 0.1 times an actual meter.
     namespace Units{
-        static float M = 1;
+        static float M = 1.25;
         static float KG = 1;
         static float S = 1;
 //        static float MOL = 1;
