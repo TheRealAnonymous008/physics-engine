@@ -57,9 +57,18 @@ namespace Physics{
         }
 
         void OnFrameEnd(float alpha){
+			PMath::Vector tmp_position = transform.position;
+			PMath::Vector tmp_velocity = transform.velocity;
+			PMath::Vector tmp_acceleration = transform.acceleration;
+
             transform.position = alpha* transform.position + (1.0f-alpha)*old_transform.position;
 			transform.velocity = alpha* transform.velocity + (1.0f-alpha)*old_transform.velocity;
 			transform.acceleration = alpha* transform.acceleration + (1.0f-alpha)*old_transform.acceleration;
+
+			old_transform.position = tmp_position;
+			old_transform.velocity = tmp_velocity;
+			old_transform.acceleration = tmp_acceleration;
+
             OnUpdate();
         }
 
