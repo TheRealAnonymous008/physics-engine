@@ -73,6 +73,7 @@ int main()
 	joints.push_back(h4);
 	joints.push_back(h5);
 
+	bool applied = false;
     while (window.isOpen())
     {
         window.setFramerateLimit(FRAMERATE_LIMIT);
@@ -82,6 +83,10 @@ int main()
         {
             if (event.type == sf::Event::Closed)
                 window.close();
+			if (event.type == sf::Event::MouseButtonPressed) {
+				engine->world->AddForce(PMath::init(-1000, 0));
+				applied = true;
+			}
         }
 
         engine->Run();
@@ -90,6 +95,7 @@ int main()
 		
 		for (Point* p : points) {
 			window.draw(p->shape);
+			window.draw(p->GetVelocityVector(), 2, sf::Lines);
 		}
 
 		for (DistanceJoint* h : joints) {
@@ -97,6 +103,10 @@ int main()
 		}
 
         window.display();
+		if (applied) {
+			engine->world->RemoveForce(PMath::init(-1000, 0));
+			applied = false;
+		}
 
     }
 

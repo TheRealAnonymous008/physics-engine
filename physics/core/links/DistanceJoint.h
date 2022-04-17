@@ -23,11 +23,17 @@ namespace Physics {
 			const PMath::Vector dir = PMath::normalize(first->transform.position - second->transform.position);
 
 			if (first->GetType() != BodyType::STATIC) {
+				first->old_transform.position = first->transform.position;
 				first->transform.position = midpoint + dir * half_norm;
+				first->old_transform.velocity = first->transform.velocity;
+				first->transform.velocity += first->transform.position - first->old_transform.position;
 			}
 
 			if (second->GetType() != BodyType::STATIC) {
+				second->old_transform.position = second->transform.position;
 				second->transform.position = midpoint - dir * half_norm;
+				second->old_transform.velocity = second->transform.velocity;
+				second->transform.velocity += second->transform.position - second->old_transform.position;
 			}
 		}
 	};

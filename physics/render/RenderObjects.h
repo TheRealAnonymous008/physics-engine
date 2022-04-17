@@ -26,6 +26,17 @@ namespace Render {
 			float r_y = GetScaledPosition().vec[1];
 			shape.setPosition(r_x - 5, r_y - 5);
 		}
+
+		sf::Vertex* GetVelocityVector() {
+			float fx = this->transform.position.vec[0] / M;
+			float fy = this->transform.position.vec[1] / M;
+			float sx = (this->transform.velocity.vec[0]  + this->transform.position.vec[0])/ M;
+			float sy = (this->transform.velocity.vec[1] + this->transform.position.vec[1]) / M;
+
+			sf::Vertex line[] = { sf::Vertex(sf::Vector2f(fx, fy), sf::Color::Red), sf::Vertex(sf::Vector2f(sx, sy), sf::Color::Red) };
+
+			return line;
+		}
 	};
 
 

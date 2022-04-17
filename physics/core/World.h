@@ -69,6 +69,10 @@ namespace Physics {
 		void AddForce(const PMath::Vector& force) {
 			this->force += force;
 		}
+		
+		void RemoveForce(const PMath::Vector& force) {
+			this->force -= force;
+		}
 
 		void ApplyGravity() {
 			this->force += 9.82f * NEWTON * DOWN;

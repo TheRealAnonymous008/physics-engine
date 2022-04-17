@@ -72,30 +72,6 @@ namespace Physics{
             // Specifically for rendering, so as to scale positions correctly.
             return transform.position / M;
         }
-
-        void SetPosition(const PMath::Vector& position){
-            this->transform.position  = position;
-        }
-
-        PMath::Vector GetVelocity() const{
-            return transform.velocity;
-        }
-
-        void SetVelocity(PMath::Vector& velocity){
-            this->transform.velocity = velocity;
-        }
-
-        PMath::Vector GetAcceleration() const{
-            return transform.acceleration;
-        }
-
-        void SetAcceleration(PMath::Vector& acceleration){
-            this->transform.acceleration = acceleration;
-        }
-
-        double GetMass() const{
-            return transform.mass;
-        }
     };
 
 
