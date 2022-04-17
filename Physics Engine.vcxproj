@@ -103,6 +103,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="physics\math\Vector.cpp" />
     <ClCompile Include="test\gravity_test.cpp" />
+    <ClCompile Include="test\pendulum.cpp" />
     <ClCompile Include="test\vector_optest.cpp" />
   </ItemGroup>
   <ItemGroup>

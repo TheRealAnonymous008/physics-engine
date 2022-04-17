@@ -1,80 +1,46 @@
-#include <SFML/Graphics.hpp>
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+#include <iostream>
+
 #include "physics/core/points/Point.h"
 #include "physics//core/points/RadialEmitter.h"
 #include "physics/core/points/Emitter.h"
 #include "physics/core/Engine.h"
-
-#include "physics/render/RenderObjects.h"
-#include <iostream>
-
 #include "physics/math/Matrix.h"
 
 #define FRAMERATE_LIMIT 60
-using namespace Render;
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(1000, 1000), "Physics Engine");
-    sf::View view = sf::View(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(500.0f, 500.0f));
-    window.setView(view);
-
-    Physics::Engine* engine = new Physics::Engine(1.0f / (3 * FRAMERATE_LIMIT), 1.0f / FRAMERATE_LIMIT);
-	engine->world->ApplyGravity();
-
-	std::vector<Point*> points;
-	std::vector<DistanceJoint*> joints;
-
-	for (int i = 0; i < 30; i++) {
-		Point* p = new Point();
-		p->move(i * 15, -100);
-		engine->world->AddEntity(p);
-		points.push_back(p);
+	// Insert OpenGL code here.
+	if (!glfwInit()) {
+		return -1;
 	}
 
-	points[0]->SetType(Physics::BodyType::STATIC);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	for (int i = 0; i < 30; i++) {
-		DistanceJoint* h = new DistanceJoint(points[0], points[i]);
-		engine->world->AddConstraint(h);
-		joints.push_back(h);
+	GLFWwindow* window = glfwCreateWindow(800, 800, "Physics Engine", NULL, NULL);
+	if (window == NULL) {
+		std::cout << "Error in creating window\n";
+		glfwTerminate();
+		return -1;
 	}
 
-	bool applied = false;
-    while (window.isOpen())
-    {
-        window.setFramerateLimit(FRAMERATE_LIMIT);
+	glfwMakeContextCurrent(window);
+	if (glewInit() != GLEW_OK) {
+		std::cout << "Error" << std::endl;
+		return -1;
+	}
+	
+	std::cout << "Successfully Loaded" << glGetString(GL_VERSION) << std::endl;
 
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
-			if (event.type == sf::Event::MouseButtonPressed) {
-				engine->world->AddForce(PMath::init(-1000, -1000));
-				applied = true;
-			}
-        }
+	while (!glfwWindowShouldClose(window)) {
+		glfwPollEvents();
+	}
 
-        engine->Run();
-
-        window.clear();
-		
-		for (Point* p : points) {
-			window.draw(p->shape);
-			window.draw(p->GetVelocityVector(), 2, sf::Lines);
-		}
-
-		for (DistanceJoint* h : joints) {
-			window.draw(h->getShape(), 2, sf::Lines);
-		}
-
-        window.display();
-		if (applied) {
-			engine->world->RemoveForce(PMath::init(-1000, -1000));
-			applied = false;
-		}
-
-    }
-
+	glfwDestroyWindow(window);
+	glfwTerminate();
     return 0;
 }
