@@ -86,6 +86,15 @@
     <ClInclude Include="physics\core\links\HingeJoint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="physics\core\geometry\Triangle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="physics\core\geometry\Quad.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="physics\core\geometry\Circle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="sfml-audio-2.dll" />

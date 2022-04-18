@@ -111,6 +111,9 @@
     <ClInclude Include="physics\core\Constants.h" />
     <ClInclude Include="physics\core\Constraint.h" />
     <ClInclude Include="physics\core\Engine.h" />
+    <ClInclude Include="physics\core\geometry\Circle.h" />
+    <ClInclude Include="physics\core\geometry\Quad.h" />
+    <ClInclude Include="physics\core\geometry\Triangle.h" />
     <ClInclude Include="physics\core\links\DistanceJoint.h" />
     <ClInclude Include="physics\core\links\HingeJoint.h" />
     <ClInclude Include="physics\core\links\JointConstraint.h" />
