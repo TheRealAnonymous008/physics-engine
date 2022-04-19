@@ -10,6 +10,10 @@
 #include "physics/math/Matrix.h"
 #include "physics/core/geometry/Triangle.h"
 
+#include "physics/render/opengl_helper/Scaler.h"
+
+#include "AbstractGL.h"
+
 #define FRAMERATE_LIMIT 60
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 800
@@ -57,13 +61,43 @@ int main()
 	glClear(GL_COLOR_BUFFER_BIT);
 	glfwSwapBuffers(window);
 
+	// Shaders
+	GL::VertexShader* vertex_shader = new GL::VertexShader("physics/render/shaders/Vertex.txt");
+	GL::FragmentShader* fragment_shader = new GL::FragmentShader("physics/render/shaders/Fragment.txt");
+	GL::ShaderProgram* shader = new GL::ShaderProgram(vertex_shader, fragment_shader);
+
+	//VBO and Indices 
+
+	GL::VertexArrayObject* VAO = new GL::VertexArrayObject();
+	VAO->AddVertex3D(0.0f, 0.0f, 0.0f);
+	VAO->AddVertex3D(1.0f, 1.0f, 0.0f);
+	VAO->AddVertex3D(-0.5f, 0.5f, 0.0f);
+
+	unsigned int indices[] = {
+		0, 1, 2
+	};
+
+	VAO->GenerateArrays();
+	GL::VertexBufferObject vb(VAO->GetVertices(), 4 * 3 * sizeof(float));
+	VAO->SpecifyLayout();
+
+	GL::IndexBufferObject ib(indices, 3); 
+
 	while (!glfwWindowShouldClose(window)) {
-		glfwPollEvents();
 		// Draw everything here
+		glClear(GL_COLOR_BUFFER_BIT);
+		glUseProgram(shader->GetShader());
+		
+		glBindVertexArray(VAO->GetId());
+		ib.Bind();
 
+		glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, NULL);
 
+		glfwSwapBuffers(window);
+		glfwPollEvents();
 	}
 
+	shader->Delete();
 	glfwDestroyWindow(window);
 	glfwTerminate();
     return 0;

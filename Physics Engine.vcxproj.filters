@@ -95,6 +95,15 @@
     <ClInclude Include="physics\core\geometry\Circle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="physics\core\geometry\Line.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="physics\render\opengl_helper\Scaler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="physics\render\opengl_helper\GLPhysObjects.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="sfml-audio-2.dll" />
@@ -108,5 +117,9 @@
     <None Include="sfml-system-2.dll" />
     <None Include="sfml-system-d-2.dll" />
     <None Include="sfml-window-2.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="physics\render\shaders\Vertex.txt" />
+    <Text Include="physics\render\shaders\Fragment.txt" />
   </ItemGroup>
 </Project>

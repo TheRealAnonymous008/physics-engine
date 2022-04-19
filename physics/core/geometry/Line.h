@@ -16,7 +16,7 @@ namespace Physics {
 			}
 
 			Point** GetPoints() {
-				Point* points[3] = { p1, p2};
+				Point* points[2] = { p1, p2};
 				return points;
 			}
 		};
