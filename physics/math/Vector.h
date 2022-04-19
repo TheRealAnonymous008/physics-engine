@@ -10,7 +10,7 @@
 namespace PMath{
     typedef union {__m128 vec4; float vec[4];} Vector;
 
-    const Vector init(float x = 0, float y = 0, float z = 0, float w = 0);
+    const Vector init(float x = 0.0f, float y = 0.0f, float z = 0.0f, float w = 0.0f);
     const Vector operator -(const Vector& v);
 
     const Vector operator +(const Vector& v1, const Vector& v2);

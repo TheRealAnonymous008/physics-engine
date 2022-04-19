@@ -6,9 +6,9 @@
 
 namespace Physics {
 	struct Transform {
-		PMath::Vector position;
-		PMath::Vector velocity;
-		PMath::Vector acceleration;
+		PMath::Vector position = PMath::init(0, 0, 0, 0);
+		PMath::Vector velocity = PMath::init(0, 0, 0, 0);
+		PMath::Vector acceleration = PMath::init(0, 0, 0, 0);
 
 		float mass = Units::KG;
 	};
