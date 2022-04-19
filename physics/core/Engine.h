@@ -33,7 +33,7 @@ namespace Physics{
             using namespace Physics::Units;
             float delta = clock->GetDelta();
             float frame_rate = fmin(delta, display_rate) * S;
-				
+			
             std::vector<Object*> entities = world->GetEntitites();
 
             accumulator += frame_rate;

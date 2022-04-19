@@ -2,6 +2,8 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include <stdlib.h>
+#include <chrono>
 
 #include "physics/core/points/Point.h"
 #include "physics//core/points/RadialEmitter.h"
@@ -15,6 +17,7 @@
 #include "AbstractGL.h"
 
 #define FRAMERATE_LIMIT 60
+#define SECONDS_PER_FRAME 1.0f / (FRAMERATE_LIMIT * 1.0f)
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 800
 
@@ -55,6 +58,12 @@ int main()
 
 	Physics::Geometry::Triangle* triangle = new Physics::Geometry::Triangle(p1, p2, p3);
 
+	Physics::Engine* engine = new Physics::Engine((1.0f / (2 * FRAMERATE_LIMIT)), (1.0f / FRAMERATE_LIMIT));
+	engine->world->AddEntity(p1);
+	engine->world->AddEntity(p2);
+	engine->world->AddEntity(p3);
+	engine->world->ApplyGravity();
+
 	// GL Proper
 	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 	glClearColor(0, 0, 0, 1);
@@ -69,32 +78,57 @@ int main()
 	//VBO and Indices 
 
 	GL::VertexArrayObject* VAO = new GL::VertexArrayObject();
-	VAO->AddVertex3D(0.0f, 0.0f, 0.0f);
-	VAO->AddVertex3D(1.0f, 1.0f, 0.0f);
-	VAO->AddVertex3D(-0.5f, 0.5f, 0.0f);
+	VAO->AddVertex3D(GLPhysX::Scale(p1->transform.position, WINDOW_WIDTH, WINDOW_HEIGHT).vec);
+	VAO->AddVertex3D(GLPhysX::Scale(p2->transform.position, WINDOW_WIDTH, WINDOW_HEIGHT).vec);
+	VAO->AddVertex3D(GLPhysX::Scale(p3->transform.position, WINDOW_WIDTH, WINDOW_HEIGHT).vec);
 
 	unsigned int indices[] = {
 		0, 1, 2
 	};
 
 	VAO->GenerateArrays();
-	GL::VertexBufferObject vb(VAO->GetVertices(), 4 * 3 * sizeof(float));
+	GL::VertexBufferObject vb(VAO->GetVertices(), VAO->GetLength() * 3 * sizeof(float));
 	VAO->SpecifyLayout();
 
 	GL::IndexBufferObject ib(indices, 3); 
 
 	while (!glfwWindowShouldClose(window)) {
+		const auto start_time = std::chrono::high_resolution_clock::now();
+
 		// Draw everything here
 		glClear(GL_COLOR_BUFFER_BIT);
-		glUseProgram(shader->GetShader());
 		
-		glBindVertexArray(VAO->GetId());
+		shader->Bind();
+		VAO->Bind();
 		ib.Bind();
 
-		glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, NULL);
+		// Physics stuff
+		engine->Run();
 
+		// Update the graphics
+
+		VAO->Clear();
+		vb.UnBind();
+
+		for (Physics::Object* obj : engine->world->GetEntitites()) {
+			VAO->AddVertex3D(GLPhysX::Scale(obj->transform.position, WINDOW_WIDTH, WINDOW_HEIGHT).vec);
+		}
+
+		VAO->Bind();
+		vb.Bind();
+		vb.SubData(VAO->GetVertices(), VAO->GetLength() * 3 * sizeof(float));
+
+		glDrawElements(GL_TRIANGLES, ib.GetCount(), GL_UNSIGNED_INT, NULL);
+		
 		glfwSwapBuffers(window);
 		glfwPollEvents();
+		// Ensure the frame rate is correct
+		const auto end_time = std::chrono::high_resolution_clock::now();
+		auto wait = 1000 * SECONDS_PER_FRAME - std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count();
+		if(wait > 0)
+			_sleep(wait);
+		
+
 	}
 
 	shader->Delete();
