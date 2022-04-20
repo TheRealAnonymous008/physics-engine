@@ -20,7 +20,7 @@ namespace Physics {
 				points = std::vector<Object*>();
 			}
 
-			std::vector<Object*> GetPrimitives() {
+			std::vector<Object*> GetPrimitives() override{
 				return points;
 			}
 

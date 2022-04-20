@@ -16,6 +16,7 @@
 #include "physics/render/opengl_helper/Scaler.h"
 
 #include "AbstractGL.h"
+#include "physics/render/opengl_helper/VertexManager.h"
 
 #define FRAMERATE_LIMIT 60
 #define SECONDS_PER_FRAME 1.0f / (FRAMERATE_LIMIT * 1.0f)
@@ -60,8 +61,13 @@ int main()
 	Physics::Point* p3 = new Physics::Point();
 	p3->transform.position = PMath::init(0, 100);
 
-	Physics::Geometry::RigidTriangle* triangle = new Physics::Geometry::RigidTriangle(p1, p2, p3);
-	engine->world->AddEntity(triangle);
+	Physics::Point* p4 = new Physics::Point();
+	p4->transform.position = PMath::init(100, 100);
+
+	Physics::Geometry::RigidTriangle* triangle_A = new Physics::Geometry::RigidTriangle(p1, p2, p3);
+	Physics::Geometry::RigidTriangle* triangle_B = new Physics::Geometry::RigidTriangle(p2, p3, p4);
+	engine->world->AddEntity(triangle_A);
+	engine->world->AddEntity(triangle_B);
 	engine->world->ApplyGravity();
 
 	// GL Proper
@@ -77,20 +83,22 @@ int main()
 
 	//VBO and Indices 
 
-	GL::VertexArrayObject* VAO = new GL::VertexArrayObject();
-	VAO->AddVertex3D(GLPhysX::Scale(p1->transform.position, WINDOW_WIDTH, WINDOW_HEIGHT).vec);
-	VAO->AddVertex3D(GLPhysX::Scale(p2->transform.position, WINDOW_WIDTH, WINDOW_HEIGHT).vec);
-	VAO->AddVertex3D(GLPhysX::Scale(p3->transform.position, WINDOW_WIDTH, WINDOW_HEIGHT).vec);
+	GLPhysX::VertexManager* vertex_manager = new GLPhysX::VertexManager(WINDOW_WIDTH, WINDOW_HEIGHT);
+	vertex_manager->AddVertex(p1);
+	vertex_manager->AddVertex(p2);
+	vertex_manager->AddVertex(p3);
+	vertex_manager->AddVertex(p4);
 
 	unsigned int indices[] = {
-		0, 1, 2
+		0, 1, 2,
+		2, 3, 1
 	};
 
-	VAO->GenerateArrays();
-	GL::VertexBufferObject vb(VAO->GetVertices(), VAO->GetLength() * 3 * sizeof(float));
-	VAO->SpecifyLayout();
+	vertex_manager->GenerateArrays();
+	GL::VertexBufferObject vb(vertex_manager->GetVertices(), vertex_manager->GetLength() * 3 * sizeof(float));
+	vertex_manager->SpecifyLayout();
 
-	GL::IndexBufferObject ib(indices, 3); 
+	GL::IndexBufferObject ib(indices, 6); 
 
 	while (!glfwWindowShouldClose(window)) {
 		const auto start_time = std::chrono::high_resolution_clock::now();
@@ -99,7 +107,7 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT);
 		
 		shader->Bind();
-		VAO->Bind();
+		vertex_manager->Bind();
 		ib.Bind();
 
 		// Physics stuff
@@ -107,16 +115,12 @@ int main()
 
 		// Update the graphics
 
-		VAO->Clear();
 		vb.UnBind();
 
-		for (Physics::Object* obj : triangle->GetPrimitives()) {
-			VAO->AddVertex3D(GLPhysX::Scale(obj->transform.position, WINDOW_WIDTH, WINDOW_HEIGHT).vec);
-		}
+		vertex_manager->UpdateVertices();
 
-		VAO->Bind();
 		vb.Bind();
-		vb.SubData(VAO->GetVertices(), VAO->GetLength() * 3 * sizeof(float));
+		vb.SubData(vertex_manager->GetVertices(), vertex_manager->GetLength() * 3 * sizeof(float));
 
 		glDrawElements(GL_TRIANGLES, ib.GetCount(), GL_UNSIGNED_INT, NULL);
 		
@@ -127,8 +131,6 @@ int main()
 		auto wait = 1000 * SECONDS_PER_FRAME - std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count();
 		if(wait > 0)
 			_sleep(wait);
-		
-
 	}
 
 	shader->Delete();

@@ -107,6 +107,9 @@
     <ClInclude Include="physics\core\geometry\Shape.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="physics\render\opengl_helper\VertexManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="sfml-audio-2.dll" />

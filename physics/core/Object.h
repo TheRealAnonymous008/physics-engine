@@ -52,6 +52,10 @@ namespace Physics {
 			// Called after an update
 		}
 
+		virtual std::vector<Object*> GetPrimitives() {
+			return std::vector<Object*>({ this });
+		}
+
 		void UpdateInternalConstraints(float delta) {
 			for (int i = 0; i < CONSTRAINT_SOLVER_RUNS; i++) {
 				for (Constraint* c : constraints) {

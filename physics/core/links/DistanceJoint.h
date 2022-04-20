@@ -22,14 +22,14 @@ namespace Physics {
 			const PMath::Vector midpoint = PMath::midpoint(first->transform.position, second->transform.position);
 			const PMath::Vector dir = PMath::normalize(first->transform.position - second->transform.position);
 
-			if (first->GetType() != BodyType::STATIC && delta != 0) {
+			if (first->GetType() != BodyType::STATIC) {
 				first->old_transform.position = first->transform.position;
 				first->transform.position = midpoint + dir * half_norm;
 				first->old_transform.velocity = first->transform.velocity;
 				first->transform.velocity += (first->transform.position - first->old_transform.position) / delta;
 			}
 
-			if (second->GetType() != BodyType::STATIC && delta != 0) {
+			if (second->GetType() != BodyType::STATIC) {
 				second->old_transform.position = second->transform.position;
 				second->transform.position = midpoint - dir * half_norm;
 				second->old_transform.velocity = second->transform.velocity;

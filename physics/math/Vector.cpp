@@ -42,6 +42,9 @@ namespace PMath{
 	}
 
     const Vector operator /(const Vector& v, float c){
+		if (c == 0)
+			return v;
+
         Vector result;
         Vector scalar = Vector{c, c, c, c};
         _mm_store_ps(result.vec, _mm_div_ps(v.vec4, scalar.vec4));
