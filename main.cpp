@@ -17,6 +17,7 @@
 
 #include "AbstractGL.h"
 #include "physics/render/opengl_helper/VertexManager.h"
+#include "physics/render/opengl_helper/IndexBufferManager.h"
 
 #define FRAMERATE_LIMIT 60
 #define SECONDS_PER_FRAME 1.0f / (FRAMERATE_LIMIT * 1.0f)
@@ -84,21 +85,22 @@ int main()
 	//VBO and Indices 
 
 	GLPhysX::VertexManager* vertex_manager = new GLPhysX::VertexManager(WINDOW_WIDTH, WINDOW_HEIGHT);
+	GLPhysX::IndexBufferManager* index_manager = new GLPhysX::IndexBufferManager();
+
 	vertex_manager->AddVertex(p1);
 	vertex_manager->AddVertex(p2);
 	vertex_manager->AddVertex(p3);
 	vertex_manager->AddVertex(p4);
 
-	unsigned int indices[] = {
-		0, 1, 2,
-		2, 3, 1
-	};
+	index_manager->AddIndex3D(0, 1, 2);
+	index_manager->AddIndex3D(2, 3, 1);
 
+	
 	vertex_manager->GenerateArrays();
 	GL::VertexBufferObject vb(vertex_manager->GetVertices(), vertex_manager->GetLength() * 3 * sizeof(float));
 	vertex_manager->SpecifyLayout();
 
-	GL::IndexBufferObject ib(indices, 6); 
+	GL::IndexBufferObject* ib = index_manager->GenerateIB();
 
 	while (!glfwWindowShouldClose(window)) {
 		const auto start_time = std::chrono::high_resolution_clock::now();
@@ -108,7 +110,7 @@ int main()
 		
 		shader->Bind();
 		vertex_manager->Bind();
-		ib.Bind();
+		ib->Bind();
 
 		// Physics stuff
 		engine->Run();
@@ -122,7 +124,7 @@ int main()
 		vb.Bind();
 		vb.SubData(vertex_manager->GetVertices(), vertex_manager->GetLength() * 3 * sizeof(float));
 
-		glDrawElements(GL_TRIANGLES, ib.GetCount(), GL_UNSIGNED_INT, NULL);
+		glDrawElements(GL_TRIANGLES, ib->GetCount(), GL_UNSIGNED_INT, NULL);
 		
 		glfwSwapBuffers(window);
 		glfwPollEvents();
