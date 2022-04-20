@@ -19,6 +19,8 @@
 #include "physics/render/opengl_helper/VertexManager.h"
 #include "physics/render/opengl_helper/IndexBufferManager.h"
 
+#include "physics/core/factories/PointFactory.h"
+
 #define FRAMERATE_LIMIT 60
 #define SECONDS_PER_FRAME 1.0f / (FRAMERATE_LIMIT * 1.0f)
 #define WINDOW_WIDTH 800
@@ -52,18 +54,10 @@ int main()
 	// Physics 
 	Physics::Engine* engine = new Physics::Engine((1.0f / (2 * FRAMERATE_LIMIT)), (1.0f / FRAMERATE_LIMIT));
 
-	Physics::Point* p1 = new Physics::Point();
-	p1->transform.position = PMath::init(0, 0);
-	p1->SetType(Physics::BodyType::STATIC);
-	
-	Physics::Point* p2 = new Physics::Point();
-	p2->transform.position = PMath::init(100, 0);
-
-	Physics::Point* p3 = new Physics::Point();
-	p3->transform.position = PMath::init(0, 100);
-
-	Physics::Point* p4 = new Physics::Point();
-	p4->transform.position = PMath::init(100, 100);
+	Physics::Point* p1 = Physics::PointFactory::GetInstance().MakePoint2D(0, 0, Physics::STATIC);
+	Physics::Point* p2 = Physics::PointFactory::GetInstance().MakePoint2D(0, 100);
+	Physics::Point* p3 = Physics::PointFactory::GetInstance().MakePoint2D(100, 0);
+	Physics::Point* p4 = Physics::PointFactory::GetInstance().MakePoint2D(100, 100);
 
 	Physics::Geometry::RigidTriangle* triangle_A = new Physics::Geometry::RigidTriangle(p1, p2, p3);
 	Physics::Geometry::RigidTriangle* triangle_B = new Physics::Geometry::RigidTriangle(p2, p3, p4);

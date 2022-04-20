@@ -13,7 +13,7 @@ namespace Physics{
         std::vector<Object*> points = std::vector<Object*>();
 
     public:
-        Emitter(PMath::Vector force = PMath::init(), BodyType type = BodyType::STATIC){
+        Emitter(PMath::Vector force = PMath::init(), BodyType type = BodyType::STATIC, int id = 0){
             this->force = force;
             this->type = type;
         }

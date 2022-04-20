@@ -27,7 +27,7 @@ namespace Physics{
 
     public:
 
-        Point(BodyType type = BodyType::DYNAMIC){
+        Point(BodyType type = BodyType::DYNAMIC, int id = 0){
             this->type = type;;
         }
 
