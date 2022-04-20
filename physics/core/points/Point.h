@@ -14,6 +14,7 @@ namespace Physics{
 
     using namespace Physics::Units;
 
+	// Abstraction for a particle / point mass
     class Point : public Object{
 	protected:
         PMath::Vector rotation;

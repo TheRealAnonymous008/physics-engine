@@ -6,6 +6,7 @@
 #include "../Object.h"
 
 namespace Physics{
+	// A point mass that emits a certain amount of force in a linear fashion.
     class Emitter : public Point{
     protected:
         PMath::Vector force;

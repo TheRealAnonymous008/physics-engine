@@ -6,6 +6,7 @@
 #include "../../math/Vector.h"
 #include <iostream>
 namespace Physics {
+	// A constraint between two objects which exhibits a spring-like property
 	class Spring : public JointConstraint{
 	protected:
 		float k;

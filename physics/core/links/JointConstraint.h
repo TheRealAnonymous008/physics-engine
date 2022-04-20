@@ -5,6 +5,7 @@
 #include "../Constraint.h"
 
 namespace Physics {
+	// A constraint between two objects
 	class JointConstraint : public Constraint{
 	protected:
 		Object* first;

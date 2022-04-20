@@ -22,6 +22,7 @@ namespace Physics {
 	};
 
 	using namespace Units;
+	// Generic Physics Object that populate the Physics World and is simulated by the Engine.
 	class Object{ 
 	protected:
 		BodyType type;

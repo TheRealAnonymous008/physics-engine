@@ -4,6 +4,7 @@
 #include "Object.h"
 
 namespace Physics {
+	// An interaction between two Objects that limits the dynamics of these objects
 	class Constraint  {
 	public:
 		Constraint() {

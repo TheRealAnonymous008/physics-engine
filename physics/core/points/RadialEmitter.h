@@ -10,6 +10,7 @@
 namespace Physics {
 
 	using namespace Physics::Units;
+	// A point mass that emits a force radially. Force is applied proportional to the distance to the emitter.
 	class RadialEmitter : public Emitter{
 	private:
 		float radius;

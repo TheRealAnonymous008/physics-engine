@@ -12,6 +12,7 @@
 
 namespace Physics {
 	using namespace Units;
+	// Container for all objects and constraitns
 	class World {
 	private:
 		std::vector<Object*> entities;
