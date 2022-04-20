@@ -7,8 +7,9 @@
 #define BIG_NUMBER 1e12
 namespace GLPhysX {
 
-	inline int Discretize(float x) {
-		return (x * BIG_NUMBER) / BIG_NUMBER;
+	inline float Discretize(float x) {
+		//return (x * BIG_NUMBER) / BIG_NUMBER;
+		return x;
 	}
 
 	inline PMath::Vector  Scale(PMath::Vector v, int width, int height) {

@@ -11,6 +11,7 @@
 #include "physics/core/Engine.h"
 #include "physics/math/Matrix.h"
 #include "physics/core/geometry/Triangle.h"
+#include "physics/core/links/DistanceJoint.h"
 
 #include "physics/render/opengl_helper/Scaler.h"
 
@@ -46,9 +47,12 @@ int main()
 	}
 	std::cout << "Successfully Loaded" << glGetString(GL_VERSION) << std::endl;
 
-	// Physics Section
+	// Physics 
+	Physics::Engine* engine = new Physics::Engine((1.0f / (2 * FRAMERATE_LIMIT)), (1.0f / FRAMERATE_LIMIT));
+
 	Physics::Point* p1 = new Physics::Point();
 	p1->transform.position = PMath::init(0, 0);
+	p1->SetType(Physics::BodyType::STATIC);
 	
 	Physics::Point* p2 = new Physics::Point();
 	p2->transform.position = PMath::init(100, 0);
@@ -56,12 +60,8 @@ int main()
 	Physics::Point* p3 = new Physics::Point();
 	p3->transform.position = PMath::init(0, 100);
 
-	Physics::Geometry::Triangle* triangle = new Physics::Geometry::Triangle(p1, p2, p3);
-
-	Physics::Engine* engine = new Physics::Engine((1.0f / (2 * FRAMERATE_LIMIT)), (1.0f / FRAMERATE_LIMIT));
-	engine->world->AddEntity(p1);
-	engine->world->AddEntity(p2);
-	engine->world->AddEntity(p3);
+	Physics::Geometry::RigidTriangle* triangle = new Physics::Geometry::RigidTriangle(p1, p2, p3);
+	engine->world->AddEntity(triangle);
 	engine->world->ApplyGravity();
 
 	// GL Proper
@@ -110,7 +110,7 @@ int main()
 		VAO->Clear();
 		vb.UnBind();
 
-		for (Physics::Object* obj : engine->world->GetEntitites()) {
+		for (Physics::Object* obj : triangle->GetPrimitives()) {
 			VAO->AddVertex3D(GLPhysX::Scale(obj->transform.position, WINDOW_WIDTH, WINDOW_HEIGHT).vec);
 		}
 

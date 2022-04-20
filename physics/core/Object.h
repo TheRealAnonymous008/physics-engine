@@ -1,8 +1,10 @@
 #ifndef OBJECT_H_INCLUDED
 #define OBJECT_H_INCLUDED
 
+#include <vector>
 #include "../math/Vector.h"
 #include "Constants.h"
+#include "Constraint.h"
 
 namespace Physics {
 	struct Transform {
@@ -23,6 +25,7 @@ namespace Physics {
 	class Object{ 
 	protected:
 		BodyType type;
+		std::vector<Constraint*> constraints;
 
 	public: 
 		Transform transform;
@@ -48,7 +51,15 @@ namespace Physics {
 			// Called after an update
 		}
 
-		void ApplyForce(PMath::Vector force) {
+		void UpdateInternalConstraints(float delta) {
+			for (int i = 0; i < CONSTRAINT_SOLVER_RUNS; i++) {
+				for (Constraint* c : constraints) {
+					c->ApplyConstraint(delta);
+				}
+			}
+		}
+
+		virtual void ApplyForce(PMath::Vector force) {
 			// Apply a force to the object
 			transform.acceleration += force / transform.mass;
 		}
@@ -65,11 +76,11 @@ namespace Physics {
 				transform.mass = (1.0f / mass) * KG;
 		}
 
-		void Cleanup() {
+		virtual void Cleanup() {
 			transform.acceleration = { 0, 0, 0, 0 };
 		}
 
-		void SetType(BodyType type) {
+		virtual void SetType(BodyType type) {
 			this->type = type;
 		}
 

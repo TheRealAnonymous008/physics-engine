@@ -1,11 +1,12 @@
 #ifndef CIRCLE_H_INCLUDED
 #define CIRCLE_H_INCLUDED
 
+#include "Shape.h"
 #include "../points/Point.h"
 
 namespace Physics {
 	namespace Geometry {
-		class Circle {
+		class Circle : public Geometry::Shape{
 		private:
 			Point* center;
 			float x_radius;
@@ -14,6 +15,8 @@ namespace Physics {
 		public:
 			Circle(Point* center, float radius) {
 				this->center = center;
+				this->points.push_back(center);
+
 				x_radius = radius;
 				y_radius = radius;
 			}

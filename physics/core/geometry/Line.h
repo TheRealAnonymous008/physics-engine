@@ -1,23 +1,16 @@
 #ifndef LINE_H_INCLUDED
 #define LINE_H_INCLUDED
 
+#include "Shape.h"
 #include "../points/Point.h"
 
 namespace Physics {
 	namespace Geometry {
-		class Line {
-		private:
-			Point* p1;
-			Point* p2;
+		class Line : public Shape{
 		public:
 			Line(Point* p1, Point* p2) {
-				this->p1 = p1;
-				this->p2 = p2;
-			}
-
-			Point** GetPoints() {
-				Point* points[2] = { p1, p2};
-				return points;
+				this->points.push_back(p1);
+				this->points.push_back(p2);
 			}
 		};
 	}

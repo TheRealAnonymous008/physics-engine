@@ -8,6 +8,7 @@ namespace Physics{
 	constexpr auto DEFAULT_DAMPING_COEFFICIENT = 0.9995f;
 	// Smoothing coefficient to prevent particles from flying too fast when they get too close to an emitter.
 	constexpr auto DEFAULT_SMOOTHING_COEFFICIENT = 1.0f / 32.0f;
+	constexpr auto CONSTRAINT_SOLVER_RUNS = 10;
 
 
 

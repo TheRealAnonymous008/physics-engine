@@ -46,13 +46,16 @@ namespace Physics{
 
 			for (Object* entity : entities) {
 				entity->OnFrameStart(accumulator / time_resolution);
+				entity->UpdateInternalConstraints(accumulator / time_resolution);
 			}
 
             while(accumulator >= time_resolution){
                 for (Object* entity : entities){
                     // Perform updates to entity objects here
                     entity->Update(time_resolution);
+                    entity->UpdateInternalConstraints(time_resolution);
                 }
+
                 accumulator -= time_resolution;
 				world->ApplyConstraints(accumulator);
             }
@@ -60,6 +63,7 @@ namespace Physics{
 			float rem = accumulator / time_resolution;
             for (Object* entity : entities) {
                 entity->OnFrameEnd(rem);
+                entity->UpdateInternalConstraints(rem);
             }
 
 			world->ApplyConstraints(rem);

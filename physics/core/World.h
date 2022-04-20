@@ -56,10 +56,11 @@ namespace Physics {
 		}
 
 		const void ApplyConstraints(float delta) {
-			for(int i = 0; i < 10; i++)
+			for (int i = 0; i < CONSTRAINT_SOLVER_RUNS; i++) {
 				for (Constraint* c : constraints) {
 					c->ApplyConstraint(delta);
 				}
+			}
 		}
 
 		const PMath::Vector GetForce() const{
@@ -85,6 +86,7 @@ namespace Physics {
 				has_gravity = false;
 			}
 		}
+		
 	};
 }
 

@@ -114,6 +114,7 @@
     <ClInclude Include="physics\core\geometry\Circle.h" />
     <ClInclude Include="physics\core\geometry\Line.h" />
     <ClInclude Include="physics\core\geometry\Quad.h" />
+    <ClInclude Include="physics\core\geometry\Shape.h" />
     <ClInclude Include="physics\core\geometry\Triangle.h" />
     <ClInclude Include="physics\core\links\DistanceJoint.h" />
     <ClInclude Include="physics\core\links\HingeJoint.h" />
