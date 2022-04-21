@@ -21,6 +21,9 @@
 
 #include "physics/core/factories/PointFactory.h"
 
+#include "physics//render/opengl_helper/GLWrappers.h"
+#include "physics//render/opengl_helper/RenderManager.h"
+
 #define FRAMERATE_LIMIT 60
 #define SECONDS_PER_FRAME 1.0f / (FRAMERATE_LIMIT * 1.0f)
 #define WINDOW_WIDTH 800
@@ -51,27 +54,36 @@ int main()
 	}
 	std::cout << "Successfully Loaded" << glGetString(GL_VERSION) << std::endl;
 
-	// Physics 
+	// Engine 
 	Physics::Engine* engine = new Physics::Engine((1.0f / (2 * FRAMERATE_LIMIT)), (1.0f / FRAMERATE_LIMIT));
 
-	Physics::Point* p1 = Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(0, 0), Physics::BodyType::DYNAMIC);
-	Physics::Point* p2 = Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(0, 100));
-	Physics::Point* p3 = Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(100, 0));
-	Physics::Point* p4 = Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(100, 100));
-	Physics::Emitter* em = Physics::PointFactory::GetInstance().MakeRadialEmitter2D(-1000, PMath::init(-100, 0));
+	// Renderer
+	GLPhysX::RenderManager* renderer = new GLPhysX::RenderManager();
+
+	// Entities
+	GLPhysX::Point* p1 = new GLPhysX::Point(Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(0, 0), Physics::BodyType::DYNAMIC));
+	GLPhysX::Point* p2 = new GLPhysX::Point(Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(100, 0), Physics::BodyType::DYNAMIC));
+	GLPhysX::Point* p3 = new GLPhysX::Point(Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(0, 100), Physics::BodyType::DYNAMIC));
+	GLPhysX::Point* p4 = new GLPhysX::Point(Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(100, 100), Physics::BodyType::DYNAMIC));
+	GLPhysX::RadialEmitter* em = new GLPhysX::RadialEmitter(Physics::PointFactory::GetInstance().MakeRadialEmitter2D(-1000, PMath::init(-100, 0)));
 
 
-	Physics::Geometry::RigidTriangle* triangle_A = new Physics::Geometry::RigidTriangle(p1, p2, p3);
-	Physics::Geometry::RigidTriangle* triangle_B = new Physics::Geometry::RigidTriangle(p2, p3, p4);
-	engine->world->AddEntity(triangle_A);
-	engine->world->AddEntity(triangle_B);
-	engine->world->AddEntity(em);
+	GLPhysX::RigidTriangle* triangle_A = new GLPhysX::RigidTriangle(new Physics::Geometry::RigidTriangle(p1->Get(), p2->Get(), p3->Get()));
+	GLPhysX::RigidTriangle* triangle_B = new GLPhysX::RigidTriangle(new Physics::Geometry::RigidTriangle(p2->Get(), p3->Get(), p4->Get()));
+	
+	// Add to engines
+	engine->world->AddEntity(triangle_A->Get());
+	engine->world->AddEntity(triangle_B->Get());
+	engine->world->AddEntity(em->Get());
 	
 	// Add entitites to emitters
-	em->AddObject(triangle_A);
-	em->AddObject(triangle_B);
+	em->Get()->AddObject(triangle_A->Get());
+	em->Get()->AddObject(triangle_B->Get());
 
-
+	// Add to renderer
+	renderer->Add(triangle_A);
+	renderer->Add(triangle_B);
+		
 	//engine->world->ApplyGravity();
 
 	// GL Proper
@@ -90,13 +102,13 @@ int main()
 	GLPhysX::VertexManager* vertex_manager = new GLPhysX::VertexManager(WINDOW_WIDTH, WINDOW_HEIGHT);
 	GLPhysX::IndexBufferManager* index_manager = new GLPhysX::IndexBufferManager();
 
-	vertex_manager->AddVertex(p1);
-	vertex_manager->AddVertex(p2);
-	vertex_manager->AddVertex(p3);
-	vertex_manager->AddVertex(p4);
+	vertex_manager->AddVertex(p1->Get());
+	vertex_manager->AddVertex(p2->Get());
+	vertex_manager->AddVertex(p3->Get());
+	vertex_manager->AddVertex(p4->Get());
 
-	index_manager->AddIndex3D(p1->GetId(), p2->GetId(), p3->GetId());
-	index_manager->AddIndex3D(p3->GetId(), p4->GetId(), p2->GetId());
+	index_manager->AddIndex3D(p1->Get()->GetId(), p2->Get()->GetId(), p3->Get()->GetId());
+	index_manager->AddIndex3D(p3->Get()->GetId(), p4->Get()->GetId(), p2->Get()->GetId());
 
 	
 	vertex_manager->GenerateArrays();
@@ -127,7 +139,8 @@ int main()
 		vb.Bind();
 		vb.SubData(vertex_manager->GetVertices(), vertex_manager->GetLength() * 3 * sizeof(float));
 
-		glDrawElements(GL_TRIANGLES, ib->GetCount(), GL_UNSIGNED_INT, NULL);
+		// Draw
+		renderer->Render();
 		
 		glfwSwapBuffers(window);
 		glfwPollEvents();

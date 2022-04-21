@@ -33,6 +33,10 @@ namespace GLPhysX {
 			indices.push_back(b);
 			indices.push_back(c);
 		}
+
+		unsigned int* GetIndex(int start = 0) {
+			return &indices[0] + start;
+		}
 	};
 }
 

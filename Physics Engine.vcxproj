@@ -130,8 +130,9 @@
     <ClInclude Include="physics\math\Matrix.h" />
     <ClInclude Include="physics\math\MatrixOperations.h" />
     <ClInclude Include="physics\math\Vector.h" />
-    <ClInclude Include="physics\render\opengl_helper\GLPhysObjects.h" />
+    <ClInclude Include="physics\render\opengl_helper\GLWrappers.h" />
     <ClInclude Include="physics\render\opengl_helper\IndexBufferManager.h" />
+    <ClInclude Include="physics\render\opengl_helper\RenderManager.h" />
     <ClInclude Include="physics\render\opengl_helper\Scaler.h" />
     <ClInclude Include="physics\render\opengl_helper\VertexManager.h" />
     <ClInclude Include="physics\render\RenderObjects.h" />
