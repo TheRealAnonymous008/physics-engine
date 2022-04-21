@@ -11,6 +11,7 @@ namespace Physics {
 
 	using namespace Physics::Units;
 	// A point mass that emits a force radially. Force is applied proportional to the distance to the emitter.
+	// For composite objects, the force is applied on each vertex.
 	class RadialEmitter : public Emitter{
 	private:
 		float radius;
@@ -26,11 +27,13 @@ namespace Physics {
 		}
 
 		void ApplyForce() override{
-			for (Object* p : points) {
-				PMath::Vector vec = p->transform.position - this->transform.position;
-				float r = PMath::norm(vec) + DEFAULT_SMOOTHING_COEFFICIENT * M;
-				PMath::Vector applied = force * (vec / pow(r, degree));
-				p->ApplyForce(applied);
+			for (Object* pt : points) { 
+				for (Object* p : pt->GetPrimitives()) {
+					PMath::Vector vec = p->transform.position - this->transform.position;
+					float r = PMath::norm(vec) + DEFAULT_SMOOTHING_COEFFICIENT * M;
+					PMath::Vector applied = force * (vec / pow(r, degree));
+					p->ApplyForce(applied);
+				}
 			}
 		}
 

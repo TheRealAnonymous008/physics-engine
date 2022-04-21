@@ -54,16 +54,25 @@ int main()
 	// Physics 
 	Physics::Engine* engine = new Physics::Engine((1.0f / (2 * FRAMERATE_LIMIT)), (1.0f / FRAMERATE_LIMIT));
 
-	Physics::Point* p1 = Physics::PointFactory::GetInstance().MakePoint2D(0, 0, Physics::STATIC);
-	Physics::Point* p2 = Physics::PointFactory::GetInstance().MakePoint2D(0, 100);
-	Physics::Point* p3 = Physics::PointFactory::GetInstance().MakePoint2D(100, 0);
-	Physics::Point* p4 = Physics::PointFactory::GetInstance().MakePoint2D(100, 100);
+	Physics::Point* p1 = Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(0, 0), Physics::BodyType::DYNAMIC);
+	Physics::Point* p2 = Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(0, 100));
+	Physics::Point* p3 = Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(100, 0));
+	Physics::Point* p4 = Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(100, 100));
+	Physics::Emitter* em = Physics::PointFactory::GetInstance().MakeRadialEmitter2D(-1000, PMath::init(-100, 0));
+
 
 	Physics::Geometry::RigidTriangle* triangle_A = new Physics::Geometry::RigidTriangle(p1, p2, p3);
 	Physics::Geometry::RigidTriangle* triangle_B = new Physics::Geometry::RigidTriangle(p2, p3, p4);
 	engine->world->AddEntity(triangle_A);
 	engine->world->AddEntity(triangle_B);
-	engine->world->ApplyGravity();
+	engine->world->AddEntity(em);
+	
+	// Add entitites to emitters
+	em->AddObject(triangle_A);
+	em->AddObject(triangle_B);
+
+
+	//engine->world->ApplyGravity();
 
 	// GL Proper
 	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -86,8 +95,8 @@ int main()
 	vertex_manager->AddVertex(p3);
 	vertex_manager->AddVertex(p4);
 
-	index_manager->AddIndex3D(0, 1, 2);
-	index_manager->AddIndex3D(2, 3, 1);
+	index_manager->AddIndex3D(p1->GetId(), p2->GetId(), p3->GetId());
+	index_manager->AddIndex3D(p3->GetId(), p4->GetId(), p2->GetId());
 
 	
 	vertex_manager->GenerateArrays();
@@ -122,6 +131,7 @@ int main()
 		
 		glfwSwapBuffers(window);
 		glfwPollEvents();
+
 		// Ensure the frame rate is correct
 		const auto end_time = std::chrono::high_resolution_clock::now();
 		auto wait = 1000 * SECONDS_PER_FRAME - std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count();

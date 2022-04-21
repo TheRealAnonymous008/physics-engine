@@ -20,6 +20,7 @@ namespace Physics{
         PMath::Vector rotation;
 		
         float damping_coefficient = DEFAULT_DAMPING_COEFFICIENT;
+		unsigned long long int id;
 
         virtual void OnUpdate(){
 
@@ -27,8 +28,9 @@ namespace Physics{
 
     public:
 
-        Point(BodyType type = BodyType::DYNAMIC, int id = 0){
+        Point(BodyType type = BodyType::DYNAMIC, unsigned long long int id = 0){
             this->type = type;;
+			this->id = id;
         }
 
         virtual ~Point(){
@@ -82,6 +84,12 @@ namespace Physics{
             // Specifically for rendering, so as to scale positions correctly.
             return transform.position / M;
         }
+
+
+		unsigned long long int GetId() {
+			return id;
+		}
+
     };
 
 
