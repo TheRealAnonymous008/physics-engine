@@ -58,31 +58,42 @@ int main()
 	Physics::Engine* engine = new Physics::Engine((1.0f / (2 * FRAMERATE_LIMIT)), (1.0f / FRAMERATE_LIMIT));
 
 	// Renderer
-	GLPhysX::RenderManager* renderer = new GLPhysX::RenderManager();
+	GLPhysX::VertexManager* vertex_manager = new GLPhysX::VertexManager(WINDOW_WIDTH, WINDOW_HEIGHT);
+	GLPhysX::RenderManager* renderer = new GLPhysX::RenderManager(vertex_manager);
 
 	// Entities
-	GLPhysX::Point* p1 = new GLPhysX::Point(Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(0, 0), Physics::BodyType::DYNAMIC));
-	GLPhysX::Point* p2 = new GLPhysX::Point(Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(100, 0), Physics::BodyType::DYNAMIC));
-	GLPhysX::Point* p3 = new GLPhysX::Point(Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(0, 100), Physics::BodyType::DYNAMIC));
-	GLPhysX::Point* p4 = new GLPhysX::Point(Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(100, 100), Physics::BodyType::DYNAMIC));
-	GLPhysX::RadialEmitter* em = new GLPhysX::RadialEmitter(Physics::PointFactory::GetInstance().MakeRadialEmitter2D(-1000, PMath::init(-100, 0)));
+	Physics::Point* p1 = Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(0, 0), Physics::BodyType::DYNAMIC);
+	Physics::Point* p2 = Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(100, 0), Physics::BodyType::DYNAMIC);
+	Physics::Point* p3 = Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(0, 100), Physics::BodyType::DYNAMIC);
+	Physics::Point* p4 = Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(100, 100), Physics::BodyType::DYNAMIC);
+	Physics::RadialEmitter* em = Physics::PointFactory::GetInstance().MakeRadialEmitter2D(-1000, PMath::init(-100, 0));
 
 
-	GLPhysX::RigidTriangle* triangle_A = new GLPhysX::RigidTriangle(new Physics::Geometry::RigidTriangle(p1->Get(), p2->Get(), p3->Get()));
-	GLPhysX::RigidTriangle* triangle_B = new GLPhysX::RigidTriangle(new Physics::Geometry::RigidTriangle(p2->Get(), p3->Get(), p4->Get()));
+	Physics::Geometry::RigidTriangle* triangle_A = new Physics::Geometry::RigidTriangle(p1, p2, p3);
+	Physics::Geometry::Line* line = new Physics::Geometry::Line(center, anchor);
+	Physics::Geometry::RigidTriangle* triangle_B = new Physics::Geometry::RigidTriangle(p2, p3, p4);
 	
-	// Add to engines
-	engine->world->AddEntity(triangle_A->Get());
-	engine->world->AddEntity(triangle_B->Get());
-	engine->world->AddEntity(em->Get());
+	Physics::Point* center = Physics::PointFactory::GetInstance().Make(triangle_A->GetCenter());
+	Physics::Point* anchor = Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(50, -100), Physics::BodyType::STATIC);
+
+	Physics::DistanceJoint* rope = new Physics::DistanceJoint(anchor, center);
+
+	// Add to engine
+	engine->world->AddEntity(triangle_A);
+	engine->world->AddEntity(triangle_B);
+	engine->world->AddEntity(em);
+	engine->world->AddEntity(anchor);
+
+	engine->world->AddConstraint(rope);
 	
 	// Add entitites to emitters
-	em->Get()->AddObject(triangle_A->Get());
-	em->Get()->AddObject(triangle_B->Get());
+	em->AddObject(triangle_A);
+	em->AddObject(triangle_B);
 
 	// Add to renderer
-	renderer->Add(triangle_A);
-	renderer->Add(triangle_B);
+	renderer->AddTriangle(triangle_A);
+	renderer->AddTriangle(triangle_B);
+	renderer->AddLine(line);
 		
 	//engine->world->ApplyGravity();
 
@@ -99,23 +110,13 @@ int main()
 
 	//VBO and Indices 
 
-	GLPhysX::VertexManager* vertex_manager = new GLPhysX::VertexManager(WINDOW_WIDTH, WINDOW_HEIGHT);
-	GLPhysX::IndexBufferManager* index_manager = new GLPhysX::IndexBufferManager();
-
-	vertex_manager->AddVertex(p1->Get());
-	vertex_manager->AddVertex(p2->Get());
-	vertex_manager->AddVertex(p3->Get());
-	vertex_manager->AddVertex(p4->Get());
-
-	index_manager->AddIndex3D(p1->Get()->GetId(), p2->Get()->GetId(), p3->Get()->GetId());
-	index_manager->AddIndex3D(p3->Get()->GetId(), p4->Get()->GetId(), p2->Get()->GetId());
 
 	
 	vertex_manager->GenerateArrays();
 	GL::VertexBufferObject vb(vertex_manager->GetVertices(), vertex_manager->GetLength() * 3 * sizeof(float));
 	vertex_manager->SpecifyLayout();
-
-	GL::IndexBufferObject* ib = index_manager->GenerateIB();
+/*
+	GL::IndexBufferObject* ib = index_manager->GenerateIB();*/
 
 	while (!glfwWindowShouldClose(window)) {
 		const auto start_time = std::chrono::high_resolution_clock::now();
@@ -125,7 +126,6 @@ int main()
 		
 		shader->Bind();
 		vertex_manager->Bind();
-		ib->Bind();
 
 		// Physics stuff
 		engine->Run();
@@ -141,6 +141,7 @@ int main()
 
 		// Draw
 		renderer->Render();
+
 		
 		glfwSwapBuffers(window);
 		glfwPollEvents();

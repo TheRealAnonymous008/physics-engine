@@ -90,6 +90,10 @@ namespace Physics{
 			return id;
 		}
 
+		void SetId(unsigned long long int id) {
+			this->id = id;
+		}
+
     };
 
 

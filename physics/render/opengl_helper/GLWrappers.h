@@ -8,6 +8,7 @@
 #include "../../core/points/Emitter.h"
 #include "../../core/points/RadialEmitter.h"
 #include "../../core/geometry/Triangle.h"
+#include "../../core/geometry/Line.h"
 
 // Wrappers to render Physics Objects using OpenGL
 namespace GLPhysX {
@@ -90,15 +91,35 @@ namespace GLPhysX {
 		}
 
 		void Render(unsigned long long int* index) override {
-			glDrawElementsBaseVertex(GL_TRIANGLES, 3, GL_UNSIGNED_INT, NULL, *index);
-			*index+=1;
+			glDrawElementsBaseVertex(GL_LINE_LOOP, 3, GL_UNSIGNED_INT, NULL, *index);
+			*index+=3;
 		}
 
 		Physics::Geometry::RigidTriangle* Get() {
 			return this->triangle;
 		}
-
 	};
+
+	class Line : public GLPhysX::Object {
+	protected:
+		Physics::Geometry::Line* line;
+
+	public:
+		Line(Physics::Geometry::Line* line) {
+			this->line = line;
+		}
+
+		void Render(unsigned long long int* index) override {
+			glDrawElementsBaseVertex(GL_LINES, 2, GL_UNSIGNED_INT, NULL, *index);
+			*index += 2;
+		}
+
+		Physics::Geometry::Line* Get() {
+			return this->line;
+		}
+	};
+
+
 }
 
 #endif

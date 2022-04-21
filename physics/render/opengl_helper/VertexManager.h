@@ -1,14 +1,14 @@
 #ifndef VERTEXMANAGER_H_INCLUDED
 #define VERTEXMANAGER_H_INCLUDED
 
-#include "../../core/points/Point.h"
+#include "../../core/Object.h"
 #include "VertexArrayObject.h"
 #include <vector>
 
 namespace GLPhysX {
 	class VertexManager{
 	private:
-		std::vector<Physics::Point*> vertices;
+		std::vector<Physics::Object*> vertices;
 		GL::VertexArrayObject* VAO;
 		int width;
 		int height;
@@ -16,20 +16,20 @@ namespace GLPhysX {
 
 	public:
 		VertexManager(int width, int height) {
-			vertices = std::vector<Physics::Point*>();
+			vertices = std::vector<Physics::Object*>();
 			this->VAO = new GL::VertexArrayObject();
 			this->height = height;
 			this->width = width;
 		}
 
-		void AddVertex(Physics::Point* pt) {
+		void AddVertex(Physics::Object* pt) {
 			this->vertices.push_back(pt);
 			VAO->AddVertex3D(GLPhysX::Scale(pt->transform.position, width, height).vec);
 		}
 
 		void UpdateVertices() {
 			VAO->Clear();
-			for (Physics::Point* pt : vertices) {
+			for (Physics::Object* pt : vertices) {
 				VAO->AddVertex3D(GLPhysX::Scale(pt->transform.position, width, height).vec);
 			}
 			VAO->Bind();

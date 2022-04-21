@@ -22,6 +22,12 @@ namespace Physics {
 			return instance;
 		}
 
+		Point* Make(Point* point) {
+			point->SetId(id);
+			id++;
+			return point;
+		}
+
 		Point* MakePoint2D(const PMath::Vector& pos, const BodyType& type = BodyType::DYNAMIC) {
 			Point* pt = new Point(type, id);
 			pt->transform.position = pos;
