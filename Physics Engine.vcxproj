@@ -108,6 +108,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="physics\core\Clock.h" />
+    <ClInclude Include="physics\core\collision\Collider.h" />
+    <ClInclude Include="physics\core\collision\GJK.h" />
     <ClInclude Include="physics\core\Constants.h" />
     <ClInclude Include="physics\core\Constraint.h" />
     <ClInclude Include="physics\core\Engine.h" />

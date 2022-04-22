@@ -14,7 +14,6 @@ namespace Physics {
 		public:
 			Circle(Point* center, float radius) {
 				this->center = center;
-				this->points.push_back(center);
 				this->radius = radius;
 			}
 

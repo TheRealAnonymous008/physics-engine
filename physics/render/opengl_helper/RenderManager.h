@@ -11,7 +11,7 @@
 #include "IndexBuffer.h"
 #include "VertexManager.h"
 
-#define CIRCLE_VERTICES 100
+#define CIRCLE_VERTICES 32
 
 namespace GLPhysX {
 	class RenderManager{
@@ -99,7 +99,7 @@ namespace GLPhysX {
 			// Constrain each vertex
 			auto prims = obj->GetPrimitives();
 			for (int i = 0; i < CIRCLE_VERTICES; ++i) {
-				obj->AddInternalConstraint(new Physics::RigidJoint(prims[i + 1], center));
+				obj->AddInternalConstraint(new Physics::RigidJoint(prims[i], center));
 			}
 
 			indices.push_back(ind);

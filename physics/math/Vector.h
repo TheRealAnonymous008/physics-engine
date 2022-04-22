@@ -30,6 +30,7 @@ namespace PMath{
     const float norm(const Vector& v);
     const Vector normalize(const Vector& v);
 	const Vector cross(const Vector& v1, const Vector& v2);
+	bool is_same_dir(const Vector& v1, const Vector& v2);
 
 	const Vector midpoint(const Vector& v1, const Vector& v2);
 

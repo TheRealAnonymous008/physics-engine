@@ -119,6 +119,12 @@
     <ClInclude Include="physics\core\links\RigidJoint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="physics\core\collision\Collider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="physics\core\collision\GJK.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="sfml-audio-2.dll" />

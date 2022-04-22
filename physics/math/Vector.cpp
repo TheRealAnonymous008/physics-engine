@@ -111,6 +111,10 @@ namespace PMath{
 		return (v1 + v2) / 2.0f;
 	}
 
+	bool is_same_dir(const Vector& v1, const Vector& v2) {
+		return dot(v1, v2) > 0;
+	}
+
     const bool operator ==(const Vector& v1, const Vector& v2){
         return PMath::norm(PMath::operator-(v1, v2)) <= EQUALITY_THRESHOLD;
     }

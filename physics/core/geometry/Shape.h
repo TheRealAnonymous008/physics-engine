@@ -4,11 +4,12 @@
 #include <vector>
 #include "../../core/Object.h"
 #include "../../core/links/DistanceJoint.h"
+#include "../../core/collision/Collider.h"
 
 namespace Physics {
 	namespace Geometry {;
 
-		class Shape :public Object {
+		class Shape :public Object, Collider {
 		protected:
 			std::vector<Object*> points;
 			Point* center = nullptr;
@@ -91,6 +92,21 @@ namespace Physics {
 				return center;
 			}
 
+
+			PMath::Vector FindFurthestPoint(PMath::Vector dir) const override {
+				PMath::Vector max_point;
+				float max_dist = -FLT_MAX;
+
+				for (Physics::Object* pt : points) {
+					float distance = PMath::dot(pt->transform.position, dir);
+					if (distance > max_dist) {
+						max_dist = distance;
+						max_point = pt->transform.position;
+					}
+				}
+				
+				return max_point;
+			}
 
 		};
 	}
