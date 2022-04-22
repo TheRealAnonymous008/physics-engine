@@ -116,6 +116,9 @@
     <ClInclude Include="physics\render\opengl_helper\RenderManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="physics\core\links\RigidJoint.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="sfml-audio-2.dll" />

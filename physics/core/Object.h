@@ -72,6 +72,14 @@ namespace Physics {
 			}
 		}
 
+		void AddInternalConstraint(Constraint* constraint) {
+			this->constraints.push_back(constraint);
+		}
+
+		virtual void AddPrimitive(Object* p) {
+			
+		}
+
 		virtual void ApplyForce(PMath::Vector force) {
 			// Apply a force to the object
 			transform.acceleration += force / transform.mass;

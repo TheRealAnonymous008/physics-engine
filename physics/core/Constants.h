@@ -13,6 +13,7 @@ namespace Physics{
 
 
 	constexpr auto GRAVITATIONAL_CONSTANT = 6.674098e-10f;
+	constexpr auto PI = 3.14159265359;
 
 	// Scale factors based on the SI units. If, say 0.1 is in M, then the rendered meter is 0.1 times an actual meter.
     namespace Units{

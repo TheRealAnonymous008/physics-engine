@@ -75,12 +75,14 @@ int main()
 
 
 	Physics::Geometry::RigidLine* line = new Physics::Geometry::RigidLine(anchor, center);
+	Physics::Geometry::Circle* circ = new Physics::Geometry::Circle(center, 100.0f);
 
 	// Add to engine
 	engine->world->AddEntity(triangle_A);
 	engine->world->AddEntity(triangle_B);
 	engine->world->AddEntity(em);
 	engine->world->AddEntity(line);
+	engine->world->AddEntity(circ);
 	
 	// Add entitites to emitters
 	em->AddObject(triangle_A);
@@ -91,6 +93,7 @@ int main()
 	renderer->AddTriangle(triangle_B);
 	renderer->AddPoint(em);
 	renderer->AddLine(line);
+	renderer->AddCircle(circ);
 		
 	//engine->world->ApplyGravity();
 

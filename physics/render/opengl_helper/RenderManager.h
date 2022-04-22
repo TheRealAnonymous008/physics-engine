@@ -7,6 +7,7 @@
 #include "../../core/geometry/Quad.h"
 #include "../../core/geometry/Triangle.h"
 #include "../../core/geometry/Shape.h"
+#include "../../core/links/RigidJoint.h"
 #include "IndexBuffer.h"
 #include "VertexManager.h"
 
@@ -81,17 +82,42 @@ namespace GLPhysX {
 		void AddCircle(Physics::Geometry::Circle* obj) {
 			unsigned int* ind = (unsigned int*)malloc(CIRCLE_VERTICES * sizeof(unsigned int));
 
+			Physics::Point* center = obj->GetCenter();
+			float radius = obj->GetRadius();
+
 			for (int i = 0; i < CIRCLE_VERTICES; ++i) {
-				manager->AddVertex(obj->GetPrimitives()[i]);
-				ind[i] = obj->GetPrimitives()[i]->GetId();
+				Physics::Point* pt = new Physics::Point();
+				pt->SetId(-1);
+				manager->AddVertex(pt);
+				float angle = i * (2 * Physics::PI) / CIRCLE_VERTICES;
+				pt->transform.position = center->transform.position + PMath::init(radius * cos(angle), radius * sin(angle));
+
+				ind[i] = pt->GetId();
+				obj->AddPrimitive(pt);
+			}
+
+			// Constrain each vertex
+			auto prims = obj->GetPrimitives();
+			for (int i = 0; i < CIRCLE_VERTICES; ++i) {
+				obj->AddInternalConstraint(new Physics::RigidJoint(prims[i + 1], center));
 			}
 
 			indices.push_back(ind);
-			counts.push_back(4);
+			counts.push_back(CIRCLE_VERTICES);
 			objects++;
 		}
 
 		void Render() {
+
+			//for (int i = 0; i < objects; ++i) {
+			//	int count = counts[i];
+			//	unsigned int* ind = indices[i];
+			//	for (int j = 0; j < count; ++j) {
+			//		std::cout << ind[j] << " ";
+			//	}
+			//	std::cout << "\n";
+			//}
+
 			glMultiDrawElements(GL_LINE_LOOP, &counts[0], GL_UNSIGNED_INT, (const void**) &indices[0], objects);
 		}
 	};

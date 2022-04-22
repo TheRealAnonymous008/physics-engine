@@ -28,7 +28,7 @@ namespace GLPhysX {
 		}
 
 		void AddVertex(Physics::Object* pt) {
-			if (ids.count(pt->GetId()))
+			if (ids.find(pt->GetId()) != ids.end())
 				return;
 
 			this->vertices.push_back(pt);

@@ -70,6 +70,10 @@ namespace Physics {
 				}
 			}
 
+			void AddPrimitive(Object* p) override {
+				this->points.push_back(p);
+			}
+
 			Point* GetCenter() {
 				if (center == nullptr) {
 					center = new Point();
