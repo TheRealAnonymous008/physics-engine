@@ -60,6 +60,10 @@ namespace Physics {
 			return 0;
 		}
 
+		virtual void SetId(unsigned long long int id) {
+			
+		}
+
 		void UpdateInternalConstraints(float delta) {
 			for (int i = 0; i < CONSTRAINT_SOLVER_RUNS; i++) {
 				for (Constraint* c : constraints) {

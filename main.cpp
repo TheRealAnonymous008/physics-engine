@@ -20,8 +20,6 @@
 #include "physics/render/opengl_helper/IndexBufferManager.h"
 
 #include "physics/core/factories/PointFactory.h"
-
-#include "physics//render/opengl_helper/GLWrappers.h"
 #include "physics//render/opengl_helper/RenderManager.h"
 
 #define FRAMERATE_LIMIT 60

@@ -2,9 +2,15 @@
 #define RENDERMANAGER_H_INCLUDED
 
 #include <vector>
-#include "GLWrappers.h"
+#include "../../core/geometry/Circle.h"
+#include "../../core/geometry/Line.h"
+#include "../../core/geometry/Quad.h"
+#include "../../core/geometry/Triangle.h"
+#include "../../core/geometry/Shape.h"
 #include "IndexBuffer.h"
 #include "VertexManager.h"
+
+#define CIRCLE_VERTICES 100
 
 namespace GLPhysX {
 	class RenderManager{
@@ -63,6 +69,19 @@ namespace GLPhysX {
 			unsigned int* ind = (unsigned int*)malloc(4 * sizeof(unsigned int));
 
 			for (int i = 0; i < 4; ++i) {
+				manager->AddVertex(obj->GetPrimitives()[i]);
+				ind[i] = obj->GetPrimitives()[i]->GetId();
+			}
+
+			indices.push_back(ind);
+			counts.push_back(4);
+			objects++;
+		}
+
+		void AddCircle(Physics::Geometry::Circle* obj) {
+			unsigned int* ind = (unsigned int*)malloc(CIRCLE_VERTICES * sizeof(unsigned int));
+
+			for (int i = 0; i < CIRCLE_VERTICES; ++i) {
 				manager->AddVertex(obj->GetPrimitives()[i]);
 				ind[i] = obj->GetPrimitives()[i]->GetId();
 			}

@@ -90,7 +90,7 @@ namespace Physics{
 			return id;
 		}
 
-		void SetId(unsigned long long int id) {
+		void SetId(unsigned long long int id) override{
 			this->id = id;
 		}
 

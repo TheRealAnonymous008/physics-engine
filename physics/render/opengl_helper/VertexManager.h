@@ -15,6 +15,8 @@ namespace GLPhysX {
 		int width;
 		int height;
 
+		unsigned long long int ctr = 0;
+
 
 	public:
 		VertexManager(int width, int height) {
@@ -31,7 +33,9 @@ namespace GLPhysX {
 
 			this->vertices.push_back(pt);
 			VAO->AddVertex3D(GLPhysX::Scale(pt->transform.position, width, height).vec);
+			pt->SetId(ctr);
 			ids.emplace(pt->GetId());
+			ctr++;
 		}
 
 		void UpdateVertices() {

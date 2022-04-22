@@ -113,9 +113,6 @@
     <ClInclude Include="physics\core\factories\PointFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="physics\render\opengl_helper\GLWrappers.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="physics\render\opengl_helper\RenderManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
