@@ -13,6 +13,13 @@ namespace Physics {
 				this->points.push_back(p2);
 			}
 		};
+
+		class RigidLine : public Line {
+		public:
+			RigidLine(Point* p1, Point* p2) : Line(p1, p2) {
+				this->constraints.push_back(new DistanceJoint(p1, p2));
+			}
+		};
 	}
 }
 

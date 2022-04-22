@@ -24,6 +24,7 @@ namespace Physics {
 			this->type = type;
 			this->radius = radius;
 			this->degree = degree;
+			this->id = id;
 		}
 
 		void ApplyForce() override{

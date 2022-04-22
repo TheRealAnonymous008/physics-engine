@@ -9,16 +9,9 @@
 namespace GLPhysX {
 	class RenderManager{
 	private:
-		std::vector<GLPhysX::Point*> points = std::vector<GLPhysX::Point*>();
-		std::vector<GLPhysX::RigidTriangle*> triangles = std::vector<GLPhysX::RigidTriangle*>();
-		std::vector<GLPhysX::Line*> lines = std::vector<GLPhysX::Line*>();
-
-		unsigned int line_i[2] = { 0, 1 };
-		GL::IndexBufferObject* line_indices = new GL::IndexBufferObject(line_i, 2);
-
-		unsigned int tri_i[3] = { 0, 1, 2 };
-		GL::IndexBufferObject* triangle_indices = new GL::IndexBufferObject(tri_i, 3);
-
+		std::vector<unsigned int*> indices = std::vector<unsigned int*>();
+		std::vector<GLsizei> counts = std::vector<GLsizei>();
+		int objects = 0;
 		VertexManager* manager;
 
 
@@ -28,45 +21,59 @@ namespace GLPhysX {
 		}
 
 		void AddPoint(Physics::Point* obj) {
-			points.push_back(new GLPhysX::Point(obj));
 			manager->AddVertex(obj);
-		}
+			unsigned int* ind = (unsigned int*) malloc(sizeof(unsigned int));
+			ind[0] = obj->GetId();
 
-		void AddTriangle(Physics::Geometry::RigidTriangle* obj) {
-			triangles.push_back(new GLPhysX::RigidTriangle(obj));
-			manager->AddVertex(obj->GetPrimitives()[0]);
-			manager->AddVertex(obj->GetPrimitives()[1]);
-			manager->AddVertex(obj->GetPrimitives()[2]);
+			indices.push_back(ind);
+			counts.push_back(1);
+
+			objects++;
 		}
 
 		void AddLine(Physics::Geometry::Line* obj) {
-			lines.push_back(new GLPhysX::Line(obj));
-			manager->AddVertex(obj->GetPrimitives()[0]);
-			manager->AddVertex(obj->GetPrimitives()[1]);
+			
+			unsigned int* ind = (unsigned int*)malloc(2 * sizeof(unsigned int));
+			for (int i = 0; i < 2; ++i) {
+				manager->AddVertex(obj->GetPrimitives()[i]);
+				ind[i] = obj->GetPrimitives()[i]->GetId();
+			}
+
+			indices.push_back(ind);
+			counts.push_back(2);
+			objects++;
+		}
+
+		void AddTriangle(Physics::Geometry::Triangle* obj) {
+
+			unsigned int* ind = (unsigned int*)malloc(3 * sizeof(unsigned int));
+
+			for (int i = 0; i < 3; ++i) {
+				manager->AddVertex(obj->GetPrimitives()[i]);
+				ind[i] = obj->GetPrimitives()[i]->GetId();
+			}
+
+			indices.push_back(ind);
+			counts.push_back(3);
+			objects++;
+		}
+
+		void AddQuad(Physics::Geometry::Quad* obj) {
+
+			unsigned int* ind = (unsigned int*)malloc(4 * sizeof(unsigned int));
+
+			for (int i = 0; i < 4; ++i) {
+				manager->AddVertex(obj->GetPrimitives()[i]);
+				ind[i] = obj->GetPrimitives()[i]->GetId();
+			}
+
+			indices.push_back(ind);
+			counts.push_back(4);
+			objects++;
 		}
 
 		void Render() {
-			unsigned long long int index = 0;
-			for (GLPhysX::Point* obj : points) {
-				obj->Render(&index);
-			}			
-			
-			triangle_indices->Bind();
-
-			for (GLPhysX::RigidTriangle* obj : triangles) {
-				obj->Render(&index);
-			}
-
-			triangle_indices->UnBind();
-
-			line_indices->Bind();
-
-			for (GLPhysX::Line* obj : lines) {
-				obj->Render(&index);
-			}
-
-			line_indices->UnBind();
-
+			glMultiDrawElements(GL_LINE_LOOP, &counts[0], GL_UNSIGNED_INT, (const void**) &indices[0], objects);
 		}
 	};
 }

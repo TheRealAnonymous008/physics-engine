@@ -18,18 +18,6 @@ namespace Physics {
 				this->points.push_back(p2);
 				this->points.push_back(p3);
 			}
-
-			Point* GetCenter() {
-				if (center == nullptr) {
-					center = new Point();
-					center->transform.position = (points[0]->transform.position + points[1]->transform.position + points[2]->transform.position) / 3.0f;
-
-					this->constraints.push_back(new DistanceJoint(points[0], center));
-					this->constraints.push_back(new DistanceJoint(points[1], center));
-					this->constraints.push_back(new DistanceJoint(points[2], center));
-				}
-				return center;
-			}
 		};
 		
 		// A triangle with fixed side lengths

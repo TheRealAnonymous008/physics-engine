@@ -56,6 +56,10 @@ namespace Physics {
 			return std::vector<Object*>({ this });
 		}
 
+		virtual unsigned long long int GetId() {
+			return 0;
+		}
+
 		void UpdateInternalConstraints(float delta) {
 			for (int i = 0; i < CONSTRAINT_SOLVER_RUNS; i++) {
 				for (Constraint* c : constraints) {

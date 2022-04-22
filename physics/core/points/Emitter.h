@@ -18,6 +18,7 @@ namespace Physics{
         Emitter(PMath::Vector force = PMath::init(), BodyType type = BodyType::STATIC, int id = 0){
             this->force = force;
             this->type = type;
+			this->id = id;
         }
 
         virtual void ApplyForce(){

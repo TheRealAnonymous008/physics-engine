@@ -4,11 +4,13 @@
 #include "../../core/Object.h"
 #include "VertexArrayObject.h"
 #include <vector>
+#include <set>
 
 namespace GLPhysX {
 	class VertexManager{
 	private:
 		std::vector<Physics::Object*> vertices;
+		std::set<unsigned long long int> ids;
 		GL::VertexArrayObject* VAO;
 		int width;
 		int height;
@@ -17,14 +19,19 @@ namespace GLPhysX {
 	public:
 		VertexManager(int width, int height) {
 			vertices = std::vector<Physics::Object*>();
+			ids = std::set<unsigned long long int>();
 			this->VAO = new GL::VertexArrayObject();
 			this->height = height;
 			this->width = width;
 		}
 
 		void AddVertex(Physics::Object* pt) {
+			if (ids.count(pt->GetId()))
+				return;
+
 			this->vertices.push_back(pt);
 			VAO->AddVertex3D(GLPhysX::Scale(pt->transform.position, width, height).vec);
+			ids.emplace(pt->GetId());
 		}
 
 		void UpdateVertices() {
@@ -32,6 +39,7 @@ namespace GLPhysX {
 			for (Physics::Object* pt : vertices) {
 				VAO->AddVertex3D(GLPhysX::Scale(pt->transform.position, width, height).vec);
 			}
+
 			VAO->Bind();
 		}
 

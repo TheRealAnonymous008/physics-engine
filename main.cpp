@@ -70,21 +70,19 @@ int main()
 
 
 	Physics::Geometry::RigidTriangle* triangle_A = new Physics::Geometry::RigidTriangle(p1, p2, p3);
-	Physics::Geometry::Line* line = new Physics::Geometry::Line(center, anchor);
 	Physics::Geometry::RigidTriangle* triangle_B = new Physics::Geometry::RigidTriangle(p2, p3, p4);
-	
-	Physics::Point* center = Physics::PointFactory::GetInstance().Make(triangle_A->GetCenter());
-	Physics::Point* anchor = Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(50, -100), Physics::BodyType::STATIC);
 
-	Physics::DistanceJoint* rope = new Physics::DistanceJoint(anchor, center);
+	Physics::Point* anchor = Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(100,-200), Physics::BodyType::STATIC);
+	Physics::Point* center = Physics::PointFactory::GetInstance().Make(triangle_A->GetCenter());
+
+
+	Physics::Geometry::RigidLine* line = new Physics::Geometry::RigidLine(anchor, center);
 
 	// Add to engine
 	engine->world->AddEntity(triangle_A);
 	engine->world->AddEntity(triangle_B);
 	engine->world->AddEntity(em);
-	engine->world->AddEntity(anchor);
-
-	engine->world->AddConstraint(rope);
+	engine->world->AddEntity(line);
 	
 	// Add entitites to emitters
 	em->AddObject(triangle_A);
@@ -93,6 +91,7 @@ int main()
 	// Add to renderer
 	renderer->AddTriangle(triangle_A);
 	renderer->AddTriangle(triangle_B);
+	renderer->AddPoint(em);
 	renderer->AddLine(line);
 		
 	//engine->world->ApplyGravity();
@@ -139,9 +138,7 @@ int main()
 		vb.Bind();
 		vb.SubData(vertex_manager->GetVertices(), vertex_manager->GetLength() * 3 * sizeof(float));
 
-		// Draw
 		renderer->Render();
-
 		
 		glfwSwapBuffers(window);
 		glfwPollEvents();

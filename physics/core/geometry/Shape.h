@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "../../core/Object.h"
+#include "../../core/links/DistanceJoint.h"
 
 namespace Physics {
 	namespace Geometry {;
@@ -10,6 +11,7 @@ namespace Physics {
 		class Shape :public Object {
 		protected:
 			std::vector<Object*> points;
+			Point* center = nullptr;
 
 			void AddPoint(Point* pt) {
 				points.push_back(pt);
@@ -18,6 +20,7 @@ namespace Physics {
 		public:
 			Shape() {
 				points = std::vector<Object*>();
+				center = nullptr;
 			}
 
 			std::vector<Object*> GetPrimitives() override{
@@ -65,6 +68,23 @@ namespace Physics {
 				for (Object* pt : points) {
 					pt->SetType(type);
 				}
+			}
+
+			Point* GetCenter() {
+				if (center == nullptr) {
+					center = new Point();
+					center->transform.position = PMath::init();
+					int p = points.size();
+					for (Object* pts : points) {
+						center->transform.position += pts->transform.position / p;
+					}
+
+					for (Object* pts : points) {
+						this->constraints.push_back(new DistanceJoint(pts, center));
+					}
+				}
+
+				return center;
 			}
 
 

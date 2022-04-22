@@ -9,6 +9,7 @@
 #include "../../core/points/RadialEmitter.h"
 #include "../../core/geometry/Triangle.h"
 #include "../../core/geometry/Line.h"
+#include "../../core/geometry/Quad.h"
 
 // Wrappers to render Physics Objects using OpenGL
 namespace GLPhysX {
@@ -81,12 +82,12 @@ namespace GLPhysX {
 		}
 	};
 
-	class RigidTriangle : public GLPhysX::Object{
+	class Triangle : public GLPhysX::Object{
 	protected:
-		Physics::Geometry::RigidTriangle* triangle;
+		Physics::Geometry::Triangle* triangle;
 
 	public:
-		RigidTriangle(Physics::Geometry::RigidTriangle* triangle){
+		Triangle(Physics::Geometry::Triangle* triangle){
 			this->triangle = triangle;
 		}
 
@@ -95,7 +96,7 @@ namespace GLPhysX {
 			*index+=3;
 		}
 
-		Physics::Geometry::RigidTriangle* Get() {
+		Physics::Geometry::Triangle* Get() {
 			return this->triangle;
 		}
 	};
@@ -119,6 +120,24 @@ namespace GLPhysX {
 		}
 	};
 
+	class Quad : public GLPhysX::Object {
+	protected:
+		Physics::Geometry::Quad* quad;
+
+	public:
+		Quad(Physics::Geometry::Quad* quad) {
+			this->quad = quad;
+		}
+
+		void Render(unsigned long long int* index) override {
+			glDrawElementsBaseVertex(GL_LINE_LOOP, 4, GL_UNSIGNED_INT, NULL, *index);
+			*index += 4;
+		}
+
+		Physics::Geometry::Quad* Get() {
+			return this->quad;
+		}
+	};
 
 }
 
