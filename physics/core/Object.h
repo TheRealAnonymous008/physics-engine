@@ -5,6 +5,7 @@
 #include "../math/Vector.h"
 #include "Constants.h"
 #include "Constraint.h"
+#include "collision/Collider.h"
 
 namespace Physics {
 	struct Transform {
@@ -27,6 +28,7 @@ namespace Physics {
 	protected:
 		BodyType type;
 		std::vector<Constraint*> constraints;
+		Collider* collider = nullptr;
 
 	public: 
 		Transform transform;
@@ -103,6 +105,14 @@ namespace Physics {
 
 		virtual void SetType(BodyType type) {
 			this->type = type;
+		}
+
+		virtual void AttachCollider(Collider* col) {
+			this->collider = col;
+		}
+
+		Collider* GetCollider() {
+			return collider;
 		}
 
 		BodyType GetType() {

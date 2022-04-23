@@ -22,6 +22,7 @@ namespace Physics {
 			Shape() {
 				points = std::vector<Object*>();
 				center = nullptr;
+				this->collider = this;
 			}
 
 			std::vector<Object*> GetPrimitives() override{

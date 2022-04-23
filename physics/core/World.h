@@ -7,6 +7,7 @@
 #include "Constraint.h"
 #include "../math/Vector.h"
 #include "../core/collision/GJK.h"
+#include "../core/collision/Collider.h"
 
 // TODO: Emitter type objects should be connected to the objects they can handle by way of a bipartite graph for efficiency.
 
@@ -64,11 +65,25 @@ namespace Physics {
 				}
 			}
 
-			SolveCollisions(delta);
+			//SolveCollisions(delta);
 		}
 
 		const void SolveCollisions(float delta) {
-			// Call GJK here
+			for (int i = 0; i < entities.size(); ++i) {
+				Collider* a = entities[i]->GetCollider();
+				if (a == nullptr)
+					continue;
+
+				for (int j = i + 1; j < entities.size(); ++j) {
+					Collider* b = entities[j]->GetCollider();
+					if (b == nullptr)
+						continue;
+
+					if (Utils::GJK(a, b)) {
+						std::cout << "Collission" << "\n";
+					}
+				}
+			}
 		}
 
 		const PMath::Vector GetForce() const{

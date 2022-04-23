@@ -38,7 +38,7 @@ namespace Physics {
 
 			void Push(Vector point) {
 				points = { point, points[0], points[1], points[2] };
-				size = std::min(size + 1, (unsigned int)4);
+				size = std::min(size + 1, 4u);
 			}
 
 			Vector& operator[](unsigned i) {
@@ -54,7 +54,7 @@ namespace Physics {
 			}
 
 			auto End() const {
-				return points.end();
+				return points.end() - (4 - size);
 			}
 		};
 
@@ -70,6 +70,7 @@ namespace Physics {
 			if (is_same_dir(ab, a0)) {
 				direction = cross(cross(ab, a0), ab);
 			}
+
 			else {
 				simplex = { a };
 				direction = a0;
@@ -85,32 +86,38 @@ namespace Physics {
 
 			Vector ab = b - a;
 			Vector ac = c - a;
-			Vector a0 = -a;
+			Vector ao = -a;
+
 			Vector abc = cross(ab, ac);
 
-			if (is_same_dir(cross(abc, ac), a0)) {
-				if (is_same_dir(ac, a0)) {
+			if (is_same_dir(cross(abc, ac), ao)){
+				if (is_same_dir(ac, ao)) {
 					simplex = { a, c };
-					direction = cross(cross(ac, a0), ac);
+					direction = cross(cross(ac, ao), ac);
 				}
+
 				else {
-					return GJKLine(simplex = { a,b }, direction);
-				}
-			}
-			else {
-				if (is_same_dir(cross(ab, abc), a0)) {
 					return GJKLine(simplex = { a, b }, direction);
 				}
+			}
+
+			else {
+				if (is_same_dir(cross(ab, abc), ao)) {
+					return GJKLine(simplex = { a, b }, direction);
+				}
+
 				else {
-					if (is_same_dir(abc, a0)) {
+					if (is_same_dir(abc, ao)) {
 						direction = abc;
 					}
+
 					else {
 						simplex = { a, c, b };
-						direction = abc;
+						direction = -abc;
 					}
 				}
 			}
+
 			return false;
 		}
 
@@ -161,7 +168,7 @@ namespace Physics {
 			Simplex simplex;
 			simplex.Push(support);
 
-			Vector direction = support;
+			Vector direction = -support;
 			while (true) {
 				support = GetSupport(A, B, direction);
 				if (dot(support, direction) <= 0)
@@ -171,6 +178,7 @@ namespace Physics {
 				if (GetNextSimplex(simplex, direction)) {
 					return true;
 				}
+
 			}
 		}
 	}

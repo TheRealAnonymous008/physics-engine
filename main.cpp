@@ -60,42 +60,30 @@ int main()
 	GLPhysX::RenderManager* renderer = new GLPhysX::RenderManager(vertex_manager);
 
 	// Entities
-	Physics::Point* p1 = Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(0, 0), Physics::BodyType::DYNAMIC);
-	Physics::Point* p2 = Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(100, 0), Physics::BodyType::DYNAMIC);
-	Physics::Point* p3 = Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(0, 100), Physics::BodyType::DYNAMIC);
-	Physics::Point* p4 = Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(100, 100), Physics::BodyType::DYNAMIC);
-	Physics::RadialEmitter* em = Physics::PointFactory::GetInstance().MakeRadialEmitter2D(-1000, PMath::init(-100, 0));
+	Physics::Point* p1 = Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(0, 0, 2), Physics::BodyType::DYNAMIC);
+	Physics::Point* p2 = Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(100, 0, 2), Physics::BodyType::DYNAMIC);
+	Physics::Point* p3 = Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(0, 100, 2), Physics::BodyType::DYNAMIC);
+	Physics::Point* p4 = Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(0, 0, 3), Physics::BodyType::DYNAMIC);
+	Physics::Point* p5 = Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(100, 0, -2), Physics::BodyType::DYNAMIC);
+	Physics::Point* p6 = Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(0, 100, -2), Physics::BodyType::DYNAMIC);
 
 
 	Physics::Geometry::RigidTriangle* triangle_A = new Physics::Geometry::RigidTriangle(p1, p2, p3);
-	Physics::Geometry::RigidTriangle* triangle_B = new Physics::Geometry::RigidTriangle(p2, p3, p4);
-
-	Physics::Point* anchor = Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(100,-200), Physics::BodyType::STATIC);
-	Physics::Point* center = Physics::PointFactory::GetInstance().Make(triangle_A->GetCenter());
-
-
-	Physics::Geometry::RigidLine* line = new Physics::Geometry::RigidLine(anchor, center);
-	Physics::Geometry::Circle* circ = new Physics::Geometry::Circle(center, 100.0f);
+	Physics::Geometry::RigidTriangle* triangle_B = new Physics::Geometry::RigidTriangle(p4, p5, p6);
 
 	// Add to engine
 	engine->world->AddEntity(triangle_A);
 	engine->world->AddEntity(triangle_B);
-	engine->world->AddEntity(em);
-	engine->world->AddEntity(line);
-	engine->world->AddEntity(circ);
 	
 	// Add entitites to emitters
-	em->AddObject(triangle_A);
-	em->AddObject(triangle_B);
 
 	// Add to renderer
 	renderer->AddTriangle(triangle_A);
 	renderer->AddTriangle(triangle_B);
-	renderer->AddPoint(em);
-	renderer->AddLine(line);
-	renderer->AddCircle(circ);
 		
 	//engine->world->ApplyGravity();
+
+	std::cout << Physics::Utils::GJK(triangle_A->GetCollider(), triangle_B->GetCollider());
 
 	// GL Proper
 	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
