@@ -90,35 +90,29 @@ namespace Physics {
 
 			Vector abc = cross(ab, ac);
 
-			if (is_same_dir(cross(abc, ac), ao)){
-				if (is_same_dir(ac, ao)) {
-					simplex = { a, c };
-					direction = cross(cross(ac, ao), ac);
-				}
-
-				else {
-					return GJKLine(simplex = { a, b }, direction);
-				}
+			if (is_same_dir(cross(ab, abc), ao)) {
+				direction = cross(cross(ab, ao), ao);
+				return GJKLine(simplex = { b, a }, direction);
 			}
-
+			else if (is_same_dir(cross(abc, ac), ao)) {
+				direction = cross(cross(ac, ao), ac);
+				return GJKLine(simplex = { c, a }, direction);
+			}
 			else {
-				if (is_same_dir(cross(ab, abc), ao)) {
-					return GJKLine(simplex = { a, b }, direction);
+				float v = dot(abc, ao);
+				if (v == 0)
+					return true;
+				else if (v > 0) {
+					direction = abc;
+					return GJKTriangle(simplex, direction);
 				}
-
 				else {
-					if (is_same_dir(abc, ao)) {
-						direction = abc;
-					}
-
-					else {
-						simplex = { a, c, b };
-						direction = -abc;
-					}
+					direction = -abc;
+					return GJKTriangle(simplex = { c, a, b }, direction);
 				}
 			}
 
-			return false;
+
 		}
 
 		bool GJKTetrahedron(Simplex& simplex, Vector& direction) {
@@ -170,6 +164,10 @@ namespace Physics {
 
 			Vector direction = -support;
 			while (true) {
+				// Degenerate case of 0-simplex and 1-simplex
+				if (direction == PMath::init())
+					return true;
+
 				support = GetSupport(A, B, direction);
 				if (dot(support, direction) <= 0)
 					return false;

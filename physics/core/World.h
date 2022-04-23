@@ -65,7 +65,7 @@ namespace Physics {
 				}
 			}
 
-			//SolveCollisions(delta);
+			SolveCollisions(delta);
 		}
 
 		const void SolveCollisions(float delta) {
