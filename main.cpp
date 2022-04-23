@@ -60,12 +60,12 @@ int main()
 	GLPhysX::RenderManager* renderer = new GLPhysX::RenderManager(vertex_manager);
 
 	// Entities
-	Physics::Point* p1 = Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(0, 0), Physics::BodyType::DYNAMIC);
-	Physics::Point* p2 = Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(100, 0), Physics::BodyType::DYNAMIC);
-	Physics::Point* p3 = Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(0, 100), Physics::BodyType::DYNAMIC);
-	Physics::Point* p4 = Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(-5, -50), Physics::BodyType::DYNAMIC);
-	Physics::Point* p5 = Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(0, -10), Physics::BodyType::DYNAMIC);
-	Physics::Point* p6 = Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(-100, -100), Physics::BodyType::DYNAMIC);
+	Physics::Point* p1 = Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(-21.6535, -21.6177), Physics::BodyType::DYNAMIC);
+	Physics::Point* p2 = Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(78.3465, -21.6191), Physics::BodyType::DYNAMIC);
+	Physics::Point* p3 = Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(-21.6522, 79.3823), Physics::BodyType::DYNAMIC);
+	Physics::Point* p4 = Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(-21.4878, -61.7489, -1.5981), Physics::BodyType::DYNAMIC);
+	Physics::Point* p5 = Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(-16.352, -21.748, -1.67377), Physics::BodyType::DYNAMIC);
+	Physics::Point* p6 = Physics::PointFactory::GetInstance().MakePoint2D(PMath::init(-116.215, -111.665, 13.6079), Physics::BodyType::DYNAMIC);
 	Physics::RadialEmitter* em = Physics::PointFactory::GetInstance().MakeRadialEmitter2D(-1000, PMath::init(-100, -100), Physics::BodyType::DYNAMIC);
 
 
@@ -86,7 +86,6 @@ int main()
 	renderer->AddTriangle(triangle_B);
 		
 	//engine->world->ApplyGravity();
-
 
 	// GL Proper
 	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -131,7 +130,7 @@ int main()
 		vb.SubData(vertex_manager->GetVertices(), vertex_manager->GetLength() * 3 * sizeof(float));
 
 		renderer->Render();
-		
+
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 

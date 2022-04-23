@@ -100,7 +100,7 @@ namespace Physics {
 		}
 
 		virtual void Cleanup() {
-			transform.acceleration = { 0, 0, 0, 0 };
+			transform.acceleration = PMath::init();
 		}
 
 		virtual void SetType(BodyType type) {

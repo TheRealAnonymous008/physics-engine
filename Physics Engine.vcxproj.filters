@@ -30,6 +30,9 @@
     <ClCompile Include="test\pendulum.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="physics\core\collision\GJK.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="physics\core\Clock.h">
@@ -123,6 +126,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="physics\core\collision\GJK.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="physics\math\Utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

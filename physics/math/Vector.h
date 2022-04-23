@@ -2,13 +2,13 @@
 #define VECTOR_H_INCLUDED
 
 #include "nmmintrin.h"
+#include "Utils.h"
 #include <ostream>
 
-#define EQUALITY_THRESHOLD 1e-10
 
 
 namespace PMath{
-    typedef union {__m128 vec4; float vec[4];} Vector;
+    typedef union {__m128 vec4; float vec[4];} Vector ;
 
     const Vector init(float x = 0.0f, float y = 0.0f, float z = 0.0f, float w = 0.0f);
     const Vector operator -(const Vector& v);

@@ -1,4 +1,5 @@
 #include "Vector.h"
+#include <iostream>
 
 namespace PMath{
     const Vector init(float x, float y, float z, float w){
